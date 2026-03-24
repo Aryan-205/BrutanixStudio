@@ -1,28 +1,29 @@
 import React from 'react';
+import Image from 'next/image';
 
 const projects = [
   {
     title: "SACRÉ ARMAND",
     tags: ["copywriting", "stratégie éditoriale", "brand content"],
-    image: "/images/project1.png", // Placeholder
+    image: "/images/project1.jpg",
     icon: "✳",
   },
   {
     title: "SMOTEO",
     tags: ["stratégie de marque", "copywriting", "design"],
-    image: "/images/project2.png", // Placeholder
+    image: "/images/project2.jpg",
     icon: "■",
   },
   {
     title: "NIIR",
     tags: ["communication", "stratégie de marque", "stratégie éditoriale"],
-    image: "/images/project3.png", // Placeholder
+    image: "/images/project3.jpg",
     icon: "✦",
   },
   {
     title: "YOKITUP",
     tags: ["stratégie éditoriale", "stratégie de marque", "design", "copywriting", "brand content"],
-    image: "/images/project4.png", // Placeholder
+    image: "/images/project4.jpg",
     icon: "✹",
   },
 ];
@@ -55,9 +56,11 @@ const PortfolioGrid = () => {
             <div key={index} className="group cursor-pointer">
               {/* Image Container with Paper Texture Effect Mockup */}
               <div className="relative aspect-4/3 overflow-hidden bg-gray-100 mb-6">
-                <img 
-                  src={project.image} 
+                <Image
+                  src={project.image}
                   alt={project.title}
+                  fill
+                  sizes="(min-width: 768px) 45vw, 100vw"
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                 />
                 {/* Overlay to simulate the plastic/crumpled texture from your image */}

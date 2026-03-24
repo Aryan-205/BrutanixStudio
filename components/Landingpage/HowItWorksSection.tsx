@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 import { ArrowUpRight } from 'lucide-react'; // Optional: npm install lucide-react
 
 const steps = [
@@ -6,21 +7,21 @@ const steps = [
     number: "Step 1",
     title: "Create",
     description: "Welcome Studio gives you all the tools you need to create and host virtual experiences that look awesome and put your brand centerstage.",
-    image: "/images/hiw1.png", // Replace with actual UI screenshots
+    image: "/images/hiw1.jpg", // Optimized image
     gradient: "from-purple-400 to-orange-300"
   },
   {
     number: "Step 2",
     title: "Engage",
     description: "Cut through the yawns, grab your audience's attention, and turn passive attendees into active participants.",
-    image: "/images/hiw2.png",
+    image: "/images/hiw2.jpg",
     gradient: "from-red-400 to-purple-400"
   },
   {
     number: "Step 3",
     title: "Analyze",
     description: "Track the success of your events with deep insights and analytics measured across the entire attendee experience.",
-    image: "/images/hiw3.png",
+    image: "/images/hiw3.jpg",
     gradient: "from-orange-400 to-rose-400"
   }
 ];
@@ -67,10 +68,12 @@ const HowItWorks = () => {
               <div className="md:col-span-8 relative">
                 <div className={`relative aspect-21/9 md:aspect-3/1 rounded-full overflow-hidden bg-linear-to-r ${step.gradient} p-1`}>
                   <div className="w-full h-full rounded-full overflow-hidden bg-white/10 backdrop-blur-sm relative">
-                    <img 
-                      src={step.image} 
-                      alt={step.title} 
-                      className="w-full h-full object-cover scale-95 rounded-2xl md:rounded-3xl shadow-2xl" 
+                    <Image
+                      src={step.image}
+                      alt={step.title}
+                      fill
+                      sizes="(min-width: 768px) 60vw, 95vw"
+                      className="w-full h-full object-cover scale-95 rounded-2xl md:rounded-3xl shadow-2xl"
                     />
                   </div>
                 </div>

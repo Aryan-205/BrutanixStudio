@@ -24,7 +24,7 @@ const ProgressSection = () => {
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
         
         {/* --- Left Side: Bold Typography with Inline Pill --- */}
-        <div className="flex flex-col">
+        <div className="flex flex-col justify-center h-full">
           <h2 className="text-7xl md:text-8xl lg:text-[140px] font-medium leading-[0.9] tracking-tight flex flex-wrap items-center gap-x-4">
             Drive
             <span className="inline-block w-[140px] h-[70px] md:w-[220px] md:h-[110px] bg-[#E9F5A3] rounded-full overflow-hidden relative translate-y-2 md:translate-y-4">

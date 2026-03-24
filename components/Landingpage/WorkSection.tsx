@@ -5,19 +5,19 @@ const projects = [
   {
     title: "HOUSTON EXPONENTIAL",
     description: "A new digital HUB for houston's biggest startup ecosystem.",
-    image: "/images/Image1.png", // Replace with your paths
+    image: "/images/Image1.jpg",
     reverse: false,
   },
   {
     title: "NAMI ML",
     description: "A brand new digital identity and website for the subscription App service that focuses on happy subscribers.",
-    image: "/images/Image2.png",
+    image: "/images/Image2.jpg",
     reverse: true,
   },
   {
     title: "THIN REEL",
     description: "How we turned a local studio into one of the biggest video agencies in the south of the UK.",
-    image: "/images/Image3.png",
+    image: "/images/Image3.jpg",
     reverse: false,
   },
 ];
@@ -25,7 +25,7 @@ const projects = [
 const WorkSection = () => {
   return (
     <section className="bg-[#F9F9F9] text-black px-6 md:px-12 py-20">
-      <div className="max-w-7xl mx-auto flex flex-col gap-24 md:gap-40">
+      <div className="max-w-7xl mx-auto flex flex-col gap-12 md:gap-20">
         {projects.map((project, index) => (
           <div 
             key={index} 
@@ -45,7 +45,13 @@ const WorkSection = () => {
             <div className={`relative aspect-video w-full overflow-hidden grayscale hover:grayscale-0 transition-all duration-700 ease-in-out ${project.reverse ? 'md:order-1' : ''}`}>
               <div className="bg-gray-200 w-full h-full relative">
 
-                <Image src={project.image} alt={project.title} fill className="object-cover" /> 
+                <Image
+                  src={project.image}
+                  alt={project.title}
+                  fill
+                  sizes="(min-width: 768px) 50vw, 100vw"
+                  className="object-cover"
+                />
               </div>
             </div>
           </div>

@@ -47,7 +47,7 @@ const HeroSection = () => {
               - Relative/Static on mobile (stacks below)
               - Absolute on desktop (floats right)
           */}
-          <div className="mt-8 md:mt-0 md:absolute md:bottom-10 md:right-0 max-w-xs md:text-left md:left-[60%] lg:left-[55%]">
+          <div className="mt-8 md:mt-0 md:absolute md:bottom-20 lg:bottom-32 md:right-2 max-w-xs md:text-right md:left-[60%] lg:left-[55%]">
             <p className="text-lg md:text-xl lg:text-2xl font-bold leading-tight uppercase">
               Freelancer<br />
               Digital Designer<br />
