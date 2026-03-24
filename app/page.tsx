@@ -1,11 +1,24 @@
 import Image from "next/image";
+import HeroSection from "@/components/Landingpage/HeroSection";
+import AboutSection from "@/components/Landingpage/AboutSection";
+import WorkSection from "@/components/Landingpage/WorkSection";
+import ProjectsSection from "@/components/Landingpage/ProjectsSection";
+import HowItWorksSection from "@/components/Landingpage/HowItWorksSection";
+import ProgressSection from "@/components/Landingpage/ProgressSection";
+import FAQSection from "@/components/Landingpage/FAQ";
+import TestimonialSection from "@/components/Landingpage/TestimonialSection";
 
 export default function Home() {
   return (
-    <div className="h-screen w-full bg-white p-16">
-      <div className="rounded-2xl shadow-2xl w-full h-full flex flex-col justify-center items-center">
-        <h1 className="text-7xl font-semibold text-black">Brutanix Studio</h1>
-      </div>
+    <div className="min-h-screen w-full overflow-x-hidden bg-white">
+      <HeroSection />
+      <AboutSection />
+      <ProjectsSection />
+      <HowItWorksSection /> 
+      <ProgressSection />
+      <WorkSection />
+      <TestimonialSection />
+      <FAQSection />
     </div>
   );
 }
