@@ -40,7 +40,7 @@ const HowItWorks = () => {
             <p className="text-lg md:text-xl text-gray-700 max-w-md leading-relaxed">
               Manage your experience from start to finish, from integrations to registration and from interactive stage elements to post-event data, it's all here.
             </p>
-            <button className="bg-[#6366F1] text-white px-8 py-3 rounded-full font-medium w-fit hover:bg-[#4F46E5] transition-colors">
+            <button className="bg-[#6366F1] text-white px-8 py-3 rounded-full font-medium w-fit hover:bg-[#4F46E5] transition-colors cursor-pointer">
               Learn more
             </button>
           </div>
@@ -56,7 +56,7 @@ const HowItWorks = () => {
               {/* Text side */}
               <div className="md:col-span-4 flex flex-col gap-2">
                 <span className="text-sm font-medium text-gray-500">{step.number}</span>
-                <h3 className="text-4xl md:text-5xl font-semibold flex items-center gap-2 group-hover:text-[#6366F1] transition-colors">
+                <h3 className="text-4xl md:text-5xl font-semibold flex items-center gap-2 transition-colors">
                   {step.title} <ArrowUpRight className="w-8 h-8 opacity-0 group-hover:opacity-100 transition-all -translate-y-1" />
                 </h3>
                 <p className="mt-4 text-gray-600 leading-relaxed max-w-xs">
@@ -72,7 +72,7 @@ const HowItWorks = () => {
                       src={step.image}
                       alt={step.title}
                       fill
-                      sizes="(min-width: 768px) 60vw, 95vw"
+                      // sizes="(min-width: 768px) 60vw, 95vw"
                       className="w-full h-full object-cover scale-95 rounded-2xl md:rounded-3xl shadow-2xl"
                     />
                   </div>
