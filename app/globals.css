@@ -24,3 +24,44 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+@keyframes solutions-scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.solutions-marquee {
+  overflow: hidden;
+}
+
+.solutions-track {
+  animation: solutions-scroll 45s linear infinite;
+  will-change: transform;
+}
+
+.solutions-marquee:hover .solutions-track {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .solutions-track {
+    animation: none;
+  }
+
+  .solutions-marquee--static {
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .solutions-marquee--static::-webkit-scrollbar {
+    display: none;
+  }
+
+  .solutions-marquee--static .solutions-track {
+    padding-bottom: 0.5rem;
+  }
+}
