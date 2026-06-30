@@ -1,10 +1,13 @@
 "use client";
 
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { easePremium } from "@/components/motion/presets";
+
+const quoteClassName =
+  "max-w-3xl text-2xl font-semibold leading-snug tracking-tight text-black md:text-[2rem] md:leading-[1.25] lg:text-[2.15rem]";
 
 const testimonials = [
   {
@@ -33,31 +36,11 @@ const testimonials = [
   },
 ];
 
-function ClutchBadge({
-  title,
-  subtitle,
-}: {
-  title: string;
-  subtitle: string;
-}) {
-  return (
-    <div className="flex h-[5.5rem] w-[5.5rem] shrink-0 flex-col items-center justify-center bg-[#1e3a44] px-2 py-3 text-center text-white [clip-path:polygon(25%_0%,75%_0%,100%_50%,75%_100%,25%_100%,0%_50%)]">
-      <span className="text-[6px] font-bold uppercase leading-tight tracking-wide">
-        {title}
-      </span>
-      <span className="mt-1 text-[5px] font-semibold uppercase tracking-wider text-[#c9a227]">
-        Clutch
-      </span>
-      <span className="mt-0.5 text-[5px] uppercase leading-tight text-white/70">
-        {subtitle}
-      </span>
-    </div>
-  );
-}
-
 const TestimonialSection = () => {
   const reduceMotion = useReducedMotion();
   const [active, setActive] = useState(0);
+  const [quoteHeight, setQuoteHeight] = useState(0);
+  const measureRef = useRef<HTMLQuoteElement>(null);
   const total = testimonials.length;
 
   const goTo = useCallback(
@@ -78,8 +61,20 @@ const TestimonialSection = () => {
 
   const current = testimonials[active];
 
+  useLayoutEffect(() => {
+    const el = measureRef.current;
+    if (!el) return;
+
+    const updateHeight = () => setQuoteHeight(el.offsetHeight);
+    updateHeight();
+
+    const observer = new ResizeObserver(updateHeight);
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [active, current.quote]);
+
   return (
-    <section className="bg-white px-6 py-16 font-sans text-[#1a1a1a] antialiased md:px-12 md:py-24">
+    <section className="w-full bg-[#f9f9f9] px-6 py-16 font-sans text-[#1a1a1a] antialiased md:px-12 md:py-24">
       <div className="mx-auto max-w-7xl">
         <div className="grid grid-cols-1 items-stretch gap-12 lg:grid-cols-12 lg:gap-16">
           <aside className="flex flex-col justify-between gap-10 lg:col-span-4">
@@ -92,21 +87,10 @@ const TestimonialSection = () => {
                 experiences that convert.
               </p>
             </div>
-
-            <div className="flex flex-wrap items-center gap-4">
-              <ClutchBadge
-                title="Top Design Company"
-                subtitle="San Francisco 2023"
-              />
-              <ClutchBadge
-                title="Top Webflow Experts"
-                subtitle="San Francisco 2023"
-              />
-            </div>
           </aside>
 
           <div className="relative lg:col-span-8">
-            <div className="relative min-h-[18rem] md:min-h-[22rem]">
+            <div className="relative min-h-72 md:min-h-88">
               <span
                 aria-hidden
                 className="pointer-events-none absolute -left-1 top-0 select-none text-[5rem] font-bold leading-none text-black md:-left-2 md:text-[6.5rem]"
@@ -115,32 +99,38 @@ const TestimonialSection = () => {
               </span>
 
               <div className="relative pl-10 md:pl-14">
-                <span
-                  aria-hidden
-                  className="absolute left-10 top-1 h-2 w-2 rounded-full bg-[#4B4DED] md:left-14"
-                />
+                <div className="relative pt-5">
+                  <blockquote
+                    ref={measureRef}
+                    aria-hidden
+                    className={`pointer-events-none invisible absolute inset-x-0 top-5 ${quoteClassName}`}
+                  >
+                    {current.quote}
+                  </blockquote>
 
-                <div className="overflow-hidden pt-5">
-                  <AnimatePresence mode="wait" initial={false}>
-                    <motion.div
-                      key={active}
-                      initial={
-                        reduceMotion ? false : { opacity: 0, x: 40 }
-                      }
-                      animate={{ opacity: 1, x: 0 }}
-                      exit={
-                        reduceMotion ? undefined : { opacity: 0, x: -40 }
-                      }
-                      transition={{
-                        duration: 0.55,
-                        ease: easePremium,
-                      }}
-                    >
-                      <blockquote className="max-w-3xl text-2xl font-semibold leading-snug tracking-tight text-black md:text-[2rem] md:leading-[1.25] lg:text-[2.15rem]">
+                  <motion.div
+                    className="overflow-hidden"
+                    initial={false}
+                    animate={{ height: reduceMotion ? "auto" : quoteHeight }}
+                    transition={{ duration: 0.55, ease: easePremium }}
+                  >
+                    <AnimatePresence initial={false} mode="popLayout">
+                      <motion.blockquote
+                        key={active}
+                        className={quoteClassName}
+                        initial={
+                          reduceMotion ? false : { opacity: 0, x: 28 }
+                        }
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={
+                          reduceMotion ? undefined : { opacity: 0, x: -28 }
+                        }
+                        transition={{ duration: 0.45, ease: easePremium }}
+                      >
                         {current.quote}
-                      </blockquote>
-                    </motion.div>
-                  </AnimatePresence>
+                      </motion.blockquote>
+                    </AnimatePresence>
+                  </motion.div>
                 </div>
 
                 <div className="mt-10 border-t border-[#e8e8e8] pt-6">
@@ -184,7 +174,7 @@ const TestimonialSection = () => {
                         type="button"
                         onClick={goPrev}
                         aria-label="Previous testimonial"
-                        className="text-[#c8c8c8] transition-colors hover:text-[#1a1a1a]"
+                        className="text-[#c8c8c8] transition-colors hover:text-[#1a1a1a] cursor-pointer"
                       >
                         <ArrowLeft className="h-5 w-5" strokeWidth={1.5} />
                       </button>
@@ -192,7 +182,7 @@ const TestimonialSection = () => {
                         type="button"
                         onClick={goNext}
                         aria-label="Next testimonial"
-                        className="text-[#1a1a1a] transition-colors hover:text-[#4B4DED]"
+                        className="text-[#1a1a1a] transition-colors hover:text-[#4B4DED] cursor-pointer"
                       >
                         <ArrowRight className="h-5 w-5" strokeWidth={1.5} />
                       </button>

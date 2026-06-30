@@ -21,7 +21,6 @@ export default function Home() {
         <HowItWorksSection />
         <ProgressSection />
         <WorkSection />
-        <Prototype />
         <TestimonialSection />
         <FAQSection />
       </div>
