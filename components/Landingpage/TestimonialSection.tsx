@@ -1,6 +1,12 @@
 "use client";
 
-import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 import Image from "next/image";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
@@ -118,13 +124,9 @@ const TestimonialSection = () => {
                       <motion.blockquote
                         key={active}
                         className={quoteClassName}
-                        initial={
-                          reduceMotion ? false : { opacity: 0, x: 28 }
-                        }
+                        initial={reduceMotion ? false : { opacity: 0, x: 28 }}
                         animate={{ opacity: 1, x: 0 }}
-                        exit={
-                          reduceMotion ? undefined : { opacity: 0, x: -28 }
-                        }
+                        exit={reduceMotion ? undefined : { opacity: 0, x: -28 }}
                         transition={{ duration: 0.45, ease: easePremium }}
                       >
                         {current.quote}
@@ -140,9 +142,7 @@ const TestimonialSection = () => {
                         key={active}
                         initial={reduceMotion ? false : { opacity: 0, y: 8 }}
                         animate={{ opacity: 1, y: 0 }}
-                        exit={
-                          reduceMotion ? undefined : { opacity: 0, y: -8 }
-                        }
+                        exit={reduceMotion ? undefined : { opacity: 0, y: -8 }}
                         transition={{
                           duration: 0.4,
                           ease: easePremium,

@@ -9,20 +9,23 @@ import FAQSection from "@/components/Landingpage/FAQ";
 import TestimonialSection from "@/components/Landingpage/TestimonialSection";
 import { MotionProvider } from "./MotionProvider";
 import Prototype from "@/components/Landingpage/Prototype";
+import FooterSection from "@/components/Landingpage/FooterSection";
 
 export default function Home() {
   return (
     <MotionProvider>
-      <div className="min-h-screen w-full overflow-x-hidden bg-white">
+      <div className="min-h-screen w-full overflow-x-clip bg-white">
         <HeroSection />
         <AboutSection />
         <SolutionsSection />
+        <ProgressSection />
+        <Prototype />
         <ProjectsSection />
         <HowItWorksSection />
-        <ProgressSection />
-        <WorkSection />
+        {/* <WorkSection /> */}
         <TestimonialSection />
         <FAQSection />
+        <FooterSection />
       </div>
     </MotionProvider>
   );

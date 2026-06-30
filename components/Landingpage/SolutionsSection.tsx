@@ -51,8 +51,9 @@ function SolutionCard({
   id,
 }: (typeof solutions)[number]) {
   return (
-    <article className={`"group relative w-[min(82vw,22rem)] shrink-0 sm:w-88 md:w-[24rem] lg:w-104 cursor-pointer ${ id % 2 ==0 ? "translate-y-10" : "-translate-y-10"}`}>
-
+    <article
+      className={`"group relative w-[min(82vw,22rem)] shrink-0 sm:w-88 md:w-[24rem] lg:w-104 cursor-pointer ${id % 2 == 0 ? "translate-y-10" : "-translate-y-10"}`}
+    >
       <p className="absolute -top-12 right-0 text-black/80 text-7xl font-bold">
         {number}
       </p>

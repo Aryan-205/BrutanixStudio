@@ -39,7 +39,7 @@ const PortfolioGrid = () => {
   return (
     <section
       id="work"
-      className="scroll-mt-6 bg-[#F9F9F9] text-[#1A1A1A] px-6 md:px-12 py-20 font-sans"
+      className="scroll-mt-6 bg-[#F9F9F9] text-[#1A1A1A] px-6 md:px-12 py-20 font-sans relative z-10"
     >
       <div className="max-w-7xl mx-auto">
         <StaggerChildren className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-6">

@@ -48,7 +48,9 @@ const FAQSection = () => {
               <div key={index} className="border-b border-gray-100 group">
                 <button
                   type="button"
-                  onClick={() => setOpenIndex(openIndex === index ? null : index)}
+                  onClick={() =>
+                    setOpenIndex(openIndex === index ? null : index)
+                  }
                   className="w-full py-8 flex justify-between items-center text-left hover:opacity-60 transition-opacity cursor-pointer"
                 >
                   <span className="text-xs md:text-sm font-bold uppercase tracking-wider pr-8">
@@ -68,7 +70,8 @@ const FAQSection = () => {
                 >
                   <p className="text-gray-500 text-sm md:text-base max-w-xl">
                     This is where the answer would go. The design uses a clean,
-                    minimalist font and provides ample breathing room for the text to be legible.
+                    minimalist font and provides ample breathing room for the
+                    text to be legible.
                   </p>
                 </div>
               </div>

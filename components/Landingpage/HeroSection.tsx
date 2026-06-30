@@ -4,29 +4,28 @@ import React, { useCallback, useRef } from "react";
 import {
   motion,
   type MotionValue,
+  useReducedMotion,
   useScroll,
   useTransform,
 } from "motion/react";
-import {
-  Activity,
-  ArrowUpRight,
-  Rocket,
-  Zap,
-} from "lucide-react";
+import { Activity, ArrowUpRight, Rocket, Zap } from "lucide-react";
 import { easePremium } from "@/components/motion/presets";
+import BrandLogo from "../BrandLogo";
 
 function ParallaxFloat({
   children,
   className,
   speed,
   scrollYProgress,
+  reduce,
 }: {
   children: React.ReactNode;
   className?: string;
   speed: number;
   scrollYProgress: MotionValue<number>;
+  reduce: boolean;
 }) {
-  const y = useTransform(scrollYProgress, [0, 1], [0, speed]);
+  const y = useTransform(scrollYProgress, [0, 1], [0, reduce ? 0 : speed]);
 
   return (
     <motion.div className={className} style={{ y }}>
@@ -35,85 +34,269 @@ function ParallaxFloat({
   );
 }
 
-function InfinityLogo() {
+const chartBarHeights = [38, 52, 44, 68, 50, 62, 70, 80];
+
+function ScrollingBars() {
+  const bars = [...chartBarHeights, ...chartBarHeights];
+
   return (
-    <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#1a1a1a] text-white">
-      <svg viewBox="0 0 24 24" className="h-5 w-5" aria-hidden>
-        <path
-          fill="currentColor"
-          d="M8.2 7.8c1.9-1.9 5-1.9 6.9 0 1 1 1.5 2.3 1.5 3.6s-.5 2.6-1.5 3.6c-1.9 1.9-5 1.9-6.9 0-.5-.5-.9-1.1-1.2-1.7-.3.6-.7 1.2-1.2 1.7-1.9 1.9-5 1.9-6.9 0C2.4 14.7 2 13.4 2 12s.4-2.7 1.3-3.8c1.9-1.9 5-1.9 6.9 0 .5.5.9 1.1 1.2 1.7.3-.6.7-1.2 1.2-1.7Z"
-        />
-      </svg>
+    <div className="overflow-hidden">
+      <motion.div
+        className="flex h-14 w-max items-end gap-1"
+        animate={{ x: ["0%", "-50%"] }}
+        transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
+      >
+        {bars.map((h, i) => (
+          <div
+            key={i}
+            className="w-4 shrink-0 rounded-sm bg-white/20"
+            style={{ height: `${h}%` }}
+          />
+        ))}
+      </motion.div>
     </div>
+  );
+}
+
+function WidgetLineChart() {
+  const months = ["Jan", "Feb", "Mar", "Apr", "May"];
+  const points = [
+    { x: 10, y: 48 },
+    { x: 50, y: 22 },
+    { x: 90, y: 52 },
+    { x: 130, y: 38 },
+    { x: 170, y: 30 },
+  ];
+
+  const linePath = points
+    .map((point, index) => `${index === 0 ? "M" : "L"} ${point.x} ${point.y}`)
+    .join(" ");
+
+  return (
+    <svg viewBox="0 0 180 70" className="h-full w-full" aria-hidden>
+      {points.map((point, index) => (
+        <line
+          key={`grid-${months[index]}`}
+          x1={point.x}
+          y1={8}
+          x2={point.x}
+          y2={56}
+          stroke="white"
+          strokeOpacity={0.12}
+          strokeDasharray="2 3"
+        />
+      ))}
+
+      <motion.path
+        d={linePath}
+        fill="none"
+        stroke="#facc15"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        initial={{ pathLength: 0, opacity: 0 }}
+        animate={{ pathLength: 1, opacity: 1 }}
+        transition={{ duration: 4, ease: "linear", repeat: Infinity }}
+      />
+
+      {points.map((point, index) => (
+        <motion.circle
+          key={`point-${months[index]}`}
+          cx={point.x}
+          cy={point.y}
+          r={3.5}
+          fill="#facc15"
+          initial={{ scale: 0, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{
+            delay: 0.15 + index * 0.12,
+            duration: 0.35,
+            ease: easePremium,
+          }}
+        />
+      ))}
+
+      {months.map((month, index) => (
+        <text
+          key={month}
+          x={points[index].x}
+          y={67}
+          textAnchor="middle"
+          fill="white"
+          fillOpacity={0.45}
+          fontSize="7"
+        >
+          {month}
+        </text>
+      ))}
+    </svg>
+  );
+}
+
+function AnimatedInstallBar({
+  height,
+  index,
+  position,
+  highlight,
+  label,
+}: {
+  height: number;
+  index: number;
+  position: "top" | "bottom";
+  highlight?: boolean;
+  label?: string;
+}) {
+  const minHeight = height * 0.72;
+  const maxHeight = height * 1.28;
+
+  const isTop = position === "top";
+  const isHighlightBottom = highlight && !isTop;
+  const isHighlightTop = highlight && isTop;
+
+  return (
+    <motion.div
+      className={`relative w-full rounded-lg ${
+        isHighlightTop
+          ? "bg-[#4ade80]"
+          : isHighlightBottom
+            ? "bg-[#eab308]"
+            : isTop
+              ? "bg-[#3a3a3a]"
+              : "border border-white/5 bg-[#2a2a2a]"
+      }`}
+      style={
+        !highlight && !isTop
+          ? {
+              backgroundColor: "#2a2a2a",
+              backgroundImage:
+                "repeating-linear-gradient(135deg, rgba(255,255,255,0.07) 0 2px, transparent 2px 6px)",
+            }
+          : undefined
+      }
+      initial={{ height }}
+      animate={{ height: [height, maxHeight, minHeight, height] }}
+      transition={{
+        duration: 3 + index * 0.08,
+        repeat: Infinity,
+        ease: "easeInOut",
+        delay: index * 0.1 + (isTop ? 0.15 : 0),
+      }}
+    >
+      {!highlight && isTop && (
+        <div className="absolute top-1 left-1/2 h-0.5 w-2.5 -translate-x-1/2 rounded-lg bg-white/30" />
+      )}
+      {label && (
+        <span className="absolute -top-2.5 left-1/2 z-10 -translate-x-1/2 whitespace-nowrap rounded-lg bg-white px-1.5 py-px text-[7px] font-bold leading-tight text-[#111]">
+          {label}
+        </span>
+      )}
+    </motion.div>
+  );
+}
+
+function InstallsChart() {
+  const days = [
+    { label: "Mon", bottom: 13, top: 17 },
+    { label: "Tue", bottom: 9, top: 21 },
+    { label: "Wed", bottom: 14, top: 15 },
+    { label: "Thu", bottom: 11, top: 19 },
+    { label: "Fri", bottom: 18, top: 24, highlight: true },
+    { label: "Sat", bottom: 10, top: 18 },
+    { label: "Sun", bottom: 12, top: 16 },
+  ];
+
+  return (
+    <>
+      <p className="mb-3 text-xs text-white/70">Installs</p>
+      <div className="flex items-end justify-between gap-1">
+        {days.map((day, index) => (
+          <div key={day.label} className="flex flex-1 flex-col items-center">
+            <div className="flex h-[58px] w-full flex-col items-center justify-end gap-[3px]">
+              <AnimatedInstallBar
+                height={day.top}
+                index={index}
+                position="top"
+                highlight={day.highlight}
+                label={day.highlight ? "562" : undefined}
+              />
+              <AnimatedInstallBar
+                height={day.bottom}
+                index={index}
+                position="bottom"
+                highlight={day.highlight}
+                label={day.highlight ? "286" : undefined}
+              />
+            </div>
+            <span className="mt-1.5 text-[8px] font-medium text-white/35">
+              {day.label}
+            </span>
+          </div>
+        ))}
+      </div>
+    </>
   );
 }
 
 const HeroSection = () => {
   const heroRef = useRef<HTMLDivElement>(null);
-  const videoRef = useRef<HTMLVideoElement>(null);
+  const reduce = useReducedMotion();
 
-  const videoUrl = "https://dl.dropboxusercontent.com/scl/fi/ok2coppn7h6oszgfy30y4/showreel-home.mp4?rlkey=k7sd1apdwi6fyy3wxhk6dz87v&amp;st=am36ikxc&amp;dl=0";
+  const videoUrl =
+    "https://dl.dropboxusercontent.com/scl/fi/ok2coppn7h6oszgfy30y4/showreel-home.mp4?rlkey=k7sd1apdwi6fyy3wxhk6dz87v&amp;st=am36ikxc&amp;dl=0";
 
   const { scrollYProgress } = useScroll({
     target: heroRef,
     offset: ["start start", "end start"],
   });
 
-  const headlineY = useTransform(scrollYProgress, [0, 1], [0, -36]);
-
-  const previewY = useTransform(
+  const headlineY = useTransform(
     scrollYProgress,
     [0, 1],
-    [0, 400],
+    [0, reduce ? 0 : -36],
   );
 
-  const previewScale = useTransform(
-    scrollYProgress,
-    [0, 1],
-    [1, 2],
-  );
-
-  const previewZIndex = useTransform(
-    scrollYProgress,
-    [0, 0.25, 0.85],
-    [20, 35, 60],
-  );
+  const previewY = useTransform(scrollYProgress, [0, 1], [0, reduce ? 0 : -70]);
 
   const scrollToSection = useCallback(
     (id: string) => {
       const el = document.getElementById(id);
       if (!el) return;
       el.scrollIntoView({
-        behavior: "smooth",
+        behavior: reduce ? "auto" : "smooth",
         block: "start",
       });
       window.history.replaceState(null, "", `#${id}`);
     },
-    [],
+    [reduce],
   );
 
-  const navClick =
-    (id: string) => (e: React.MouseEvent<HTMLAnchorElement>) => {
-      e.preventDefault();
-      scrollToSection(id);
-    };
+  const navClick = (id: string) => (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    scrollToSection(id);
+  };
 
   return (
     <section
       id="hero"
       ref={heroRef}
-      className="relative min-h-[210vh] overflow-x-clip bg-white px-4 pb-10 pt-5 font-sans text-[#111] selection:bg-[#ff6b2c] selection:text-white md:px-8 md:pb-14 md:pt-6"
+      className="relative min-h-[115vh] overflow-hidden bg-[#f9f9f9] px-4 pb-10 pt-5 font-sans text-[#111] selection:bg-[#ff6b2c] selection:text-white md:px-8 md:pb-14 md:pt-6"
     >
       <motion.nav
         className="relative z-50 mx-auto flex w-full max-w-4xl items-center justify-between gap-4 rounded-full border border-[#ececec] bg-white/90 px-3 py-2 shadow-[0_8px_30px_rgba(0,0,0,0.06)] backdrop-blur-md md:px-4"
-        initial={{ opacity: 0, y: -16 }}
+        initial={reduce ? false : { opacity: 0, y: -16 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.55, ease: easePremium }}
       >
-        <InfinityLogo />
+        <div className="flex items-center gap-2 w-4 h-4">
+          <BrandLogo />
+        </div>
 
         <div className="hidden items-center gap-6 text-sm font-medium text-[#444] md:flex">
-          <a href="#work" onClick={navClick("work")} className="hover:text-black">
+          <a
+            href="#work"
+            onClick={navClick("work")}
+            className="hover:text-black"
+          >
             Cases
           </a>
           <a
@@ -123,7 +306,11 @@ const HeroSection = () => {
           >
             Service
           </a>
-          <a href="#work" onClick={navClick("work")} className="hover:text-black">
+          <a
+            href="#work"
+            onClick={navClick("work")}
+            className="hover:text-black"
+          >
             Blog
           </a>
           <a
@@ -148,9 +335,10 @@ const HeroSection = () => {
         <ParallaxFloat
           speed={-110}
           scrollYProgress={scrollYProgress}
+          reduce={!!reduce}
           className="absolute left-[4%] top-[8%] z-20 hidden sm:block"
         >
-          <div className="flex h-14 w-14 items-center justify-center rounded-full bg-white shadow-[0_10px_30px_rgba(0,0,0,0.12)]">
+          <div className="flex h-24 w-24 items-center justify-center rounded-full bg-white shadow-[0_10px_30px_rgba(0,0,0,0.12)]">
             <div className="flex h-8 w-8 items-center justify-center rounded-md bg-[#ef4444] text-white">
               <Activity className="h-4 w-4" strokeWidth={2.5} />
             </div>
@@ -160,84 +348,54 @@ const HeroSection = () => {
         <ParallaxFloat
           speed={-150}
           scrollYProgress={scrollYProgress}
+          reduce={!!reduce}
           className="absolute left-[2%] top-[34%] z-20 hidden md:block"
         >
           <div className="w-44 rounded-2xl bg-[#1f1f1f] p-3 text-white shadow-[0_16px_40px_rgba(0,0,0,0.22)]">
             <div className="mb-2 flex items-center justify-between">
               <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-white/10">
-                <Rocket className="h-3.5 w-3.5" />
+                <Rocket className="h-3.5 w-3.5" color="orange" />
               </div>
               <span className="rounded-full bg-white/10 px-2 py-0.5 text-[10px] font-semibold">
                 346+
               </span>
             </div>
-            <div className="flex h-14 items-end gap-1">
-              {[38, 52, 44, 68, 50].map((h, i) => (
-                <div
-                  key={i}
-                  className="w-4 rounded-sm bg-white/20"
-                  style={{ height: `${h}%` }}
-                />
-              ))}
-            </div>
+            <ScrollingBars />
           </div>
         </ParallaxFloat>
 
         <ParallaxFloat
           speed={-190}
           scrollYProgress={scrollYProgress}
+          reduce={!!reduce}
           className="absolute bottom-[30%] left-[1%] z-20 hidden lg:block"
         >
-          <div className="w-56 rounded-2xl bg-[#1f1f1f] p-4 text-white shadow-[0_16px_40px_rgba(0,0,0,0.22)]">
+          <div className="w-56 rounded-2xl bg-[#1f1f1f] p-4 text-white shadow-[0_16px_40px_rgba(0,0,0,0.22)] relative">
             <p className="mb-3 text-xs text-white/70">Widget control</p>
-            <div className="relative h-20">
-              <svg viewBox="0 0 180 70" className="h-full w-full" aria-hidden>
-                <path
-                  d="M0 50 C30 20 50 58 80 35 S130 10 180 28"
-                  fill="none"
-                  stroke="#facc15"
-                  strokeWidth="3"
-                />
-              </svg>
-              <span className="absolute right-0 top-0 rounded-full bg-[#3b82f6] px-2 py-1 text-[10px] font-semibold">
-                Result + 58%
-              </span>
+            <div className="h-20">
+              <WidgetLineChart />
             </div>
+            <span className="absolute right-2 bottom-2 rounded-lg bg-[#3b82f6] px-2 py-1 text-[10px] font-semibold">
+              Result + 58%
+            </span>
           </div>
         </ParallaxFloat>
 
         <ParallaxFloat
           speed={-130}
           scrollYProgress={scrollYProgress}
+          reduce={!!reduce}
           className="absolute right-[3%] top-[24%] z-20 hidden md:block"
         >
-          <div className="w-48 rounded-2xl bg-[#1f1f1f] p-4 text-white shadow-[0_16px_40px_rgba(0,0,0,0.22)]">
-            <p className="mb-3 text-xs text-white/70">Installs</p>
-            <div className="flex h-16 items-end gap-1.5">
-              {[30, 42, 36, 55, 48, 62, 40].map((h, i) => (
-                <div
-                  key={i}
-                  className={`w-3.5 rounded-sm ${
-                    i === 5
-                      ? "bg-[#22c55e]"
-                      : i === 6
-                        ? "bg-[#eab308]"
-                        : "bg-white/20"
-                  }`}
-                  style={{ height: `${h}%` }}
-                />
-              ))}
-            </div>
-            <div className="mt-2 flex gap-3 text-[10px] font-semibold">
-              <span className="text-[#22c55e]">562</span>
-              <span className="text-[#eab308]">286</span>
-            </div>
+          <div className="w-52 rounded-2xl bg-[#1f1f1f] p-4 text-white shadow-[0_16px_40px_rgba(0,0,0,0.22)]">
+            <InstallsChart />
           </div>
         </ParallaxFloat>
 
         <ParallaxFloat
           speed={-170}
           scrollYProgress={scrollYProgress}
+          reduce={!!reduce}
           className="absolute right-[2%] top-[46%] z-20 hidden sm:block"
         >
           <div className="flex h-28 w-28 flex-col items-center justify-center rounded-full bg-[#3b82f6] p-3 text-center text-white shadow-[0_16px_40px_rgba(59,130,246,0.45)]">
@@ -251,18 +409,14 @@ const HeroSection = () => {
         <ParallaxFloat
           speed={-210}
           scrollYProgress={scrollYProgress}
+          reduce={!!reduce}
           className="absolute bottom-[24%] right-[4%] z-20 hidden lg:flex lg:flex-col lg:items-end lg:gap-3"
         >
-          <button
-            type="button"
-            className="inline-flex items-center gap-2 rounded-full bg-[#7c5cff] px-4 py-2 text-sm font-semibold text-white shadow-[0_12px_30px_rgba(124,92,255,0.35)]"
-          >
-            Book a call
-            <ArrowUpRight className="h-4 w-4" />
-          </button>
-          <div className="inline-flex items-center gap-1.5 rounded-full bg-[#1f1f1f] px-3 py-1.5 text-[10px] font-medium text-white">
-            <Zap className="h-3 w-3 text-[#ff6b2c]" />
-            Key features
+          <div className="inline-flex items-center justify-start gap-2 rounded-full bg-[#1f1f1f] p-1 font-medium text-white w-40">
+            <div className="flex items-center justify-center bg-white w-8 h-8 rounded-full">
+              <Zap className="h-4 w-4 text-[#ff6b2c]" fill="#ff6b2c" />
+            </div>
+            <p className="text-sm font-medium py-2 pr-2">Key features</p>
           </div>
         </ParallaxFloat>
 
@@ -271,8 +425,8 @@ const HeroSection = () => {
           className="relative z-30 mx-auto max-w-4xl pt-16 text-center md:pt-20"
         >
           <motion.span
-            className="inline-block rounded-full bg-[#1f1f1f] px-4 py-1.5 text-xs font-medium text-white"
-            initial={{ opacity: 0, y: 12 }}
+            className="inline-block rounded-full bg-linear-to-tr from-[#646161] via-[#000000] to-[#646161] px-4 py-2 text-sm font-medium text-white"
+            initial={reduce ? false : { opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.55, ease: easePremium, delay: 0.08 }}
           >
@@ -280,8 +434,8 @@ const HeroSection = () => {
           </motion.span>
 
           <motion.h1
-            className="mt-6 text-4xl font-bold leading-[1.05] tracking-tight text-[#111] sm:text-5xl md:text-6xl lg:text-[4.25rem]"
-            initial={{ opacity: 0, y: 20 }}
+            className="mt-6 text-4xl font-semibold leading-[1.05] tracking-tight text-[#111] sm:text-5xl md:text-6xl lg:text-[4.25rem]"
+            initial={reduce ? false : { opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, ease: easePremium, delay: 0.16 }}
           >
@@ -292,25 +446,21 @@ const HeroSection = () => {
         </motion.div>
 
         <motion.div
-          className="h-screen sticky top-0 mt-14 w-full md:mt-16 flex items-center justify-center bg-red-500"
-          initial={{ opacity: 0, y: 40 }}
+          style={{ y: previewY }}
+          className="relative z-20 mx-auto mt-14 max-w-3xl md:mt-16"
+          initial={reduce ? false : { opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: easePremium, delay: 0.28 }}
         >
-          <motion.div
-            className="overflow-hidden border-2 border-black/20 bg-black shadow-[0_30px_80px_rgba(0,0,0,0.12)] p-1 rounded-2xl"
-          >
-            <motion.video
-              ref={videoRef}
+          <div className="rounded-2xl border border-[#ececec] bg-black p-1 shadow-[0_30px_80px_rgba(0,0,0,0.12)]">
+            <video
               src={videoUrl}
-              preload="auto"
               autoPlay
               muted
               loop
-              playsInline
-              className="aspect-video w-full object-cover rounded-xl"
-            />
-          </motion.div>
+              className="w-full h-full object-cover rounded-xl"
+            ></video>
+          </div>
         </motion.div>
       </div>
     </section>

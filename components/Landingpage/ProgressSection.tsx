@@ -41,9 +41,33 @@ function StatIllustration({ type }: { type: string }) {
   if (type === "rocket") {
     return (
       <svg viewBox="0 0 120 90" fill="none" className={className} aria-hidden>
-        <rect x="18" y="52" width="10" height="22" rx="2" fill="currentColor" opacity="0.35" />
-        <rect x="32" y="44" width="10" height="30" rx="2" fill="currentColor" opacity="0.5" />
-        <rect x="46" y="36" width="10" height="38" rx="2" fill="currentColor" opacity="0.7" />
+        <rect
+          x="18"
+          y="52"
+          width="10"
+          height="22"
+          rx="2"
+          fill="currentColor"
+          opacity="0.35"
+        />
+        <rect
+          x="32"
+          y="44"
+          width="10"
+          height="30"
+          rx="2"
+          fill="currentColor"
+          opacity="0.5"
+        />
+        <rect
+          x="46"
+          y="36"
+          width="10"
+          height="38"
+          rx="2"
+          fill="currentColor"
+          opacity="0.7"
+        />
         <path
           d="M78 18 L88 48 L78 42 L68 48 Z"
           fill="currentColor"
@@ -68,9 +92,24 @@ function StatIllustration({ type }: { type: string }) {
           stroke="currentColor"
           strokeWidth="3"
         />
-        <path d="M78 45 H92" stroke="currentColor" strokeWidth="2" opacity="0.5" />
-        <path d="M82 38 H96" stroke="currentColor" strokeWidth="2" opacity="0.35" />
-        <path d="M82 52 H96" stroke="currentColor" strokeWidth="2" opacity="0.35" />
+        <path
+          d="M78 45 H92"
+          stroke="currentColor"
+          strokeWidth="2"
+          opacity="0.5"
+        />
+        <path
+          d="M82 38 H96"
+          stroke="currentColor"
+          strokeWidth="2"
+          opacity="0.35"
+        />
+        <path
+          d="M82 52 H96"
+          stroke="currentColor"
+          strokeWidth="2"
+          opacity="0.35"
+        />
       </svg>
     );
   }
@@ -105,7 +144,13 @@ function StatIllustration({ type }: { type: string }) {
       ].map(([cx, cy], i) => (
         <g key={i}>
           <circle cx={cx} cy={cy} r="11" fill="currentColor" opacity="0.2" />
-          <circle cx={cx} cy={cy - 3} r="5" fill="currentColor" opacity="0.55" />
+          <circle
+            cx={cx}
+            cy={cy - 3}
+            r="5"
+            fill="currentColor"
+            opacity="0.55"
+          />
           <path
             d={`M${cx - 6} ${cy + 8} Q${cx} ${cy + 2} ${cx + 6} ${cy + 8}`}
             fill="currentColor"
@@ -123,7 +168,8 @@ function RadarChart() {
   const maxR = 118;
   const levels = 5;
 
-  const axisAngle = (index: number) => -Math.PI / 2 + index * ((2 * Math.PI) / 5);
+  const axisAngle = (index: number) =>
+    -Math.PI / 2 + index * ((2 * Math.PI) / 5);
 
   const pointAt = (value: number, axisIndex: number) => {
     const angle = axisAngle(axisIndex);
@@ -145,7 +191,7 @@ function RadarChart() {
   const dataPolygon = dataPoints.map((p) => `${p.x},${p.y}`).join(" ");
 
   return (
-    <div className="relative mx-auto w-full max-w-[28rem] lg:max-w-none">
+    <div className="relative mx-auto w-full max-w-md lg:max-w-none">
       <svg
         viewBox="0 0 400 400"
         className="h-auto w-full"
@@ -248,9 +294,9 @@ function RadarChart() {
 
 const ProgressSection = () => {
   return (
-    <section className="bg-[#f9f9f9] px-6 py-16 font-sans text-[#1a1a1a] antialiased md:px-12 md:py-20 ">
+    <section className="bg-[#f9f9f9] h-screen px-6 py-16 font-sans text-[#1a1a1a] antialiased md:px-12 md:py-20 ">
       <div className="w-full">
-        <div className="flex flex-col gap-6 border-b border-[#e0e0e0] pb-4 md:flex-row md:items-end md:justify-between">
+        <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <h2 className="mt-2 text-3xl font-bold tracking-tight md:text-[2.35rem] md:leading-tight">
             We Strive to Innovate
           </h2>
@@ -264,21 +310,20 @@ const ProgressSection = () => {
           </button>
         </div>
 
-        <p className="max-w-3xl text-base leading-relaxed text-[#888] md:mt-10 md:text-base">
+        <p className="max-w-xl text-base leading-relaxed text-[#888] md:text-base">
           <span className="font-semibold text-black">Solid Strategy</span>{" "}
           aligned with business needs and robust data analysis are fundamental
           ingredients to extract actionable insights
         </p>
 
-        <div className="mt-4 flex justify-between items-end">
+        <div className="mt-12 flex justify-between items-end">
           <div className="flex flex-col w-1/2">
-            <p className="mb-5 text-sm text-[#888]">Some Number About Us</p>
 
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               {stats.map((stat) => (
                 <article
                   key={stat.value}
-                  className="relative flex min-h-[11.5rem] flex-col justify-between overflow-hidden rounded-2xl bg-[#ebebeb] p-5"
+                  className="relative flex min-h-46 flex-col justify-between overflow-hidden rounded-2xl bg-[#ebebeb] p-5"
                 >
                   <div className="relative z-10 max-w-[70%]">
                     <p className="text-3xl font-bold tracking-tight md:text-[2rem]">

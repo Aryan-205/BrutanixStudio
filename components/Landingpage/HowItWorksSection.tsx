@@ -37,13 +37,17 @@ const HowItWorks = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-24 items-start">
           <Reveal>
             <h2 className="text-6xl md:text-[100px] font-medium leading-[0.9] tracking-tight">
-              How it<br />works
+              How it
+              <br />
+              works
             </h2>
           </Reveal>
           <Reveal delay={0.1}>
             <div className="flex flex-col gap-6 md:pt-4">
               <p className="text-lg md:text-xl text-gray-700 max-w-md leading-relaxed">
-                Manage your experience from start to finish, from integrations to registration and from interactive stage elements to post-event data, it&apos;s all here.
+                Manage your experience from start to finish, from integrations
+                to registration and from interactive stage elements to
+                post-event data, it&apos;s all here.
               </p>
               <button
                 type="button"
@@ -63,7 +67,9 @@ const HowItWorks = () => {
               className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 py-16 md:py-20 border-b border-gray-100 items-center group cursor-pointer"
             >
               <div className="md:col-span-4 flex flex-col gap-2">
-                <span className="text-sm font-medium text-gray-500">{step.number}</span>
+                <span className="text-sm font-medium text-gray-500">
+                  {step.number}
+                </span>
                 <h3 className="text-4xl md:text-5xl font-semibold flex items-center gap-2 transition-colors">
                   {step.title}{" "}
                   <ArrowUpRight className="w-8 h-8 opacity-0 group-hover:opacity-100 transition-all -translate-y-1" />
