@@ -13,9 +13,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Brutanix Studio",
+  title: "Invisiedge",
   description:
-    "Brutanix Studio is a digital studio that creates stunning brands and digital experiences.",
+    "Invisiedge is a digital studio that creates stunning brands and digital experiences.",
 };
 
 export default function RootLayout({
