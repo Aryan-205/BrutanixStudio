@@ -7,7 +7,7 @@ import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { easePremium } from "@/components/motion/presets";
 
 const quoteClassName =
-  "max-w-3xl text-2xl font-semibold leading-snug tracking-tight text-black md:text-[2rem] md:leading-[1.25] lg:text-[2.15rem]";
+  "max-w-3xl text-2xl  leading-snug tracking-tight text-black md:text-[2rem] md:leading-[1.25] lg:text-[2.15rem]";
 
 const testimonials = [
   {

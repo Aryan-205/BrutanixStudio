@@ -1,43 +1,82 @@
 "use client";
 
-import React, { useCallback, useRef, useState } from "react";
+import React, { useCallback, useRef } from "react";
 import {
   motion,
-  useReducedMotion,
+  type MotionValue,
   useScroll,
   useTransform,
 } from "motion/react";
-import { FlipStaggerLines } from "@/components/motion/FlipStaggerLines";
+import {
+  Activity,
+  ArrowUpRight,
+  Rocket,
+  Zap,
+} from "lucide-react";
 import { easePremium } from "@/components/motion/presets";
 
-const heroLines = ["Stunning", "Brands", "& Digital", "Experiences"];
+function ParallaxFloat({
+  children,
+  className,
+  speed,
+  scrollYProgress,
+}: {
+  children: React.ReactNode;
+  className?: string;
+  speed: number;
+  scrollYProgress: MotionValue<number>;
+}) {
+  const y = useTransform(scrollYProgress, [0, 1], [0, speed]);
 
-const fadeQuick = { duration: 0.55, ease: easePremium };
+  return (
+    <motion.div className={className} style={{ y }}>
+      {children}
+    </motion.div>
+  );
+}
 
-const panelSpring = {
-  type: "spring" as const,
-  damping: 28,
-  stiffness: 320,
-  mass: 0.82,
-};
+function InfinityLogo() {
+  return (
+    <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#1a1a1a] text-white">
+      <svg viewBox="0 0 24 24" className="h-5 w-5" aria-hidden>
+        <path
+          fill="currentColor"
+          d="M8.2 7.8c1.9-1.9 5-1.9 6.9 0 1 1 1.5 2.3 1.5 3.6s-.5 2.6-1.5 3.6c-1.9 1.9-5 1.9-6.9 0-.5-.5-.9-1.1-1.2-1.7-.3.6-.7 1.2-1.2 1.7-1.9 1.9-5 1.9-6.9 0C2.4 14.7 2 13.4 2 12s.4-2.7 1.3-3.8c1.9-1.9 5-1.9 6.9 0 .5.5.9 1.1 1.2 1.7.3-.6.7-1.2 1.2-1.7Z"
+        />
+      </svg>
+    </div>
+  );
+}
 
 const HeroSection = () => {
   const heroRef = useRef<HTMLDivElement>(null);
-  const [contactOpen, setContactOpen] = useState(false);
-  const reduce = useReducedMotion();
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  const videoUrl = "https://dl.dropboxusercontent.com/scl/fi/ok2coppn7h6oszgfy30y4/showreel-home.mp4?rlkey=k7sd1apdwi6fyy3wxhk6dz87v&amp;st=am36ikxc&amp;dl=0";
+
   const { scrollYProgress } = useScroll({
     target: heroRef,
     offset: ["start start", "end start"],
   });
-  const headlineY = useTransform(
+
+  const headlineY = useTransform(scrollYProgress, [0, 1], [0, -36]);
+
+  const previewY = useTransform(
     scrollYProgress,
     [0, 1],
-    [0, reduce ? 0 : -12],
+    [0, 400],
   );
-  const headlineOpacity = useTransform(
+
+  const previewScale = useTransform(
     scrollYProgress,
-    [0, 0.65],
-    [1, reduce ? 1 : 0.92],
+    [0, 1],
+    [1, 2],
+  );
+
+  const previewZIndex = useTransform(
+    scrollYProgress,
+    [0, 0.25, 0.85],
+    [20, 35, 60],
   );
 
   const scrollToSection = useCallback(
@@ -45,12 +84,12 @@ const HeroSection = () => {
       const el = document.getElementById(id);
       if (!el) return;
       el.scrollIntoView({
-        behavior: reduce ? "auto" : "smooth",
+        behavior: "smooth",
         block: "start",
       });
       window.history.replaceState(null, "", `#${id}`);
     },
-    [reduce],
+    [],
   );
 
   const navClick =
@@ -59,264 +98,222 @@ const HeroSection = () => {
       scrollToSection(id);
     };
 
-  const openContact = useCallback(() => {
-    setContactOpen(true);
-  }, []);
-
   return (
-    <div
+    <section
       id="hero"
       ref={heroRef}
-      className="min-h-screen bg-[#F9F9F9] text-black font-sans selection:bg-black selection:text-white px-4 md:px-12 py-6 flex flex-col justify-between relative overflow-x-hidden"
+      className="relative min-h-[210vh] overflow-x-clip bg-white px-4 pb-10 pt-5 font-sans text-[#111] selection:bg-[#ff6b2c] selection:text-white md:px-8 md:pb-14 md:pt-6"
     >
       <motion.nav
-        className="relative z-[100] flex w-full max-w-7xl mx-auto justify-between items-center pointer-events-auto"
-        initial={reduce ? false : { opacity: 0, y: -12 }}
+        className="relative z-50 mx-auto flex w-full max-w-4xl items-center justify-between gap-4 rounded-full border border-[#ececec] bg-white/90 px-3 py-2 shadow-[0_8px_30px_rgba(0,0,0,0.06)] backdrop-blur-md md:px-4"
+        initial={{ opacity: 0, y: -16 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ ...fadeQuick, delay: reduce ? 0 : 0.05 }}
+        transition={{ duration: 0.55, ease: easePremium }}
       >
-        <div className="flex items-center">
-          <a
-            href="#hero"
-            onClick={navClick("hero")}
-            className="cursor-pointer font-black italic text-xl md:text-2xl tracking-tighter leading-none border-b-[3px] md:border-b-4 border-black hover:opacity-80 transition-opacity"
-          >
-            Brutanix Studio
-          </a>
-        </div>
+        <InfinityLogo />
 
-        <div className="hidden md:flex items-center gap-8 font-medium text-xs lg:text-sm">
+        <div className="hidden items-center gap-6 text-sm font-medium text-[#444] md:flex">
+          <a href="#work" onClick={navClick("work")} className="hover:text-black">
+            Cases
+          </a>
           <a
             href="#hero"
             onClick={navClick("hero")}
-            className="cursor-pointer hover:opacity-60 transition-opacity"
+            className="hover:text-black"
           >
-            HOME
+            Service
           </a>
-          <a
-            href="#work"
-            onClick={navClick("work")}
-            className="cursor-pointer hover:opacity-60 transition-opacity"
-          >
-            WORK
+          <a href="#work" onClick={navClick("work")} className="hover:text-black">
+            Blog
           </a>
           <a
             href="#about"
             onClick={navClick("about")}
-            className="cursor-pointer hover:opacity-60 transition-opacity"
+            className="hover:text-black"
           >
-            ABOUT
+            About us
           </a>
-          <button
-            type="button"
-            onClick={openContact}
-            className="cursor-pointer bg-[#1A1A1A] text-white px-6 py-3 rounded-md hover:bg-black transition-colors uppercase tracking-wider text-xs font-bold"
-          >
-            Schedule a Call
-          </button>
         </div>
 
-        <div className="flex md:hidden items-center gap-3 font-bold text-[10px] tracking-widest uppercase">
-          <a
-            href="#hero"
-            onClick={navClick("hero")}
-            className="cursor-pointer hover:opacity-60 transition-opacity"
-          >
-            Home
-          </a>
-          <a
-            href="#work"
-            onClick={navClick("work")}
-            className="cursor-pointer hover:opacity-60 transition-opacity"
-          >
-            Work
-          </a>
-          <a
-            href="#about"
-            onClick={navClick("about")}
-            className="cursor-pointer hover:opacity-60 transition-opacity"
-          >
-            About
-          </a>
-          <button
-            type="button"
-            onClick={openContact}
-            className="cursor-pointer rounded bg-[#1A1A1A] px-2 py-1.5 text-white hover:bg-black transition-colors"
-          >
-            Call
-          </button>
-        </div>
+        <button
+          type="button"
+          onClick={() => scrollToSection("about")}
+          className="rounded-full bg-[#ff6b2c] px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-[#f35f1f] md:px-5"
+        >
+          Contact
+        </button>
       </motion.nav>
 
-      <main className="grow flex flex-col justify-center max-w-7xl mx-auto w-full py-12 md:py-20">
-        <div className="relative flex flex-col md:block">
-          <motion.div style={{ y: headlineY, opacity: headlineOpacity }}>
-            <FlipStaggerLines
-              lines={heroLines}
-              as="h1"
-              trigger="mount"
-              className="text-6xl sm:text-7xl md:text-[10vw] leading-[0.85] font-bold uppercase tracking-tighter"
+      <div className="relative mx-auto mt-10 max-w-7xl md:mt-14">
+        <ParallaxFloat
+          speed={-110}
+          scrollYProgress={scrollYProgress}
+          className="absolute left-[4%] top-[8%] z-20 hidden sm:block"
+        >
+          <div className="flex h-14 w-14 items-center justify-center rounded-full bg-white shadow-[0_10px_30px_rgba(0,0,0,0.12)]">
+            <div className="flex h-8 w-8 items-center justify-center rounded-md bg-[#ef4444] text-white">
+              <Activity className="h-4 w-4" strokeWidth={2.5} />
+            </div>
+          </div>
+        </ParallaxFloat>
+
+        <ParallaxFloat
+          speed={-150}
+          scrollYProgress={scrollYProgress}
+          className="absolute left-[2%] top-[34%] z-20 hidden md:block"
+        >
+          <div className="w-44 rounded-2xl bg-[#1f1f1f] p-3 text-white shadow-[0_16px_40px_rgba(0,0,0,0.22)]">
+            <div className="mb-2 flex items-center justify-between">
+              <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-white/10">
+                <Rocket className="h-3.5 w-3.5" />
+              </div>
+              <span className="rounded-full bg-white/10 px-2 py-0.5 text-[10px] font-semibold">
+                346+
+              </span>
+            </div>
+            <div className="flex h-14 items-end gap-1">
+              {[38, 52, 44, 68, 50].map((h, i) => (
+                <div
+                  key={i}
+                  className="w-4 rounded-sm bg-white/20"
+                  style={{ height: `${h}%` }}
+                />
+              ))}
+            </div>
+          </div>
+        </ParallaxFloat>
+
+        <ParallaxFloat
+          speed={-190}
+          scrollYProgress={scrollYProgress}
+          className="absolute bottom-[30%] left-[1%] z-20 hidden lg:block"
+        >
+          <div className="w-56 rounded-2xl bg-[#1f1f1f] p-4 text-white shadow-[0_16px_40px_rgba(0,0,0,0.22)]">
+            <p className="mb-3 text-xs text-white/70">Widget control</p>
+            <div className="relative h-20">
+              <svg viewBox="0 0 180 70" className="h-full w-full" aria-hidden>
+                <path
+                  d="M0 50 C30 20 50 58 80 35 S130 10 180 28"
+                  fill="none"
+                  stroke="#facc15"
+                  strokeWidth="3"
+                />
+              </svg>
+              <span className="absolute right-0 top-0 rounded-full bg-[#3b82f6] px-2 py-1 text-[10px] font-semibold">
+                Result + 58%
+              </span>
+            </div>
+          </div>
+        </ParallaxFloat>
+
+        <ParallaxFloat
+          speed={-130}
+          scrollYProgress={scrollYProgress}
+          className="absolute right-[3%] top-[24%] z-20 hidden md:block"
+        >
+          <div className="w-48 rounded-2xl bg-[#1f1f1f] p-4 text-white shadow-[0_16px_40px_rgba(0,0,0,0.22)]">
+            <p className="mb-3 text-xs text-white/70">Installs</p>
+            <div className="flex h-16 items-end gap-1.5">
+              {[30, 42, 36, 55, 48, 62, 40].map((h, i) => (
+                <div
+                  key={i}
+                  className={`w-3.5 rounded-sm ${
+                    i === 5
+                      ? "bg-[#22c55e]"
+                      : i === 6
+                        ? "bg-[#eab308]"
+                        : "bg-white/20"
+                  }`}
+                  style={{ height: `${h}%` }}
+                />
+              ))}
+            </div>
+            <div className="mt-2 flex gap-3 text-[10px] font-semibold">
+              <span className="text-[#22c55e]">562</span>
+              <span className="text-[#eab308]">286</span>
+            </div>
+          </div>
+        </ParallaxFloat>
+
+        <ParallaxFloat
+          speed={-170}
+          scrollYProgress={scrollYProgress}
+          className="absolute right-[2%] top-[46%] z-20 hidden sm:block"
+        >
+          <div className="flex h-28 w-28 flex-col items-center justify-center rounded-full bg-[#3b82f6] p-3 text-center text-white shadow-[0_16px_40px_rgba(59,130,246,0.45)]">
+            <span className="text-2xl font-bold">+30%</span>
+            <span className="mt-1 text-[9px] leading-tight text-white/90">
+              Speed up your productivity
+            </span>
+          </div>
+        </ParallaxFloat>
+
+        <ParallaxFloat
+          speed={-210}
+          scrollYProgress={scrollYProgress}
+          className="absolute bottom-[24%] right-[4%] z-20 hidden lg:flex lg:flex-col lg:items-end lg:gap-3"
+        >
+          <button
+            type="button"
+            className="inline-flex items-center gap-2 rounded-full bg-[#7c5cff] px-4 py-2 text-sm font-semibold text-white shadow-[0_12px_30px_rgba(124,92,255,0.35)]"
+          >
+            Book a call
+            <ArrowUpRight className="h-4 w-4" />
+          </button>
+          <div className="inline-flex items-center gap-1.5 rounded-full bg-[#1f1f1f] px-3 py-1.5 text-[10px] font-medium text-white">
+            <Zap className="h-3 w-3 text-[#ff6b2c]" />
+            Key features
+          </div>
+        </ParallaxFloat>
+
+        <motion.div
+          style={{ y: headlineY }}
+          className="relative z-30 mx-auto max-w-4xl pt-16 text-center md:pt-20"
+        >
+          <motion.span
+            className="inline-block rounded-full bg-[#1f1f1f] px-4 py-1.5 text-xs font-medium text-white"
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.55, ease: easePremium, delay: 0.08 }}
+          >
+            Digital brand design agency
+          </motion.span>
+
+          <motion.h1
+            className="mt-6 text-4xl font-bold leading-[1.05] tracking-tight text-[#111] sm:text-5xl md:text-6xl lg:text-[4.25rem]"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, ease: easePremium, delay: 0.16 }}
+          >
+            Design &amp; Brand Acceleration
+            <br />
+            for SaaS Startups
+          </motion.h1>
+        </motion.div>
+
+        <motion.div
+          className="h-screen sticky top-0 mt-14 w-full md:mt-16 flex items-center justify-center bg-red-500"
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: easePremium, delay: 0.28 }}
+        >
+          <motion.div
+            className="overflow-hidden border-2 border-black/20 bg-black shadow-[0_30px_80px_rgba(0,0,0,0.12)] p-1 rounded-2xl"
+          >
+            <motion.video
+              ref={videoRef}
+              src={videoUrl}
+              preload="auto"
+              autoPlay
+              muted
+              loop
+              playsInline
+              className="aspect-video w-full object-cover rounded-xl"
             />
           </motion.div>
-
-          <motion.div
-            className="mt-8 md:mt-0 md:absolute md:bottom-20 lg:bottom-32 md:right-2 max-w-xs md:text-right md:left-[60%] lg:left-[55%]"
-            initial={reduce ? false : { opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{
-              duration: 0.75,
-              ease: easePremium,
-              delay: reduce ? 0 : 0.45,
-            }}
-          >
-            <p className="text-lg md:text-xl lg:text-2xl font-bold leading-tight uppercase">
-              Freelancer
-              <br />
-              Digital Designer
-              <br />
-              Webflow Expert
-            </p>
-          </motion.div>
-        </div>
-      </main>
-
-      <motion.footer
-        className="w-full max-w-7xl mx-auto pb-4 md:pb-8"
-        initial={reduce ? false : { opacity: 0, y: 16 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{
-          duration: 0.7,
-          ease: easePremium,
-          delay: reduce ? 0 : 0.55,
-        }}
-      >
-        <p className="text-center text-[9px] md:text-[10px] uppercase tracking-[0.2em] font-bold mb-6 md:mb-8 text-gray-500">
-          Work Seen On
-        </p>
-        <div className="grid grid-cols-2 md:flex md:justify-between items-center gap-6 md:gap-8 opacity-40 grayscale">
-          <span className="text-center md:text-left text-lg md:text-xl font-black">
-            FLUX
-          </span>
-          <span className="text-center md:text-left text-lg md:text-xl font-bold italic">
-            yahoo!
-          </span>
-          <span className="text-center md:text-left text-lg md:text-xl font-black italic underline">
-            F3
-          </span>
-          <span className="text-center md:text-left text-lg md:text-xl font-medium tracking-tighter">
-            awwwards.
-          </span>
-        </div>
-      </motion.footer>
-
-      <div className="pointer-events-none fixed right-0 top-0 z-[85] flex h-full max-h-dvh flex-row items-stretch">
-        <motion.aside
-          className="pointer-events-auto flex h-full w-[min(calc(100vw-2.75rem),22rem)] flex-col overflow-y-auto border-l border-white/10 bg-neutral-950 text-white shadow-[-12px_0_40px_rgba(0,0,0,0.35)] sm:w-[min(calc(100vw-3rem),26rem)]"
-          initial={false}
-          animate={{ x: contactOpen ? 0 : "115%" }}
-          transition={reduce ? { duration: 0.2 } : panelSpring}
-        >
-          <div className="flex flex-col gap-6 p-6 md:p-8">
-            <div className="flex items-start justify-between gap-4 border-b border-white/10 pb-4">
-              <div>
-                <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/50">
-                  Brutanix Studio
-                </p>
-                <h2 className="mt-1 text-xl font-bold tracking-tight md:text-2xl">
-                  Let&apos;s talk
-                </h2>
-              </div>
-              <button
-                type="button"
-                onClick={() => setContactOpen(false)}
-                className="rounded-md px-2 py-1 text-xs font-bold uppercase tracking-wider text-white/70 transition-colors hover:bg-white/10 hover:text-white"
-                aria-label="Close contact panel"
-              >
-                Close
-              </button>
-            </div>
-
-            <form
-              className="flex flex-col gap-4"
-              onSubmit={(e) => e.preventDefault()}
-            >
-              <label className="flex flex-col gap-1.5 text-xs font-bold uppercase tracking-wider text-white/50">
-                Name
-                <input
-                  type="text"
-                  name="name"
-                  required
-                  className="rounded-lg border border-white/15 bg-white/5 px-3 py-2.5 text-sm font-medium normal-case tracking-normal text-white outline-none transition-colors placeholder:text-white/30 focus:border-white/40"
-                  placeholder="Your name"
-                />
-              </label>
-              <label className="flex flex-col gap-1.5 text-xs font-bold uppercase tracking-wider text-white/50">
-                Email
-                <input
-                  type="email"
-                  name="email"
-                  required
-                  className="rounded-lg border border-white/15 bg-white/5 px-3 py-2.5 text-sm font-medium normal-case tracking-normal text-white outline-none transition-colors placeholder:text-white/30 focus:border-white/40"
-                  placeholder="you@example.com"
-                />
-              </label>
-              <label className="flex flex-col gap-1.5 text-xs font-bold uppercase tracking-wider text-white/50">
-                Message
-                <textarea
-                  name="message"
-                  required
-                  rows={4}
-                  className="resize-y rounded-lg border border-white/15 bg-white/5 px-3 py-2.5 text-sm font-medium normal-case tracking-normal text-white outline-none transition-colors placeholder:text-white/30 focus:border-white/40"
-                  placeholder="Tell us about your project"
-                />
-              </label>
-              <button
-                type="submit"
-                className="mt-2 w-full rounded-lg bg-white py-3 text-xs font-bold uppercase tracking-widest text-black transition-colors hover:bg-white/90"
-              >
-                Send message
-              </button>
-            </form>
-          </div>
-        </motion.aside>
-
-        <div className="pointer-events-auto flex h-full items-center justify-center">
-          {!contactOpen && (
-            <motion.button
-              type="button"
-              onClick={() => setContactOpen((o) => !o)}
-              aria-expanded={contactOpen}
-              className="flex w-11 h-fit shrink-0 cursor-pointer flex-col items-center justify-center gap-3 bg-black py-6 text-white md:w-12 md:py-8"
-              initial={reduce ? false : { opacity: 0, x: 24 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{
-                duration: 0.65,
-                ease: easePremium,
-                delay: reduce ? 0 : 0.28,
-              }}
-              whileTap={{ scale: 0.98 }}
-              whileHover={{ backgroundColor: "#0a0a0a" }}
-            >
-              <span className="font-bold text-lg md:text-xl">A</span>
-              <div className="[writing-mode:vertical-lr] rotate-180 border-t border-white/20 pt-3 text-[8px] font-bold uppercase tracking-[0.2em] md:pt-4 md:text-[10px]">
-                Contact
-              </div>
-            </motion.button>
-          )}
-        </div>
+        </motion.div>
       </div>
-
-      {contactOpen ? (
-        <motion.div
-          role="presentation"
-          className="fixed inset-0 z-[75] cursor-pointer bg-black/40 backdrop-blur-[2px] md:bg-black/30"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.35, ease: easePremium }}
-          onClick={() => setContactOpen(false)}
-        />
-      ) : null}
-    </div>
+    </section>
   );
 };
 
