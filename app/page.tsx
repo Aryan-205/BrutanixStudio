@@ -39,7 +39,6 @@ export default function Home() {
         <Prototype />
         <ProjectsSection />
         <HowItWorksSection />
-        {/* <WorkSection /> */}
         <TestimonialSection />
         <FAQSection />
         <FooterSection />

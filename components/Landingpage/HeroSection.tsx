@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback, useRef } from "react";
+import React, { useRef } from "react";
 import {
   motion,
   type MotionValue,
@@ -10,7 +10,7 @@ import {
 } from "motion/react";
 import { Activity, ArrowUpRight, Rocket, Zap } from "lucide-react";
 import { easePremium } from "@/components/motion/presets";
-import BrandLogo from "../BrandLogo";
+import Navbar from "@/components/Navbar";
 
 function ParallaxFloat({
   children,
@@ -257,79 +257,13 @@ const HeroSection = () => {
 
   const previewY = useTransform(scrollYProgress, [0, 1], [0, reduce ? 0 : -70]);
 
-  const scrollToSection = useCallback(
-    (id: string) => {
-      const el = document.getElementById(id);
-      if (!el) return;
-      el.scrollIntoView({
-        behavior: reduce ? "auto" : "smooth",
-        block: "start",
-      });
-      window.history.replaceState(null, "", `#${id}`);
-    },
-    [reduce],
-  );
-
-  const navClick = (id: string) => (e: React.MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault();
-    scrollToSection(id);
-  };
-
   return (
     <section
       id="hero"
       ref={heroRef}
       className="relative min-h-[115vh] overflow-hidden bg-[#f9f9f9] px-4 pb-10 pt-5 font-sans text-[#111] selection:bg-[#ff6b2c] selection:text-white md:px-8 md:pb-14 md:pt-6"
     >
-      <motion.nav
-        className="relative z-50 mx-auto flex w-full max-w-4xl items-center justify-between gap-4 rounded-full border border-[#ececec] bg-white/90 px-3 py-2 shadow-[0_8px_30px_rgba(0,0,0,0.06)] backdrop-blur-md md:px-4"
-        initial={reduce ? false : { opacity: 0, y: -16 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.55, ease: easePremium }}
-      >
-        <div className="flex items-center gap-2 w-4 h-4">
-          <BrandLogo />
-        </div>
-
-        <div className="hidden items-center gap-6 text-sm font-medium text-[#444] md:flex">
-          <a
-            href="#work"
-            onClick={navClick("work")}
-            className="hover:text-black"
-          >
-            Cases
-          </a>
-          <a
-            href="#hero"
-            onClick={navClick("hero")}
-            className="hover:text-black"
-          >
-            Service
-          </a>
-          <a
-            href="#work"
-            onClick={navClick("work")}
-            className="hover:text-black"
-          >
-            Blog
-          </a>
-          <a
-            href="#about"
-            onClick={navClick("about")}
-            className="hover:text-black"
-          >
-            About us
-          </a>
-        </div>
-
-        <button
-          type="button"
-          onClick={() => scrollToSection("about")}
-          className="rounded-full bg-[#ff6b2c] px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-[#f35f1f] md:px-5"
-        >
-          Contact
-        </button>
-      </motion.nav>
+      <Navbar animated />
 
       <div className="relative mx-auto mt-10 max-w-7xl md:mt-14">
         <ParallaxFloat
