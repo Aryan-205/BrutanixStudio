@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import {
   motion,
   type MotionValue,
@@ -11,6 +11,27 @@ import {
 import { Activity, ArrowUpRight, Rocket, Zap } from "lucide-react";
 import { easePremium } from "@/components/motion/presets";
 import Navbar from "@/components/Navbar";
+
+function useMeasure<T extends HTMLElement>() {
+  const [rect, setRect] = useState({ width: 0, height: 0 });
+  const ref = useRef<T>(null);
+
+  useEffect(() => {
+    if (!ref.current) return;
+    const observer = new ResizeObserver(([entry]) => {
+      if (entry) {
+        setRect({
+          width: entry.contentRect.width,
+          height: entry.contentRect.height,
+        });
+      }
+    });
+    observer.observe(ref.current);
+    return () => observer.disconnect();
+  }, []);
+
+  return [ref, rect] as const;
+}
 
 function ParallaxFloat({
   children,
@@ -257,11 +278,45 @@ const HeroSection = () => {
 
   const previewY = useTransform(scrollYProgress, [0, 1], [0, reduce ? 0 : -70]);
 
+  const [stickyRef, stickyRect] = useMeasure<HTMLDivElement>();
+  const [placeholderRef, placeholderRect] = useMeasure<HTMLDivElement>();
+
+  const videoScrollRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress: videoScrollProgress } = useScroll({
+    target: videoScrollRef,
+    offset: ["start start", "end end"],
+  });
+
+  const videoWidth = useTransform(videoScrollProgress, (progress) => {
+    const currentStart = placeholderRect.width || 768;
+    const currentEnd = stickyRect.width || 1024;
+    return `${currentStart + progress * (currentEnd - currentStart)}px`;
+  });
+
+  const videoHeight = useTransform(videoScrollProgress, (progress) => {
+    const currentStart = placeholderRect.height || 432;
+    const currentEnd = stickyRect.height || 768;
+    return `${currentStart + progress * (currentEnd - currentStart)}px`;
+  });
+
+  const borderRadius = useTransform(videoScrollProgress, (progress) => {
+    return `${16 * (1 - progress)}px`;
+  });
+
+  const padding = useTransform(videoScrollProgress, (progress) => {
+    return `${4 * (1 - progress)}px`;
+  });
+
+  const border = useTransform(videoScrollProgress, (progress) => {
+    const alpha = 1 - progress;
+    return `${alpha}px solid rgba(236, 236, 236, ${alpha})`;
+  });
+
   return (
     <section
       id="hero"
       ref={heroRef}
-      className="relative min-h-[115vh] overflow-hidden bg-[#f9f9f9] px-4 pb-10 pt-5 font-sans text-[#111] selection:bg-[#ff6b2c] selection:text-white md:px-8 md:pb-14 md:pt-6"
+      className="relative min-h-[115vh] overflow-x-clip bg-[#f9f9f9] px-4 pb-10 pt-5 font-sans text-[#111] selection:bg-[#ff6b2c] selection:text-white md:px-8 md:pb-14 md:pt-6"
     >
       <Navbar animated />
 
@@ -379,23 +434,45 @@ const HeroSection = () => {
           </motion.h1>
         </motion.div>
 
-        <motion.div
-          style={{ y: previewY }}
-          className="z-20 mt-14 md:mt-16 border border-red-500 sticky inset-0 flex items-center justify-center w-full"
-          initial={reduce ? false : { opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: easePremium, delay: 0.28 }}
+        {/* Placeholder to measure the initial dimensions of the video container on any screen width */}
+        <div
+          ref={placeholderRef}
+          className="pointer-events-none opacity-0 absolute w-full max-w-3xl aspect-video rounded-2xl p-1"
+          style={{ visibility: "hidden" }}
+        />
+
+        {/* 2 Container Method: Scroll Container (200vh) & Sticky Container (100vh) */}
+        <div
+          ref={videoScrollRef}
+          className="relative w-screen left-1/2 -translate-x-1/2 h-[200vh] mt-14 md:mt-16"
         >
-          <div className="rounded-2xl border border-[#ececec] bg-black p-1 shadow-[0_30px_80px_rgba(0,0,0,0.12)] max-w-3xl">
-            <video
-              src={videoUrl}
-              autoPlay
-              muted
-              loop
-              className="w-full h-full object-cover rounded-2xl"
-            ></video>
-          </div>
-        </motion.div>
+          <motion.div
+            ref={stickyRef}
+            className="z-20 sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden border border-red-500"
+            initial={reduce ? false : { opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: easePremium, delay: 0.28 }}
+          >
+            <motion.div
+              style={{
+                width: videoWidth,
+                height: videoHeight,
+                borderRadius,
+                padding,
+                border,
+              }}
+              className="bg-black shadow-[0_30px_80px_rgba(0,0,0,0.12)] overflow-hidden flex items-center justify-center"
+            >
+              <video
+                src={videoUrl}
+                autoPlay
+                muted
+                loop
+                className="w-full h-full object-cover"
+              ></video>
+            </motion.div>
+          </motion.div>
+        </div>
       </div>
     </section>
   );
