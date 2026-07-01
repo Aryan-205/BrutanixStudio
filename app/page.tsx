@@ -7,14 +7,14 @@ import ProjectsSection from "@/components/Landingpage/ProjectsSection";
 import SolutionsSection from "@/components/Landingpage/SolutionsSection";
 import HowItWorksSection from "@/components/Landingpage/HowItWorksSection";
 import ProgressSection from "@/components/Landingpage/ProgressSection";
-import FAQSection from "@/components/Landingpage/FAQ";
 import TestimonialSection from "@/components/Landingpage/TestimonialSection";
 import { MotionProvider } from "./MotionProvider";
 import Prototype from "@/components/Landingpage/Prototype";
-import FooterSection from "@/components/Landingpage/FooterSection";
 import Intro from "@/components/Intro";
 import { useEffect, useState } from "react";
 import { AnimatePresence } from "motion/react";
+import Navbar from "@/components/Navbar";
+import FooterSection from "@/components/Landingpage/FooterSection";
 
 export default function Home() {
 
@@ -28,7 +28,8 @@ export default function Home() {
 
   return (
     <MotionProvider>
-      <div className="min-h-screen w-full overflow-x-clip bg-white">
+      <div className="relative z-10 min-h-screen w-full overflow-x-clip bg-white shadow-[0_20px_50px_rgba(0,0,0,0.15)] pb-10 rounded-b-3xl">
+        <Navbar animated />
         <AnimatePresence mode="wait">
         {!isIntroComplete && <Intro />}
         </AnimatePresence>
@@ -40,9 +41,13 @@ export default function Home() {
         <ProjectsSection />
         <HowItWorksSection />
         <TestimonialSection />
-        <FAQSection />
-        {/* <FooterSection /> */}
       </div>
+
+      {/* Spacer to scroll and reveal the fixed footer behind it */}
+      <div className="h-[480px] w-full pointer-events-none bg-white" />
+
+      {/* Sticky Scroll-Reveal Footer */}
+      <FooterSection />
     </MotionProvider>
   );
 }

@@ -1,9 +1,9 @@
 "use client";
 
-import React from "react";
+import React, { useRef } from "react";
 import Image from "next/image";
 import { ArrowRight } from "lucide-react";
-import { useReducedMotion } from "motion/react";
+import { useReducedMotion, motion, useScroll, useTransform } from "motion/react";
 
 const solutions = [
   {
@@ -49,12 +49,43 @@ function SolutionCard({
   description,
   image,
   id,
-}: (typeof solutions)[number]) {
-  return (
-    <article
-      className={`"group relative w-[min(82vw,22rem)] shrink-0 sm:w-88 md:w-[24rem] lg:w-104 shadow-lg border border-gray-200 rounded-lg p-2 cursor-pointer ${id % 2 == 0 ? "translate-y-10" : "-translate-y-10"}`}
-    >
+  index,
+}: (typeof solutions)[number] & { index: number }) {
+  const cardRef = useRef<HTMLDivElement>(null);
+  const reduce = useReducedMotion();
 
+  const { scrollYProgress } = useScroll({
+    target: cardRef,
+    offset: ["start end", "center center"],
+  });
+
+  const isEvenIndex = index % 2 === 1;
+  const initialX = isEvenIndex 
+    ? (index === 1 ? 150 : 200) 
+    : (index === 0 ? -150 : -200);
+  const initialRotate = isEvenIndex 
+    ? (index === 1 ? 8 : 12) 
+    : (index === 0 ? -8 : -12);
+
+  const finalY = id % 2 === 0 ? 40 : -40;
+  const initialY = finalY + (isEvenIndex ? 120 : 80);
+
+  const xVal = useTransform(scrollYProgress, [0, 1], [reduce ? 0 : initialX, 0]);
+  const yVal = useTransform(scrollYProgress, [0, 1], [reduce ? finalY : initialY, finalY]);
+  const rotateVal = useTransform(scrollYProgress, [0, 1], [reduce ? 0 : initialRotate, 0]);
+  const opacityVal = useTransform(scrollYProgress, [0, 0.75], [0, 1]);
+
+  return (
+    <motion.article
+      ref={cardRef}
+      style={{
+        x: xVal,
+        y: yVal,
+        rotate: rotateVal,
+        opacity: opacityVal,
+      }}
+      className="group relative w-[min(82vw,22rem)] shrink-0 sm:w-88 md:w-[24rem] lg:w-104 shadow-lg border border-gray-200 rounded-lg p-2 cursor-pointer bg-white"
+    >
       <div className="relative z-10">
         <div className="relative mb-5 aspect-4/3 overflow-hidden rounded-sm bg-white">
           <Image
@@ -66,11 +97,9 @@ function SolutionCard({
           />
         </div>
 
-
         <p className="mb-2 text-sm text-[#5c5c5c]">Solutions</p>
 
         <div className="mb-3 flex items-center justify-start gap-4">
-
           <h3 className="text-xl font-semibold tracking-tight text-[#1a1a1a] md:text-[1.35rem]">
             {title}
           </h3>
@@ -87,19 +116,21 @@ function SolutionCard({
           {description}
         </p>
       </div>
-    </article>
+    </motion.article>
   );
 }
 
 const SolutionsSection = () => {
-
   return (
-    <section className="overflow-hidden bg-[#F9F9F9] font-sans">
-      <div
-        className="w-full h-full flex items-center justify-center">
+    <section id="services" className="overflow-hidden bg-[#F9F9F9] font-sans">
+      <div className="w-full h-full flex items-center justify-center">
         <div className="grid grid-cols-1 md:grid-cols-2 w-max gap-12 px-6 py-24 md:gap-10 md:px-12">
           {solutions.map((solution, index) => (
-            <SolutionCard key={`${solution.number}-${index}`} {...solution} />
+            <SolutionCard
+              key={`${solution.number}-${index}`}
+              index={index}
+              {...solution}
+            />
           ))}
         </div>
       </div>

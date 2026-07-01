@@ -312,13 +312,14 @@ const HeroSection = () => {
     return `${alpha}px solid rgba(236, 236, 236, ${alpha})`;
   });
 
+  const videoY = useTransform(videoScrollProgress, [0, 1], [reduce ? 0 : -128, 0]);
+
   return (
     <section
       id="hero"
       ref={heroRef}
       className="relative min-h-[115vh] overflow-x-clip bg-[#f9f9f9] px-4 pb-10 pt-5 font-sans text-[#111] selection:bg-[#ff6b2c] selection:text-white md:px-8 md:pb-14 md:pt-6"
     >
-      <Navbar animated />
 
       <div className="relative mx-auto mt-4 max-w-7xl md:mt-6">
         <ParallaxFloat
@@ -338,7 +339,7 @@ const HeroSection = () => {
           speed={-310}
           scrollYProgress={scrollYProgress}
           reduce={!!reduce}
-          className="absolute left-[2%] top-[34%] z-20 hidden md:block"
+          className="absolute left-[2%] top-[16%] z-20 hidden md:block"
         >
           <div className="w-44 rounded-2xl bg-[#1f1f1f] p-3 text-white shadow-[0_16px_40px_rgba(0,0,0,0.22)]">
             <div className="mb-2 flex items-center justify-between">
@@ -357,7 +358,7 @@ const HeroSection = () => {
           speed={-310}
           scrollYProgress={scrollYProgress}
           reduce={!!reduce}
-          className="absolute bottom-[30%] left-[6%] z-30 hidden lg:block"
+          className="absolute top-[24%] left-[6%] z-30 hidden lg:block"
         >
           <div className="w-56 rounded-2xl bg-[#1f1f1f] p-4 text-white shadow-[0_16px_40px_rgba(0,0,0,0.22)] relative">
             <p className="mb-3 text-xs text-white/70">Widget control</p>
@@ -374,7 +375,7 @@ const HeroSection = () => {
           speed={-310}
           scrollYProgress={scrollYProgress}
           reduce={!!reduce}
-          className="absolute right-[3%] top-[24%] z-20 hidden md:block"
+          className="absolute right-[3%] top-[16%] z-20 hidden md:block"
         >
           <div className="w-52 rounded-2xl bg-[#1f1f1f] p-4 text-white shadow-[0_16px_40px_rgba(0,0,0,0.22)]">
             <InstallsChart />
@@ -385,7 +386,7 @@ const HeroSection = () => {
           speed={-310}
           scrollYProgress={scrollYProgress}
           reduce={!!reduce}
-          className="absolute right-[12%] top-[46%] z-20 hidden sm:block"
+          className="absolute right-[12%] top-[26%] z-0 hidden sm:block"
         >
           <div className="flex h-32 w-32 flex-col items-center justify-center rounded-full bg-[#3b82f6] p-3 text-center text-white shadow-[0_16px_40px_rgba(59,130,246,0.45)]">
             <span className="text-2xl font-bold">+30%</span>
@@ -399,7 +400,7 @@ const HeroSection = () => {
           speed={-310}
           scrollYProgress={scrollYProgress}
           reduce={!!reduce}
-          className="absolute bottom-[24%] right-[4%] z-20 hidden lg:flex lg:flex-col lg:items-end lg:gap-3"
+          className="absolute top-[10%] right-[4%] z-20 hidden lg:flex lg:flex-col lg:items-end lg:gap-3"
         >
           <div className="inline-flex items-center justify-start gap-2 rounded-full bg-[#1f1f1f] p-1 font-medium text-white w-40">
             <div className="flex items-center justify-center bg-white w-8 h-8 rounded-full">
@@ -411,10 +412,10 @@ const HeroSection = () => {
 
         <motion.div
           style={{ y: headlineY }}
-          className="relative z-30 mx-auto max-w-4xl pt-16 text-center md:pt-20"
+          className="relative z-30 mx-auto max-w-4xl pt-16 text-center md:pt-20 flex flex-col justify-center items-center"
         >
           <motion.span
-            className="inline-block rounded-full bg-linear-to-tr from-[#646161] via-[#000000] to-[#646161] px-4 py-2 text-sm font-medium text-white"
+            className="rounded-full bg-linear-to-tr from-[#646161] via-[#000000] to-[#646161] px-4 py-2 text-sm font-medium text-white w-fit" 
             initial={reduce ? false : { opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.55, ease: easePremium, delay: 0.08 }}
@@ -423,7 +424,7 @@ const HeroSection = () => {
           </motion.span>
 
           <motion.h1
-            className="mt-6 text-4xl font-semibold leading-[1.05] tracking-tight text-[#111] sm:text-5xl md:text-6xl lg:text-[4.25rem]"
+            className="mt-6 text-4xl font-semibold leading-[1.05] tracking-tight text-[#111] sm:text-5xl md:text-6xl lg:text-[4.25rem] max-w-3xl"
             initial={reduce ? false : { opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, ease: easePremium, delay: 0.16 }}
@@ -448,7 +449,7 @@ const HeroSection = () => {
         >
           <motion.div
             ref={stickyRef}
-            className="z-20 sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden border border-red-500"
+            className="z-20 sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden"
             initial={reduce ? false : { opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: easePremium, delay: 0.28 }}
@@ -460,6 +461,7 @@ const HeroSection = () => {
                 borderRadius,
                 padding,
                 border,
+                y: videoY,
               }}
               className="bg-black shadow-[0_30px_80px_rgba(0,0,0,0.12)] overflow-hidden flex items-center justify-center"
             >
