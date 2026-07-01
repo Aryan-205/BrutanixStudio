@@ -24,12 +24,6 @@ export default function AboutPage() {
         <WorkSection />
         <FAQSection />
       </div>
-
-      {/* Spacer to scroll and reveal the fixed footer behind it */}
-      <div className="h-[480px] w-full pointer-events-none" />
-
-      {/* Sticky Scroll-Reveal Footer */}
-      <FooterSection />
     </MotionProvider>
   );
 }

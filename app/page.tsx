@@ -28,7 +28,7 @@ export default function Home() {
 
   return (
     <MotionProvider>
-      <div className="relative z-10 min-h-screen w-full overflow-x-clip bg-white shadow-[0_20px_50px_rgba(0,0,0,0.15)] pb-10 rounded-b-3xl">
+      <div className="relative z-10 min-h-screen w-full overflow-x-clip bg-[#f9f9f9] shadow-[0_20px_50px_rgba(0,0,0,0.15)] pb-10 rounded-b-3xl">
         <Navbar animated />
         <AnimatePresence mode="wait">
         {!isIntroComplete && <Intro />}

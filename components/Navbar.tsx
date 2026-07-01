@@ -14,10 +14,11 @@ type NavbarProps = {
 export default function Navbar({ animated = false }: NavbarProps) {
   const pathname = usePathname();
   const reduce = useReducedMotion();
-  const isHome = pathname === "/";
   const isAbout = pathname === "/about";
-
-  const sectionHref = (id: string) => (isHome ? `#${id}` : `/#${id}`);
+  const isContact = pathname === "/contact-us";
+  const isProjects = pathname === "/projects";
+  const isServices = pathname === "/services";
+  const isBlogs = pathname === "/blogs";
 
   const linkClass = (active: boolean) =>
     `relative py-1 text-sm font-medium transition-colors duration-300 ${
@@ -28,9 +29,10 @@ export default function Navbar({ animated = false }: NavbarProps) {
 
   const navLinks = [
     { label: "About us", href: "/about", active: isAbout },
-    { label: "Project", href: sectionHref("work"), active: false },
-    { label: "Services", href: sectionHref("services"), active: false },
-    { label: "Blogs", href: sectionHref("work"), active: false },
+    { label: "Contact us", href: "/contact-us", active: isContact },
+    { label: "Project", href: "/projects", active: isProjects },
+    { label: "Services", href: "/services", active: isServices },
+    { label: "Blogs", href: "/blogs", active: isBlogs },
   ];
 
   return (
@@ -70,7 +72,7 @@ export default function Navbar({ animated = false }: NavbarProps) {
       </div>
 
       <Link
-        href={isAbout ? "#contact" : "/about#contact"}
+        href="/contact-us"
         className="rounded-full bg-linear-to-b from-[#8932ff] to-[#9873ff] px-5 py-2 text-sm font-semibold text-white shadow-[0_4px_14px_rgba(255,107,44,0.2)] transition-all duration-300 hover:bg-[#f35f1f] hover:shadow-[0_6px_20px_rgba(255,107,44,0.35)] hover:scale-[1.03] active:scale-95"
       >
         Book a call
