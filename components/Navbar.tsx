@@ -28,7 +28,11 @@ export default function Navbar({ animated = false }: NavbarProps) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.55, ease: easePremium }}
     >
-      <Link href="/" className="flex h-4 w-4 items-center gap-2" aria-label="Home">
+      <Link
+        href="/"
+        className="flex h-4 w-4 items-center gap-2"
+        aria-label="Home"
+      >
         <BrandLogo />
       </Link>
 

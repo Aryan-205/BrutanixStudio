@@ -52,11 +52,8 @@ function SolutionCard({
 }: (typeof solutions)[number]) {
   return (
     <article
-      className={`"group relative w-[min(82vw,22rem)] shrink-0 sm:w-88 md:w-[24rem] lg:w-104 cursor-pointer ${id % 2 == 0 ? "translate-y-10" : "-translate-y-10"}`}
+      className={`"group relative w-[min(82vw,22rem)] shrink-0 sm:w-88 md:w-[24rem] lg:w-104 shadow-lg border border-gray-200 rounded-lg p-2 cursor-pointer ${id % 2 == 0 ? "translate-y-10" : "-translate-y-10"}`}
     >
-      <p className="absolute -top-12 right-0 text-black/80 text-7xl font-bold">
-        {number}
-      </p>
 
       <div className="relative z-10">
         <div className="relative mb-5 aspect-4/3 overflow-hidden rounded-sm bg-white">
@@ -69,9 +66,11 @@ function SolutionCard({
           />
         </div>
 
+
         <p className="mb-2 text-sm text-[#5c5c5c]">Solutions</p>
 
         <div className="mb-3 flex items-center justify-start gap-4">
+
           <h3 className="text-xl font-semibold tracking-tight text-[#1a1a1a] md:text-[1.35rem]">
             {title}
           </h3>
@@ -93,16 +92,13 @@ function SolutionCard({
 }
 
 const SolutionsSection = () => {
-  const reduceMotion = useReducedMotion();
-  const items = reduceMotion ? solutions : [...solutions, ...solutions];
 
   return (
     <section className="overflow-hidden bg-[#F9F9F9] font-sans">
       <div
-        className={`solutions-marquee group/marquee ${reduceMotion ? "solutions-marquee--static" : ""}`}
-      >
-        <div className="solutions-track flex w-max gap-8 px-6 py-24 md:gap-10 md:px-12">
-          {items.map((solution, index) => (
+        className="w-full h-full flex items-center justify-center">
+        <div className="grid grid-cols-1 md:grid-cols-2 w-max gap-12 px-6 py-24 md:gap-10 md:px-12">
+          {solutions.map((solution, index) => (
             <SolutionCard key={`${solution.number}-${index}`} {...solution} />
           ))}
         </div>

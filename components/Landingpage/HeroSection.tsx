@@ -265,12 +265,12 @@ const HeroSection = () => {
     >
       <Navbar animated />
 
-      <div className="relative mx-auto mt-10 max-w-7xl md:mt-14">
+      <div className="relative mx-auto mt-4 max-w-7xl md:mt-6">
         <ParallaxFloat
-          speed={-110}
+          speed={-310}
           scrollYProgress={scrollYProgress}
           reduce={!!reduce}
-          className="absolute left-[4%] top-[8%] z-20 hidden sm:block"
+          className="absolute left-[8%] top-[8%] z-20 hidden sm:block"
         >
           <div className="flex h-24 w-24 items-center justify-center rounded-full bg-white shadow-[0_10px_30px_rgba(0,0,0,0.12)]">
             <div className="flex h-8 w-8 items-center justify-center rounded-md bg-[#ef4444] text-white">
@@ -280,7 +280,7 @@ const HeroSection = () => {
         </ParallaxFloat>
 
         <ParallaxFloat
-          speed={-150}
+          speed={-310}
           scrollYProgress={scrollYProgress}
           reduce={!!reduce}
           className="absolute left-[2%] top-[34%] z-20 hidden md:block"
@@ -299,10 +299,10 @@ const HeroSection = () => {
         </ParallaxFloat>
 
         <ParallaxFloat
-          speed={-190}
+          speed={-310}
           scrollYProgress={scrollYProgress}
           reduce={!!reduce}
-          className="absolute bottom-[30%] left-[1%] z-20 hidden lg:block"
+          className="absolute bottom-[30%] left-[6%] z-30 hidden lg:block"
         >
           <div className="w-56 rounded-2xl bg-[#1f1f1f] p-4 text-white shadow-[0_16px_40px_rgba(0,0,0,0.22)] relative">
             <p className="mb-3 text-xs text-white/70">Widget control</p>
@@ -316,7 +316,7 @@ const HeroSection = () => {
         </ParallaxFloat>
 
         <ParallaxFloat
-          speed={-130}
+          speed={-310}
           scrollYProgress={scrollYProgress}
           reduce={!!reduce}
           className="absolute right-[3%] top-[24%] z-20 hidden md:block"
@@ -327,12 +327,12 @@ const HeroSection = () => {
         </ParallaxFloat>
 
         <ParallaxFloat
-          speed={-170}
+          speed={-310}
           scrollYProgress={scrollYProgress}
           reduce={!!reduce}
-          className="absolute right-[2%] top-[46%] z-20 hidden sm:block"
+          className="absolute right-[12%] top-[46%] z-20 hidden sm:block"
         >
-          <div className="flex h-28 w-28 flex-col items-center justify-center rounded-full bg-[#3b82f6] p-3 text-center text-white shadow-[0_16px_40px_rgba(59,130,246,0.45)]">
+          <div className="flex h-32 w-32 flex-col items-center justify-center rounded-full bg-[#3b82f6] p-3 text-center text-white shadow-[0_16px_40px_rgba(59,130,246,0.45)]">
             <span className="text-2xl font-bold">+30%</span>
             <span className="mt-1 text-[9px] leading-tight text-white/90">
               Speed up your productivity
@@ -341,7 +341,7 @@ const HeroSection = () => {
         </ParallaxFloat>
 
         <ParallaxFloat
-          speed={-210}
+          speed={-310}
           scrollYProgress={scrollYProgress}
           reduce={!!reduce}
           className="absolute bottom-[24%] right-[4%] z-20 hidden lg:flex lg:flex-col lg:items-end lg:gap-3"
@@ -381,18 +381,18 @@ const HeroSection = () => {
 
         <motion.div
           style={{ y: previewY }}
-          className="relative z-20 mx-auto mt-14 max-w-3xl md:mt-16"
+          className="z-20 mt-14 md:mt-16 border border-red-500 sticky inset-0 flex items-center justify-center w-full"
           initial={reduce ? false : { opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: easePremium, delay: 0.28 }}
         >
-          <div className="rounded-2xl border border-[#ececec] bg-black p-1 shadow-[0_30px_80px_rgba(0,0,0,0.12)]">
+          <div className="rounded-2xl border border-[#ececec] bg-black p-1 shadow-[0_30px_80px_rgba(0,0,0,0.12)] max-w-3xl">
             <video
               src={videoUrl}
               autoPlay
               muted
               loop
-              className="w-full h-full object-cover rounded-xl"
+              className="w-full h-full object-cover rounded-2xl"
             ></video>
           </div>
         </motion.div>

@@ -41,7 +41,7 @@ export default function Home() {
         <HowItWorksSection />
         <TestimonialSection />
         <FAQSection />
-        <FooterSection />
+        {/* <FooterSection /> */}
       </div>
     </MotionProvider>
   );

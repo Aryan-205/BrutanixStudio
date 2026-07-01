@@ -22,9 +22,9 @@ export default function AboutPage() {
         <AboutPageIntro />
         <WorkSection />
 
-        <section id="contact" className="scroll-mt-6">
+        {/* <section id="contact" className="scroll-mt-6">
           <FooterSection />
-        </section>
+        </section> */}
       </div>
     </MotionProvider>
   );
