@@ -30,8 +30,8 @@ const FAQSection = () => {
               as="h2"
               trigger="inView"
               lines={["Common", "Questions"]}
-              className="text-7xl md:text-[120px] font-bold leading-[0.85] tracking-tighter uppercase"
-              lineClassName="text-7xl md:text-[120px] font-bold leading-[0.85] tracking-tighter uppercase"
+              className="text-5xl sm:text-6xl md:text-7xl lg:text-[120px] font-bold leading-[0.85] tracking-tighter uppercase"
+              lineClassName="text-5xl sm:text-6xl md:text-7xl lg:text-[120px] font-bold leading-[0.85] tracking-tighter uppercase"
             />
             <Reveal short delay={0.12} className="md:pt-4">
               <p className="text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] max-w-[120px]">

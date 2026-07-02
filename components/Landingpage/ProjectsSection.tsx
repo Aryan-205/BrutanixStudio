@@ -75,7 +75,7 @@ const PortfolioGrid = () => {
                   alt={project.title}
                   fill
                   sizes="(min-width: 768px) 45vw, 100vw"
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 rounded-2xl"
                 />
                 <div className="absolute inset-0 opacity-20 pointer-events-none mix-blend-multiply bg-[url('https://www.transparenttextures.com/patterns/p6.png')]" />
               </div>

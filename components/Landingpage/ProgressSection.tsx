@@ -294,7 +294,7 @@ function RadarChart() {
 
 const ProgressSection = () => {
   return (
-    <section className="bg-[#f9f9f9] h-screen px-6 py-16 font-sans text-[#1a1a1a] antialiased md:px-12 md:py-20 ">
+    <section className="bg-[#f9f9f9] min-h-screen h-auto md:h-screen px-6 py-16 font-sans text-[#1a1a1a] antialiased md:px-12 md:py-20 flex items-center">
       <div className="w-full">
         <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <h2 className="mt-2 text-3xl font-bold tracking-tight md:text-[2.35rem] md:leading-tight">
@@ -310,14 +310,14 @@ const ProgressSection = () => {
           </button>
         </div>
 
-        <p className="max-w-xl text-base leading-relaxed text-[#888] md:text-base">
+        <p className="max-w-xl text-base leading-relaxed text-[#888] md:text-base mt-4">
           <span className="font-semibold text-black">Solid Strategy</span>{" "}
           aligned with business needs and robust data analysis are fundamental
           ingredients to extract actionable insights
         </p>
 
-        <div className="mt-12 flex justify-between items-end">
-          <div className="flex flex-col w-1/2">
+        <div className="mt-12 flex flex-col lg:flex-row justify-between lg:items-end gap-12">
+          <div className="flex flex-col w-full lg:w-1/2">
 
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               {stats.map((stat) => (
@@ -342,7 +342,7 @@ const ProgressSection = () => {
             </div>
           </div>
 
-          <div className="flex items-center justify-center lg:pt-6 w-1/3">
+          <div className="flex items-center justify-center lg:pt-6 w-full lg:w-1/3">
             <RadarChart />
           </div>
         </div>

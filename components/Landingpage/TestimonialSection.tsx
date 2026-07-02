@@ -18,7 +18,7 @@ const quoteClassName =
 const testimonials = [
   {
     quote:
-      "Brutanix Studio is a hands-on team with applicable advice beyond design. They focus on the end-user and help improve retention. They're committed to Agile development methods, and they look into user data and user behavior when driving new features. They excel in user experience and big-picture thinking.",
+      "InvisiEdge Marketing is a hands-on team with applicable advice beyond design. They focus on the end-user and help improve retention. They're committed to Agile development methods, and they look into user data and user behavior when driving new features. They excel in user experience and big-picture thinking.",
     name: "Lexie Ernst",
     role: "CEO",
     image:
@@ -34,7 +34,7 @@ const testimonials = [
   },
   {
     quote:
-      "A master of design and Webflow, Brutanix built a brand that is beautiful and results-driven. They're one of a kind — strategic, fast, and deeply invested in outcomes that matter to our business.",
+      "A master of design and Webflow, InvisiEdge Marketing built a brand that is beautiful and results-driven. They're one of a kind — strategic, fast, and deeply invested in outcomes that matter to our business.",
     name: "Marcus Thorne",
     role: "Marketing Director, Everbridge",
     image:
@@ -86,7 +86,7 @@ const TestimonialSection = () => {
           <aside className="flex flex-col justify-between gap-10 lg:col-span-4">
             <div>
               <p className="text-sm font-medium text-[#8a8a8a] md:text-base">
-                06 — What Our Clients Say
+                What Our Clients Say
               </p>
               <p className="mt-4 max-w-xs text-sm leading-relaxed text-[#a3a3a3] md:text-[0.95rem]">
                 We partner with founders and brands worldwide to build digital

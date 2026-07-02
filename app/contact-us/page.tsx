@@ -145,6 +145,12 @@ export default function ContactUsPage() {
           </div>
         </section>
       </div>
+
+      {/* Spacer to scroll and reveal the fixed footer behind it */}
+      <div className="hidden md:block h-[480px] w-full pointer-events-none bg-white" />
+
+      {/* Sticky Scroll-Reveal Footer */}
+      <FooterSection />
     </MotionProvider>
   );
 }

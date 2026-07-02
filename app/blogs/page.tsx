@@ -5,7 +5,7 @@ import FooterSection from "@/components/Landingpage/FooterSection";
 import { MotionProvider } from "../MotionProvider";
 
 export const metadata: Metadata = {
-  title: "Blogs | Invisiedge",
+  title: "Blogs | InvisiEdge Marketing",
   description: "Insights, guides, and thoughts on design acceleration and SaaS marketing.",
 };
 
@@ -66,7 +66,7 @@ export default function BlogsPage() {
             on Design & Acceleration
           </h1>
           <p className="mt-6 text-base md:text-lg text-neutral-500 max-w-2xl mx-auto leading-relaxed">
-            Stay up to date with the latest tactics, technical tutorials, and product design philosophies from the Invisiedge team.
+            Stay up to date with the latest tactics, technical tutorials, and product design philosophies from the InvisiEdge Marketing team.
           </p>
         </section>
 
@@ -107,6 +107,11 @@ export default function BlogsPage() {
         </section>
       </div>
 
+      {/* Spacer to scroll and reveal the fixed footer behind it */}
+      <div className="hidden md:block h-[480px] w-full pointer-events-none bg-white" />
+
+      {/* Sticky Scroll-Reveal Footer */}
+      <FooterSection />
     </MotionProvider>
   );
 }

@@ -4,7 +4,7 @@ const gridItems = [1, 2, 3, 4, 5, 6];
 
 function ImageGrid({ side }: { side: "left" | "right" }) {
   return (
-    <div className="w-2/5 h-full grid grid-cols-2 gap-4">
+    <div className="hidden md:grid w-2/5 h-full grid-cols-2 gap-4">
       {gridItems.map((item) => (
         <div
           key={`${side}-${item}`}
@@ -23,7 +23,7 @@ function ImageGrid({ side }: { side: "left" | "right" }) {
 
 export default function Prototype() {
   return (
-    <section className="relative w-full bg-[#f9f9f9]">
+    <section className="relative w-full bg-[#080909]">
       <div className="relative h-[200vh] w-full">
         {/* Scrolls with the section, sits behind the sticky layer */}
         <div className="absolute inset-0 z-0 flex items-center justify-between">
@@ -32,11 +32,11 @@ export default function Prototype() {
         </div>
 
         {/* Sticky pins to the viewport top while the 200vh wrapper scrolls */}
-        <div className="sticky top-0 z-10 flex h-screen w-full items-center justify-center">
+        <div className="sticky top-0 z-10 flex h-screen w-full items-center justify-center px-4 md:px-0">
           <img
             src="/prototype/Container.png"
             alt="Prototype"
-            className="w-full h-full object-cover"
+            className="w-full h-full object-contain md:object-cover"
           />
         </div>
       </div>

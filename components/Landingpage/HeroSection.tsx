@@ -288,14 +288,14 @@ const HeroSection = () => {
   });
 
   const videoWidth = useTransform(videoScrollProgress, (progress) => {
-    const currentStart = placeholderRect.width || 768;
-    const currentEnd = stickyRect.width || 1024;
+    const currentStart = placeholderRect.width || (typeof window !== "undefined" ? Math.min(window.innerWidth - 32, 768) : 768);
+    const currentEnd = stickyRect.width || (typeof window !== "undefined" ? window.innerWidth : 1024);
     return `${currentStart + progress * (currentEnd - currentStart)}px`;
   });
 
   const videoHeight = useTransform(videoScrollProgress, (progress) => {
-    const currentStart = placeholderRect.height || 432;
-    const currentEnd = stickyRect.height || 768;
+    const currentStart = placeholderRect.height || (typeof window !== "undefined" ? Math.min((window.innerWidth - 32) * 9 / 16, 432) : 432);
+    const currentEnd = stickyRect.height || (typeof window !== "undefined" ? window.innerHeight : 768);
     return `${currentStart + progress * (currentEnd - currentStart)}px`;
   });
 
@@ -318,7 +318,7 @@ const HeroSection = () => {
     <section
       id="hero"
       ref={heroRef}
-      className="relative min-h-[115vh] overflow-x-clip bg-[#f9f9f9] px-4 pb-10 pt-5 font-sans text-[#111] selection:bg-[#ff6b2c] selection:text-white md:px-8 md:pb-14 md:pt-6"
+      className="relative min-h-[115vh] overflow-x-clip bg-[#f9f9f9] px-4 pt-5 font-sans text-[#111] selection:bg-[#ff6b2c] selection:text-white md:px-8 md:pt-6"
     >
 
       <div className="relative mx-auto mt-4 max-w-7xl md:mt-6">

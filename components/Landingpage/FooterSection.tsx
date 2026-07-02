@@ -4,11 +4,11 @@ import { ArrowRight, ArrowUpRight } from "lucide-react";
 
 export default function FooterSection() {
   return (
-    <footer className="fixed bottom-0 left-0 w-full h-[480px] z-0 bg-[#d2d6dc] text-black flex items-center select-none font-sans">
+    <footer className="relative md:fixed md:bottom-0 md:left-0 w-full h-auto md:h-[480px] z-10 md:z-0 bg-[#d2d6dc] text-black flex items-center select-none font-sans py-12 md:py-0">
       <div className="max-w-7xl mx-auto w-full px-6 md:px-12 grid grid-cols-1 md:grid-cols-12 gap-8 relative py-8 md:py-12">
 
         {/* Left Column (Span 5 cols) */}
-        <div className="md:col-span-5 flex flex-col justify-between h-full min-h-[300px]">
+        <div className="md:col-span-5 flex flex-col justify-between h-auto md:h-full md:min-h-[300px] gap-6 md:gap-0">
           <div>
             <h2 className="text-4xl md:text-5xl lg:text-[3.5rem] font-bold tracking-tight leading-[1.05] text-black mb-4">
               We would love to hear from you.
@@ -40,7 +40,7 @@ export default function FooterSection() {
               href="mailto:info@awsmd.com"
               className="text-sm font-bold underline hover:text-neutral-700 block mb-4"
             >
-              info@Invisiedge.com
+              info@invisiedge.com
             </a>
           </div>
           <div>

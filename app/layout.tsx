@@ -13,9 +13,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Invisiedge",
+  title: "InvisiEdge Marketing",
   description:
-    "Invisiedge is a digital studio that creates stunning brands and digital experiences.",
+    "InvisiEdge Marketing is a marketing agency that creates stunning brands and digital experiences.",
 };
 
 export default function RootLayout({

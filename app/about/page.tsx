@@ -7,15 +7,15 @@ import FooterSection from "@/components/Landingpage/FooterSection";
 import { MotionProvider } from "../MotionProvider";
 
 export const metadata: Metadata = {
-  title: "About Us | Invisiedge",
+  title: "About Us | InvisiEdge Marketing",
   description:
-    "Invisiedge is a marketing and development agency helping brands grow through strategy, design, and technology.",
+    "InvisiEdge Marketing is a marketing and development agency helping brands grow through strategy, design, and technology.",
 };
 
 export default function AboutPage() {
   return (
     <MotionProvider>
-      <div className="relative z-10 min-h-screen w-full overflow-x-clip bg-[#F9F9F9] shadow-[0_20px_50px_rgba(0,0,0,0.15)] pb-10">
+      <div className="relative z-10 min-h-screen w-full overflow-x-clip bg-[#F9F9F9] shadow-[0_20px_50px_rgba(0,0,0,0.15)] pb-10 rounded-b-3xl">
         <header className="px-4 pt-5 md:px-8 md:pt-6">
           <Navbar />
         </header>
@@ -24,6 +24,12 @@ export default function AboutPage() {
         <WorkSection />
         <FAQSection />
       </div>
+
+      {/* Spacer to scroll and reveal the fixed footer behind it */}
+      <div className="hidden md:block h-[480px] w-full pointer-events-none bg-white" />
+
+      {/* Sticky Scroll-Reveal Footer */}
+      <FooterSection />
     </MotionProvider>
   );
 }

@@ -7,7 +7,7 @@ const introText =
   "We are a marketing and development agency that helps ambitious brands grow through strategy, design, and technology.";
 
 const paragraphs = [
-  "Invisiedge partners with startups and established companies to build digital products, launch campaigns, and create brand experiences that convert. From brand identity and content strategy to custom web development, we bring one integrated team to every challenge.",
+  "InvisiEdge Marketing partners with startups and established companies to build digital products, launch campaigns, and create brand experiences that convert. From brand identity and content strategy to custom web development, we bring one integrated team to every challenge.",
   "Our approach blends creative marketing with engineering discipline. We research your audience, define a clear growth roadmap, and ship work that looks exceptional and performs in the real world — faster launches, stronger retention, and measurable ROI.",
   "Whether you need a full-funnel marketing partner, a product built from scratch, or a redesign that elevates your brand, we work closely with you at every step — transparent, agile, and focused on outcomes that matter.",
 ];

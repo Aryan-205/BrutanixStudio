@@ -64,7 +64,7 @@ const HowItWorks = () => {
             <Reveal
               key={index}
               delay={index * 0.08}
-              className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 py-16 md:py-20 border-b border-gray-100 items-center group cursor-pointer"
+              className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 py-12 md:py-14 items-center group cursor-pointer"
             >
               <div className="md:col-span-4 flex flex-col gap-2">
                 <span className="text-sm font-medium text-gray-500">

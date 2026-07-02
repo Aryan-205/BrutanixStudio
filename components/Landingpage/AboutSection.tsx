@@ -13,7 +13,7 @@ const AboutSection = () => {
   return (
     <section
       id="about"
-      className="scroll-mt-6 bg-[#F9F9F9] text-black px-6 md:px-12 py-24 md:py-40"
+      className=" bg-[#080909] text-white px-6 md:px-12 py-24 md:py-40"
     >
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-4">
         <div className="md:col-start-4 md:col-span-1">

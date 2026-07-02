@@ -36,7 +36,7 @@ export default function Home() {
         <HeroSection />
         <AboutSection />
         <SolutionsSection />
-        <ProgressSection />
+        {/* <ProgressSection /> */}
         <Prototype />
         <ProjectsSection />
         <HowItWorksSection />
@@ -44,7 +44,7 @@ export default function Home() {
       </div>
 
       {/* Spacer to scroll and reveal the fixed footer behind it */}
-      <div className="h-[480px] w-full pointer-events-none bg-white" />
+      <div className="hidden md:block h-[480px] w-full pointer-events-none bg-white" />
 
       {/* Sticky Scroll-Reveal Footer */}
       <FooterSection />
