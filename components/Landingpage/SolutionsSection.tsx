@@ -322,7 +322,7 @@ function SolutionCard({
         rotate: rotateVal,
         opacity: opacityVal,
       }}
-      className="group relative flex min-h-70 w-full min-w-0 flex-col justify-between rounded-[1.75rem] bg-[#0a0a0a] p-7 md:min-h-76 md:p-8 shadow-[inset_1px_1px_10px_1px_rgba(255,255,255,0.1),inset_-4px_-4px_10px_0px_rgba(0,0,0,1)] border border-[#1c1c1c]"
+      className="group relative flex min-h-70 w-full min-w-0 flex-col justify-between rounded-[1.75rem] bg-[#0a0a0a] p-7 md:min-h-76 md:p-8 shadow-[inset_1px_1px_10px_1px_rgba(255,255,255,0.1),inset_-4px_-4px_20px_0px_rgba(0,0,0,1)] border border-[#1c1c1c]"
     >
       <StatCardContent variant={variant} value={value} description={description} />
     </motion.article>

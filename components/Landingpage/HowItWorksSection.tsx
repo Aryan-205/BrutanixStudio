@@ -59,7 +59,7 @@ const HowItWorks = () => {
           </Reveal>
         </div>
 
-        <div className="flex flex-col border-t border-gray-100">
+        <div className="flex flex-col">
           {steps.map((step, index) => (
             <Reveal
               key={index}
@@ -89,7 +89,7 @@ const HowItWorks = () => {
                       alt={step.title}
                       fill
                       sizes="(min-width: 768px) 60vw, 95vw"
-                      className="w-full h-full object-cover scale-95 rounded-2xl md:rounded-3xl shadow-2xl"
+                      className="w-full h-full object-cover rounded-2xl md:rounded-3xl shadow-2xl"
                     />
                   </div>
                 </div>

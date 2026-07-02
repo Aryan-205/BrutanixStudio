@@ -4,6 +4,7 @@ import HeroSection from "@/components/Landingpage/HeroSection";
 import AboutSection from "@/components/Landingpage/AboutSection";
 import WorkSection from "@/components/Landingpage/WorkSection";
 import ProjectsSection from "@/components/Landingpage/ProjectsSection";
+import ServicesSection from "@/components/Landingpage/ServicesSection";
 import SolutionsSection from "@/components/Landingpage/SolutionsSection";
 import HowItWorksSection from "@/components/Landingpage/HowItWorksSection";
 import ProgressSection from "@/components/Landingpage/ProgressSection";
@@ -39,6 +40,7 @@ export default function Home() {
         {/* <ProgressSection /> */}
         <Prototype />
         <ProjectsSection />
+        <ServicesSection />
         <HowItWorksSection />
         <TestimonialSection />
       </div>

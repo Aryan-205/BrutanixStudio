@@ -1,6 +1,7 @@
 import React from "react";
 import { Reveal } from "@/components/motion/Reveal";
 import { RevealWords } from "@/components/motion/RevealWords";
+import BrandLogo from "../BrandLogo";
 
 const aboutLines = [
   "Ethan Suero is an independent designer focused on crafting immersive digital experiences.",
@@ -13,8 +14,13 @@ const AboutSection = () => {
   return (
     <section
       id="about"
-      className=" bg-[#080909] text-white px-6 md:px-12 py-24 md:py-40"
+      className="relative bg-[#080909] text-white px-6 md:px-12 py-24 md:py-40 overflow-hidden"
     >
+      <div className="absolute top-0 left-0">
+        <div className="opacity-20 translate-x-1/2 translate-y-1/2 scale-150 grayscale">
+          <BrandLogo />
+        </div>
+      </div>
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-4">
         <div className="md:col-start-4 md:col-span-1">
           <Reveal short className="block">

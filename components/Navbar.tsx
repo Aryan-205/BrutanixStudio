@@ -16,7 +16,7 @@ export default function Navbar({ animated = false }: NavbarProps) {
   const pathname = usePathname();
   const reduce = useReducedMotion();
   const [isOpen, setIsOpen] = useState(false);
-  
+
   const isAbout = pathname === "/about";
   const isContact = pathname === "/contact-us";
   const isProjects = pathname === "/projects";
@@ -25,9 +25,7 @@ export default function Navbar({ animated = false }: NavbarProps) {
 
   const linkClass = (active: boolean) =>
     `relative py-1 text-sm font-medium transition-colors duration-300 ${
-      active 
-        ? "text-black font-semibold" 
-        : "text-[#555] hover:text-black"
+      active ? "text-black font-semibold" : "text-[#555] hover:text-black"
     }`;
 
   const navLinks = [
@@ -40,10 +38,12 @@ export default function Navbar({ animated = false }: NavbarProps) {
 
   return (
     <motion.nav
-      className={`absolute top-4 left-1/2 max-w-3xl w-[calc(100%-2rem)] z-50 flex flex-col md:flex-row md:items-center justify-between gap-4 border border-gray-200 bg-white/85 px-4 py-3 md:px-2 md:py-2 shadow-[0_12px_40px_rgba(0,0,0,0.06)] backdrop-blur-lg transition-all duration-300 ${
+      className={`fixed top-4 left-1/2 max-w-3xl w-[calc(100%-2rem)] z-50 flex flex-col md:flex-row md:items-center justify-between gap-4 border border-gray-200 bg-white/85 px-4 py-3 md:px-2 md:py-2 shadow-[0_12px_40px_rgba(0,0,0,0.06)] backdrop-blur-lg transition-all duration-300 ${
         isOpen ? "rounded-3xl" : "rounded-full"
       }`}
-      initial={animated && !reduce ? { opacity: 0, y: -24, x: "-50%" } : { x: "-50%" }}
+      initial={
+        animated && !reduce ? { opacity: 0, y: -24, x: "-50%" } : { x: "-50%" }
+      }
       animate={{ opacity: 1, y: 0, x: "-50%" }}
       transition={{ duration: 0.6, ease: easePremium }}
     >
@@ -105,7 +105,9 @@ export default function Navbar({ animated = false }: NavbarProps) {
               href={link.href}
               onClick={() => setIsOpen(false)}
               className={`text-sm py-1 font-medium transition-colors ${
-                link.active ? "text-[#ff6b2c] font-semibold" : "text-[#555] hover:text-black"
+                link.active
+                  ? "text-[#ff6b2c] font-semibold"
+                  : "text-[#555] hover:text-black"
               }`}
             >
               {link.label}

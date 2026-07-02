@@ -80,7 +80,7 @@ const TestimonialSection = () => {
   }, [active, current.quote]);
 
   return (
-    <section className="w-full bg-[#f9f9f9] px-6 py-16 font-sans text-[#1a1a1a] antialiased md:px-12 md:py-24">
+    <section className="w-full h-[80vh] bg-[#f9f9f9] px-6 py-16 font-sans text-[#1a1a1a] antialiased md:px-12 md:py-24">
       <div className="mx-auto max-w-7xl">
         <div className="grid grid-cols-1 items-stretch gap-12 lg:grid-cols-12 lg:gap-16">
           <aside className="flex flex-col justify-between gap-10 lg:col-span-4">
