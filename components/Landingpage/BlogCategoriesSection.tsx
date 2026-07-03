@@ -42,26 +42,26 @@ function CategoryCard({
 
   return (
     <motion.div
-      className="group relative overflow-hidden rounded-4xl border border-black/[0.06] bg-white p-6 shadow-[0_2px_24px_rgba(0,0,0,0.04)] transition-[box-shadow,border-color] duration-500 hover:border-[#5210F8]/15 hover:shadow-[0_16px_48px_rgba(82,16,248,0.08)]"
-      whileHover={reduce ? undefined : { y: -4 }}
-      transition={{ duration: 0.45, ease: easePremium }}
+      className="group relative overflow-hidden rounded-4xl border border-neutral-200/50 bg-linear-to-br from-neutral-50/50 to-white p-6 shadow-[0_2px_16px_rgba(0,0,0,0.01)] transition-[box-shadow,border-color] duration-500 hover:border-brand-purple/20 hover:shadow-[0_16px_40px_rgba(82,16,248,0.05)] cursor-pointer"
+      whileHover={reduce ? undefined : { y: -5 }}
+      transition={{ duration: 0.4, ease: easePremium }}
     >
-      <div className="pointer-events-none absolute -right-4 -top-4 h-20 w-20 rounded-full bg-[#C47DFD]/[0.06] transition-transform duration-500 group-hover:scale-150" />
+      <div className="pointer-events-none absolute -right-4 -top-4 h-20 w-20 rounded-full bg-brand-purple/20 transition-transform duration-500 group-hover:scale-150" />
 
       <div className="relative flex items-start justify-between gap-4">
-        <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-linear-to-br from-[#5210F8]/10 to-[#C47DFD]/10 text-[#5210F8] transition-colors duration-500 group-hover:from-[#5210F8] group-hover:to-[#072C55] group-hover:text-white">
-          <Icon className="h-4 w-4" strokeWidth={1.75} />
+        <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-brand-purple/[0.06] text-brand-purple transition-colors duration-500 group-hover:from-brand-purple group-hover:to-brand-navy group-hover:text-white hover:bg-brand-purple/20">
+          <Icon className="h-4 w-4 transition-transform duration-300 hover:text-white group-hover:rotate-6" strokeWidth={1.75} />
         </div>
-        <span className="text-xs font-semibold tabular-nums text-neutral-300 transition-colors duration-500 group-hover:text-[#C47DFD]">
+        <span className="text-xs font-bold tabular-nums text-neutral-300 transition-colors duration-500 group-hover:text-brand-purple bg-neutral-100/50 border border-neutral-200/20 px-2 py-0.5 rounded-md">
           {String(index + 1).padStart(2, "0")}
         </span>
       </div>
 
-      <p className="relative mt-5 text-base font-semibold tracking-[-0.03em] text-[#072C55]">
+      <p className="relative mt-5 text-base font-bold tracking-tight text-neutral-900 group-hover:text-brand-purple transition-colors duration-300">
         {category}
       </p>
 
-      <div className="relative mt-4 h-px w-full bg-black/[0.05] transition-all duration-500 group-hover:bg-linear-to-r group-hover:from-[#5210F8]/30 group-hover:to-transparent" />
+      <div className="relative mt-4 h-px w-full bg-black/[0.05] transition-all duration-500 group-hover:bg-linear-to-r group-hover:from-brand-purple/40 group-hover:to-transparent" />
     </motion.div>
   );
 }
@@ -70,14 +70,9 @@ export default function BlogCategoriesSection() {
   return (
     <section className="px-6 pb-20 md:px-12 md:pb-28">
       <div className="mx-auto max-w-7xl">
-        <div className="grid grid-cols-1 items-end gap-6 md:grid-cols-12 md:gap-8">
-          <Reveal className="md:col-span-4">
-            <span className="text-[10px] font-bold uppercase tracking-[0.22em] text-[#5210F8]/80 md:text-xs">
-              Blog Categories
-            </span>
-          </Reveal>
+        <div className="grid grid-cols-1 items-end gap-6 md:gap-8">
           <Reveal delay={0.06} className="md:col-span-8">
-            <h2 className="text-2xl font-semibold leading-[1.1] tracking-tight text-[#111] sm:text-3xl md:text-[2.25rem]">
+            <h2 className="text-2xl font-bold leading-[1.1] tracking-tight text-neutral-900 sm:text-3xl md:text-[2.25rem]">
               Explore topics across branding, growth, and digital strategy
             </h2>
           </Reveal>

@@ -205,7 +205,7 @@ function DevelopmentVisual() {
     <div className="relative h-full min-h-72 w-full overflow-hidden">
       <svg
         viewBox={`0 0 ${DEV_VIEWBOX.w} ${DEV_VIEWBOX.h}`}
-        className="h-full w-full"
+        className="h-full w-full bg-red-500"
         preserveAspectRatio="xMidYMax meet"
         aria-hidden
       >

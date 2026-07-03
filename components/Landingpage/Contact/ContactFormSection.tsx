@@ -13,10 +13,10 @@ import { StaggerChildren } from "@/components/motion/StaggerChildren";
 import { easePremium, viewportDefault } from "@/components/motion/presets";
 
 const inputClassName =
-  "w-full rounded-2xl border border-neutral-200/70 bg-neutral-50/50 px-4 py-3.5 text-sm text-neutral-900 placeholder:text-neutral-400 outline-none transition-all duration-300 hover:border-neutral-300 hover:bg-white focus:border-[#5210F8] focus:bg-white focus:shadow-[0_0_0_4px_rgba(82,16,248,0.1)] tracking-[-0.02em]";
+  "w-full rounded-xl border border-neutral-200 bg-neutral-50/30 px-4.5 py-3.5 text-sm text-neutral-900 placeholder:text-neutral-400 outline-none transition-all duration-300 hover:border-neutral-350 hover:bg-white focus:border-[#5210F8] focus:bg-white focus:shadow-[0_0_0_4px_rgba(82,16,248,0.08)] tracking-tight";
 
 const labelClassName =
-  "text-[11px] font-semibold uppercase tracking-[0.14em] text-neutral-500";
+  "text-[10px] font-bold uppercase tracking-[0.15em] text-neutral-400 select-none";
 
 const serviceOptions = [
   "Brand Strategy & Positioning",
@@ -58,18 +58,18 @@ function InfoItem({
 
   return (
     <motion.div
-      className="group flex gap-4 rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur-sm transition-colors hover:bg-white/10"
+      className="group flex gap-4 rounded-2xl border border-white/5 bg-white/5 p-4.5 backdrop-blur-md transition-all duration-300 hover:bg-white/10 hover:border-white/10"
       whileHover={reduce ? undefined : { x: 4 }}
       transition={{ duration: 0.3, ease: easePremium }}
     >
-      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white/10 text-[#C47DFD] transition-colors group-hover:bg-white/15">
-        <Icon className="h-4 w-4" strokeWidth={1.75} />
+      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white/10 text-brand-lavender transition-all duration-300 group-hover:bg-white/15 group-hover:scale-105">
+        <Icon className="h-4.5 w-4.5" strokeWidth={1.75} />
       </div>
       <div>
-        <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-white/50">
+        <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-white/40">
           {label}
         </p>
-        <div className="mt-1 text-sm font-medium leading-relaxed text-white/90 tracking-[-0.02em]">
+        <div className="mt-1 text-sm font-semibold leading-relaxed text-white/90 tracking-tight">
           {children}
         </div>
       </div>
@@ -127,10 +127,14 @@ export default function ContactFormSection() {
   const reduce = useReducedMotion();
 
   return (
-    <section className="mx-auto max-w-6xl px-6 pb-20 md:px-12 md:pb-28">
+    <section className="mx-auto max-w-6xl px-6 pb-20 md:px-12 md:pb-28 relative">
+      {/* Dynamic background highlights */}
+      <div className="absolute right-[-10%] bottom-0 h-96 w-96 rounded-full bg-brand-lavender/[0.03] blur-[120px] pointer-events-none" />
+      <div className="absolute left-[-5%] top-1/4 h-80 w-80 rounded-full bg-brand-purple/[0.02] blur-[100px] pointer-events-none" />
+
       <Reveal delay={0.1}>
         <motion.div
-          className="overflow-hidden rounded-[2rem] border border-neutral-200/60 bg-white shadow-[0_32px_80px_-16px_rgba(82,16,248,0.12)]"
+          className="overflow-hidden rounded-[2.5rem] border border-neutral-200/50 bg-white shadow-[0_24px_64px_-16px_rgba(82,16,248,0.06)]"
           initial={reduce ? false : { opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={viewportDefault}
@@ -138,27 +142,29 @@ export default function ContactFormSection() {
         >
           <div className="grid grid-cols-1 lg:grid-cols-12">
             {/* Info panel */}
-            <div className="relative flex flex-col justify-between overflow-hidden bg-linear-to-br from-[#5210F8] via-[#4012c4] to-[#072C55] p-8 md:p-10 lg:col-span-5 lg:min-h-[640px]">
-              <div className="pointer-events-none absolute -right-16 -top-10 opacity-[0.07]">
+            <div className="relative flex flex-col justify-between overflow-hidden bg-gradient-to-br from-brand-purple via-[#390bc5] to-brand-navy p-8 md:p-12 lg:col-span-5 lg:min-h-[660px]">
+              {/* Noise and mesh overlay */}
+              <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(196,125,253,0.15),transparent_50%)] pointer-events-none" />
+              <div className="pointer-events-none absolute -right-16 -top-10 opacity-[0.05]">
                 <div className="scale-125 grayscale">
                   <BrandLogo />
                 </div>
               </div>
 
-              <div className="relative">
+              <div className="relative z-10">
                 <span className="text-[10px] font-bold uppercase tracking-[0.22em] text-[#C47DFD]">
                   Get in touch
                 </span>
-                <h3 className="mt-3 text-2xl font-bold tracking-[-0.03em] text-white md:text-3xl">
-                  Let&apos;s build something great together
+                <h3 className="mt-3 text-2xl font-extrabold tracking-tight text-white md:text-3xl leading-snug">
+                  Let's build something great together
                 </h3>
-                <p className="mt-4 max-w-sm text-sm leading-relaxed text-white/65 tracking-[-0.02em]">
+                <p className="mt-4 max-w-sm text-sm leading-relaxed text-white/65 tracking-tight font-medium">
                   Whether you have an upcoming project or want to explore a
-                  partnership, our team is ready to help you grow.
+                  strategic partnership, our team is ready to help you grow.
                 </p>
 
                 <StaggerChildren
-                  className="mt-8 flex flex-col gap-3"
+                  className="mt-10 flex flex-col gap-4"
                   staggerDelay={0.08}
                 >
                   <InfoItem icon={Mail} label="Our Email">
@@ -175,19 +181,19 @@ export default function ContactFormSection() {
                 </StaggerChildren>
               </div>
 
-              <div className="relative mt-10 lg:mt-0">
-                <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-white/45">
+              <div className="relative z-10 mt-12 lg:mt-0">
+                <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-white/40">
                   Connect with us
                 </p>
-                <div className="mt-4 flex flex-wrap gap-2">
+                <div className="mt-4 flex flex-wrap gap-2.5">
                   {socialLinks.map(({ label, href }) => (
                     <motion.a
                       key={label}
                       href={href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="rounded-full border border-white/15 bg-white/5 px-4 py-2 text-xs font-medium text-white/80 backdrop-blur-sm transition-colors hover:border-white/30 hover:bg-white/10 hover:text-white tracking-[-0.02em]"
-                      whileHover={reduce ? undefined : { scale: 1.04, y: -1 }}
+                      className="rounded-full border border-white/10 bg-white/5 px-4.5 py-2.5 text-xs font-bold text-white/80 backdrop-blur-md transition-colors hover:border-white/20 hover:bg-white/10 hover:text-white tracking-tight"
+                      whileHover={reduce ? undefined : { scale: 1.03, y: -1 }}
                       whileTap={reduce ? undefined : { scale: 0.97 }}
                       transition={{ duration: 0.25, ease: easePremium }}
                     >
@@ -200,15 +206,15 @@ export default function ContactFormSection() {
 
             {/* Form panel */}
             <form
-              className="flex flex-col gap-5 p-8 md:gap-6 md:p-10 lg:col-span-7"
+              className="flex flex-col gap-5 p-8 md:gap-6 md:p-12 lg:col-span-7 justify-center"
               onSubmit={(e) => e.preventDefault()}
             >
               <div>
-                <h4 className="text-lg font-semibold tracking-[-0.03em] text-neutral-900">
+                <h4 className="text-xl font-bold tracking-tight text-neutral-900">
                   Send us a message
                 </h4>
-                <p className="mt-1 text-sm text-neutral-500 tracking-[-0.02em]">
-                  Fill in the details below and we&apos;ll get back to you shortly.
+                <p className="mt-1.5 text-sm text-neutral-500 tracking-tight">
+                  Fill in the details below and we'll get back to you shortly.
                 </p>
               </div>
 
@@ -316,13 +322,12 @@ export default function ContactFormSection() {
 
                 <motion.button
                   type="submit"
-                  className="group mt-1 flex w-full items-center justify-center gap-2 rounded-2xl bg-[#5210F8] px-6 py-4 text-sm font-semibold text-white shadow-[0_12px_32px_rgba(82,16,248,0.35)] transition-colors duration-300 hover:bg-[#4210d0] tracking-[-0.02em]"
+                  className="group mt-2 flex w-full items-center justify-center gap-2 rounded-xl bg-brand-purple px-6 py-4 text-sm font-bold text-white shadow-[0_8px_24px_rgba(82,16,248,0.25)] transition-all duration-300 hover:bg-[#4210d0] hover:shadow-[0_12px_32px_rgba(82,16,248,0.35)] tracking-tight cursor-pointer"
                   whileHover={
                     reduce
                       ? undefined
                       : {
                           scale: 1.01,
-                          boxShadow: "0 16px 40px rgba(82,16,248,0.42)",
                         }
                   }
                   whileTap={reduce ? undefined : { scale: 0.98 }}

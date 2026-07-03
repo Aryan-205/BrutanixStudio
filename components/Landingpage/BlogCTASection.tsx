@@ -11,7 +11,7 @@ export default function BlogCTASection() {
   const reduce = useReducedMotion();
 
   return (
-    <section className="relative overflow-hidden bg-linear-to-b from-[#5210F8] to-[#072C55] px-6 py-20 text-white md:px-12 md:py-28">
+    <section className="relative px-6 py-20 md:px-12 md:py-28">
       <motion.div
         className="pointer-events-none absolute -left-20 top-1/2 h-80 w-80 -translate-y-1/2 rounded-full bg-[#C47DFD]/20 blur-3xl"
         animate={reduce ? undefined : { scale: [1, 1.15, 1], opacity: [0.3, 0.5, 0.3] }}
@@ -31,12 +31,12 @@ export default function BlogCTASection() {
 
       <div className="relative mx-auto max-w-3xl text-center">
         <Reveal>
-          <h2 className="text-3xl font-bold tracking-[-0.03em] md:text-4xl lg:text-5xl">
+          <h2 className="text-3xl font-bold tracking-[-0.03em] text-black md:text-4xl lg:text-5xl">
             {blogCTA.headline}
           </h2>
         </Reveal>
         <Reveal delay={0.12}>
-          <p className="mx-auto mt-5 max-w-xl text-base leading-relaxed text-white/70 md:text-lg">
+          <p className="mx-auto mt-5 max-w-xl text-base leading-relaxed text-black/80 md:text-lg">
             Get a personalized audit of your brand, website, and marketing
             systems — built around your growth goals.
           </p>
@@ -44,15 +44,18 @@ export default function BlogCTASection() {
         <Reveal delay={0.22}>
           <motion.div
             className="mt-10"
-            whileHover={reduce ? undefined : { scale: 1.03 }}
-            whileTap={reduce ? undefined : { scale: 0.97 }}
+            whileHover={reduce ? undefined : { scale: 1.02 }}
+            whileTap={reduce ? undefined : { scale: 0.98 }}
             transition={{ duration: 0.3, ease: easePremium }}
           >
             <Link
               href={blogCTA.href}
-              className="inline-block rounded-full bg-white px-8 py-3.5 text-sm font-semibold text-[#5210F8] shadow-[0_8px_32px_rgba(0,0,0,0.15)] transition-shadow duration-300 hover:shadow-[0_12px_40px_rgba(0,0,0,0.2)]"
+              className="group inline-flex items-center gap-2.5 rounded-full bg-linear-to-br from-brand-purple to-brand-navy px-8 py-4 text-sm font-bold text-white shadow-sm transition-all duration-300 hover:shadow-md"
             >
               {blogCTA.buttonLabel}
+              <span className="transition-transform duration-300 group-hover:translate-x-1">
+                →
+              </span>
             </Link>
           </motion.div>
         </Reveal>

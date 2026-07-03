@@ -27,9 +27,13 @@ function ServiceList({
   items: string[];
   variant: "services" | "benefits";
 }) {
+  const isBenefits = variant === "benefits";
+  
   return (
-    <div className="rounded-3xl border border-black/[0.05] bg-white/60 p-6 backdrop-blur-sm md:p-7">
-      <h4 className="text-[11px] font-bold uppercase tracking-[0.18em] text-[#5210F8]">
+    <div className={`rounded-3xl border border-neutral-200/40 p-6 backdrop-blur-sm md:p-7 bg-gradient-to-br ${
+      isBenefits ? "from-brand-lavender/[0.02] to-white/90" : "from-brand-purple/[0.02] to-white/90"
+    }`}>
+      <h4 className={`text-[11px] font-bold uppercase tracking-[0.18em] ${isBenefits ? "text-brand-lavender" : "text-brand-purple"}`}>
         {title}
       </h4>
       <ul className="mt-5 space-y-3">
@@ -45,8 +49,8 @@ function ServiceList({
             <span
               className={`mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full ${
                 variant === "benefits"
-                  ? "bg-[#5210F8]/10 text-[#5210F8]"
-                  : "bg-[#C47DFD]/15 text-[#5210F8]"
+                  ? "bg-brand-lavender/10 text-brand-lavender"
+                  : "bg-brand-purple/10 text-brand-purple"
               }`}
             >
               <Check className="h-3 w-3" strokeWidth={2.5} />
@@ -83,24 +87,24 @@ function ServiceBlock({
         id={slug}
         onViewportEnter={onActivate}
         viewport={{ amount: 0.35, margin: "-20% 0px -35% 0px" }}
-        className={`group relative scroll-mt-32 overflow-hidden rounded-4xl border transition-[border-color,box-shadow] duration-500 ${
+        className={`group relative scroll-mt-32 overflow-hidden rounded-[2rem] border transition-[border-color,box-shadow] duration-500 ${
           isActive
-            ? "border-[#5210F8]/20 shadow-[0_12px_40px_rgba(82,16,248,0.08)]"
-            : "border-black/[0.06] shadow-[0_2px_20px_rgba(0,0,0,0.03)]"
+            ? "border-brand-purple/20 shadow-[0_12px_40px_rgba(82,16,248,0.06)]"
+            : "border-neutral-200/50 shadow-[0_2px_20px_rgba(0,0,0,0.02)]"
         } bg-white`}
         whileHover={
           reduce ? undefined : { borderColor: "rgba(82, 16, 248, 0.15)" }
         }
       >
-        <div className="pointer-events-none absolute -right-4 -top-8 select-none text-[7rem] font-bold leading-none text-[#5210F8]/[0.04] transition-colors duration-500 group-hover:text-[#5210F8]/[0.07] md:text-[9rem]">
+        <div className="pointer-events-none absolute -right-4 -top-8 select-none text-[7rem] font-bold leading-none text-[#5210F8]/[0.03] transition-colors duration-500 group-hover:text-[#5210F8]/[0.06] md:text-[9rem] font-sans">
           {number}
         </div>
 
-        <div className="absolute left-0 top-0 h-full w-1 bg-linear-to-b from-[#5210F8] to-[#C47DFD] opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+        <div className="absolute left-0 top-0 h-full w-1 bg-gradient-to-b from-[#5210F8] to-[#C47DFD] opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
         {isActive && (
           <motion.div
             layoutId="service-active-bar"
-            className="absolute left-0 top-0 h-full w-1 bg-linear-to-b from-[#5210F8] to-[#C47DFD]"
+            className="absolute left-0 top-0 h-full w-1 bg-gradient-to-b from-[#5210F8] to-[#C47DFD]"
             transition={{ duration: 0.4, ease: easePremium }}
           />
         )}
@@ -113,19 +117,19 @@ function ServiceBlock({
             aria-expanded={isOpen}
           >
             <div className="flex items-start gap-4 md:gap-5">
-              <span className="mt-1 flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#5210F8]/10 text-xs font-bold text-[#5210F8]">
+              <span className="mt-1 flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-brand-purple/10 text-xs font-bold text-brand-purple">
                 {number}
               </span>
-              <h3 className="text-2xl font-semibold tracking-tight text-[#111] md:text-[1.75rem]">
+              <h3 className="text-2xl font-bold tracking-tight text-neutral-900 md:text-[1.75rem] group-hover:text-brand-purple transition-colors duration-300">
                 {service.title}
               </h3>
             </div>
             <motion.span
-              className="mt-1 flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[#5210F8]/15 bg-[#5210F8]/5 md:hidden"
+              className="mt-1 flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-brand-purple/15 bg-brand-purple/5 md:hidden"
               animate={{ rotate: isOpen ? 180 : 0 }}
               transition={{ duration: 0.35, ease: easePremium }}
             >
-              <ChevronDown className="h-4 w-4 text-[#5210F8]" />
+              <ChevronDown className="h-4 w-4 text-brand-purple" />
             </motion.span>
           </button>
 
@@ -194,8 +198,8 @@ function ServiceNav({
   onSelect: (index: number) => void;
 }) {
   return (
-    <nav className="sticky top-28 hidden flex-col gap-1 lg:flex">
-      <span className="mb-4 text-[10px] font-bold uppercase tracking-[0.22em] text-neutral-400">
+    <nav className="sticky top-28 hidden flex-col gap-1.5 lg:flex p-2.5 rounded-[2rem] border border-neutral-200/40 bg-white/60 backdrop-blur-md shadow-[0_8px_32px_rgba(0,0,0,0.01)]">
+      <span className="mb-4 px-3 text-[10px] font-bold uppercase tracking-[0.22em] text-neutral-400">
         All Services
       </span>
       {serviceDetails.map((service, index) => {
@@ -210,10 +214,10 @@ function ServiceNav({
                 .getElementById(serviceSlugs[index])
                 ?.scrollIntoView({ behavior: "smooth", block: "start" });
             }}
-            className={`group flex items-center gap-3 rounded-2xl px-3 py-2.5 text-left transition-all duration-300 ${
+            className={`group flex items-center gap-3 rounded-2xl px-4 py-3 text-left transition-all duration-300 border border-transparent ${
               isActive
-                ? "bg-white shadow-[0_4px_20px_rgba(82,16,248,0.08)]"
-                : "hover:bg-white/70"
+                ? "bg-white shadow-[0_8px_24px_rgba(82,16,248,0.06)] border-brand-purple/10"
+                : "hover:bg-white/80 hover:border-neutral-200/30"
             }`}
           >
             <span
@@ -224,7 +228,7 @@ function ServiceNav({
               {String(index + 1).padStart(2, "0")}
             </span>
             <span
-              className={`text-sm font-medium leading-snug transition-colors duration-300 ${
+              className={`text-sm font-semibold leading-snug transition-colors duration-300 ${
                 isActive ? "text-[#111]" : "text-neutral-500 group-hover:text-neutral-700"
               }`}
             >
@@ -250,7 +254,7 @@ export default function ServicesDetailsSection() {
             </span>
           </Reveal>
           <Reveal delay={0.06} className="md:col-span-8">
-            <h2 className="text-3xl font-semibold leading-[1.1] tracking-tight text-[#111] sm:text-4xl md:text-[2.75rem]">
+            <h2 className="text-3xl font-bold tracking-tight text-neutral-900 sm:text-4xl md:text-[2.75rem]">
               Service Details
             </h2>
             <p className="mt-4 max-w-xl text-base leading-relaxed text-neutral-500 md:text-[17px]">
@@ -260,7 +264,7 @@ export default function ServicesDetailsSection() {
           </Reveal>
         </div>
 
-        <div className="mt-14 grid grid-cols-1 gap-10 lg:grid-cols-[240px_1fr] lg:gap-14 xl:grid-cols-[260px_1fr]">
+        <div className="mt-14 grid grid-cols-1 gap-10 lg:grid-cols-[260px_1fr] lg:gap-14 xl:grid-cols-[280px_1fr]">
           <ServiceNav
             activeIndex={activeIndex}
             onSelect={setActiveIndex}

@@ -1,3 +1,5 @@
+"use client";
+
 import { Reveal } from "@/components/motion/Reveal";
 import { QuoteHighlight, SectionEyebrow } from "./shared";
 
@@ -10,7 +12,11 @@ const paragraphs = [
 export default function AboutLeadershipSection() {
   return (
     <section className="about-mesh relative overflow-hidden px-6 py-20 text-white md:px-12 md:py-28">
-      <div className="about-grid-overlay pointer-events-none absolute inset-0 opacity-50" />
+      <div className="about-grid-overlay pointer-events-none absolute inset-0 opacity-40" />
+
+      {/* Internal premium glowing mesh elements */}
+      <div className="pointer-events-none absolute -left-20 top-10 h-72 w-72 rounded-full bg-brand-lavender/20 blur-[100px]" />
+      <div className="pointer-events-none absolute -right-20 bottom-10 h-72 w-72 rounded-full bg-brand-purple/30 blur-[120px]" />
 
       <div className="relative mx-auto max-w-7xl">
         <Reveal className="grid grid-cols-1 gap-10 md:grid-cols-12 md:gap-16">
@@ -24,8 +30,8 @@ export default function AboutLeadershipSection() {
                 key={paragraph.slice(0, 40)}
                 className={
                   index === 0
-                    ? "text-lg leading-[1.7] tracking-[-0.02em] text-white/90 md:text-xl"
-                    : "text-base leading-[1.75] tracking-[-0.02em] text-white/65 md:text-[17px]"
+                    ? "text-lg leading-[1.7] tracking-tight text-white/95 md:text-xl font-medium"
+                    : "text-base leading-[1.75] tracking-tight text-white/70 md:text-[17px]"
                 }
               >
                 {paragraph}

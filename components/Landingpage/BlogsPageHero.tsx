@@ -22,7 +22,6 @@ export default function BlogsPageHero() {
           animate={reduce ? undefined : { x: [0, -20, 0], y: [0, 20, 0] }}
           transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
         />
-        <div className="absolute inset-x-0 bottom-0 h-px bg-linear-to-r from-transparent via-[#5210F8]/15 to-transparent" />
       </div>
 
       <div className="relative mx-auto max-w-4xl text-center">
@@ -39,8 +38,8 @@ export default function BlogsPageHero() {
             "Ideas, Insights, and Strategies",
             "for Smarter Growth",
           ]}
-          className="mt-6 text-4xl font-semibold leading-[1.08] tracking-tight text-[#111] sm:text-5xl md:text-6xl lg:text-[4rem]"
-          lineClassName="text-4xl font-semibold leading-[1.08] tracking-tight text-[#111] sm:text-5xl md:text-6xl lg:text-[4rem]"
+          className="mt-6 text-4xl font-extrabold leading-[1.08] tracking-tight sm:text-5xl md:text-6xl lg:text-[4rem] text-[#111] pb-1"
+          lineClassName="text-4xl font-extrabold leading-[1.08] tracking-tight text-[#111] sm:text-5xl md:text-6xl lg:text-[4rem]"
         />
 
         <Reveal delay={0.2}>

@@ -38,31 +38,31 @@ function ValuePropCard({
 
   return (
     <motion.div
-      className={`group relative overflow-hidden rounded-4xl border border-black/[0.06] bg-white p-8 shadow-[0_2px_24px_rgba(0,0,0,0.04)] transition-[box-shadow,border-color] duration-500 hover:border-[#5210F8]/15 hover:shadow-[0_16px_48px_rgba(82,16,248,0.08)] ${
+      className={`group relative overflow-hidden rounded-4xl border border-neutral-200/50 bg-linear-to-br from-neutral-50/50 to-white p-8 shadow-md transition-all duration-500 hover:border-brand-purple/20 hover:shadow-lg cursor-pointer ${
         isLast ? "sm:col-span-2 lg:col-span-1 lg:col-start-2" : ""
       }`}
-      whileHover={reduce ? undefined : { y: -4 }}
-      transition={{ duration: 0.45, ease: easePremium }}
+      whileHover={reduce ? undefined : { y: -5 }}
+      transition={{ duration: 0.4, ease: easePremium }}
     >
-      <div className="pointer-events-none absolute -right-6 -top-6 h-24 w-24 rounded-full bg-[#5210F8]/[0.04] transition-transform duration-500 group-hover:scale-150" />
+      <div className="pointer-events-none absolute -right-6 -top-6 h-24 w-24 rounded-full bg-brand-purple/[0.03] transition-transform duration-500 group-hover:scale-150" />
 
       <div className="relative flex items-start justify-between gap-4">
-        <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-linear-to-br from-[#5210F8]/10 to-[#C47DFD]/10 text-[#5210F8] transition-colors duration-500 group-hover:from-[#5210F8] group-hover:to-[#072C55] group-hover:text-white">
-          <Icon className="h-5 w-5" strokeWidth={1.75} />
+        <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-brand-purple/[0.06] text-brand-purple transition-all duration-500 group-hover:bg-brand-purple group-hover:text-white">
+          <Icon className="h-5 w-5 transition-transform duration-300 group-hover:rotate-6 group-hover:scale-105" strokeWidth={1.75} />
         </div>
-        <span className="text-xs font-semibold tabular-nums text-neutral-300 transition-colors duration-500 group-hover:text-[#C47DFD]">
+        <span className="text-xs font-bold tabular-nums text-neutral-300 transition-colors duration-500 group-hover:text-brand-purple/60 bg-neutral-100/50 border border-neutral-200/30 px-2 py-0.5 rounded-md">
           {String(index + 1).padStart(2, "0")}
         </span>
       </div>
 
-      <h3 className="relative mt-6 text-xl font-semibold tracking-tight text-[#111]">
+      <h3 className="relative mt-6 text-xl font-bold tracking-tight text-neutral-900 group-hover:text-brand-purple transition-colors duration-300">
         {title}
       </h3>
       <p className="relative mt-3 text-[15px] leading-relaxed text-neutral-500">
         {description}
       </p>
 
-      <div className="relative mt-6 h-px w-full bg-black/[0.05] transition-all duration-500 group-hover:bg-linear-to-r group-hover:from-[#5210F8]/30 group-hover:to-transparent" />
+      <div className="relative mt-6 h-px w-full bg-black/[0.05] transition-all duration-500 group-hover:bg-linear-to-r group-hover:from-brand-purple/40 group-hover:to-transparent" />
     </motion.div>
   );
 }

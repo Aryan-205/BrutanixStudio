@@ -66,7 +66,7 @@ export default function ServicesPageHero() {
         </Reveal>
 
         <Reveal delay={0.08}>
-          <h1 className="mt-8 text-4xl font-semibold leading-[1.06] tracking-tight text-[#111] sm:text-5xl md:text-6xl lg:text-[4.25rem]">
+          <h1 className="mt-8 text-4xl font-extrabold leading-[1.06] tracking-tight sm:text-5xl md:text-6xl lg:text-[4.25rem] text-[#111] pb-1">
             {words.map((word, i) => (
               <motion.span
                 key={`${word}-${i}`}

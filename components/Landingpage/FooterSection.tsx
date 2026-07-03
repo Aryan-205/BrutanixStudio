@@ -37,7 +37,7 @@ const legalLinks = [
 export default function FooterSection() {
   return (
     <footer className="relative md:fixed md:bottom-0 md:left-0 w-full h-auto md:h-[560px] z-10 md:z-0 bg-[#080909] text-white flex items-center select-none font-sans py-12 md:py-0">
-      <div className="max-w-7xl mx-auto w-full px-6 md:px-12 flex flex-col gap-10 relative py-8 md:py-12">
+      <div className="max-w-7xl mx-auto w-full px-6 md:px-12 flex flex-col gap-10 relative pt-8 md:pt-12">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-8">
           {/* Tagline & Newsletter */}
           <div className="md:col-span-5 flex flex-col gap-6">

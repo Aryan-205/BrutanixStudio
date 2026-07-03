@@ -66,7 +66,7 @@ export default function ContactHeroSection() {
         </Reveal>
 
         <Reveal delay={0.08}>
-          <h1 className="mt-8 text-4xl font-bold leading-[1.05] tracking-[-0.04em] sm:text-5xl md:text-6xl lg:text-[4.25rem]">
+          <h1 className="mt-8 text-4xl font-extrabold leading-[1.05] tracking-[-0.04em] sm:text-5xl md:text-6xl lg:text-[4.25rem]">
             {words.map((word, i) => (
               <motion.span
                 key={`${word}-${i}`}
