@@ -24,8 +24,8 @@ export default function Navbar({ animated = false }: NavbarProps) {
   const isBlogs = pathname === "/blogs";
 
   const linkClass = (active: boolean) =>
-    `relative py-1 text-sm font-medium transition-colors duration-300 ${
-      active ? "text-black font-semibold" : "text-[#555] hover:text-black"
+    `relative py-1 text-sm font-medium tracking-[-0.02em] transition-colors duration-300 ${
+      active ? "text-neutral-900 font-semibold" : "text-neutral-500 hover:text-neutral-900"
     }`;
 
   const navLinks = [
@@ -38,7 +38,7 @@ export default function Navbar({ animated = false }: NavbarProps) {
 
   return (
     <motion.nav
-      className={`fixed top-4 left-1/2 max-w-3xl w-[calc(100%-2rem)] z-50 flex flex-col md:flex-row md:items-center justify-between gap-4 border border-gray-200 bg-white/85 px-4 py-3 md:px-2 md:py-2 shadow-[0_12px_40px_rgba(0,0,0,0.06)] backdrop-blur-lg transition-all duration-300 ${
+      className={`fixed top-4 left-1/2 max-w-3xl w-[calc(100%-2rem)] z-50 flex flex-col md:flex-row md:items-center justify-between gap-4 border border-black/[0.06] bg-white/90 px-4 py-3 md:px-2 md:py-2 shadow-[0_8px_32px_rgba(82,16,248,0.06)] backdrop-blur-xl transition-all duration-300 ${
         isOpen ? "rounded-3xl" : "rounded-full"
       }`}
       initial={
@@ -62,7 +62,7 @@ export default function Navbar({ animated = false }: NavbarProps) {
         <div className="flex items-center gap-2 md:hidden">
           <Link
             href="/contact-us"
-            className="rounded-full bg-linear-to-b from-[#8932ff] to-[#9873ff] px-4 py-1.5 text-xs font-semibold text-white shadow-sm hover:scale-[1.03] active:scale-95"
+            className="rounded-full bg-brand-purple px-4 py-1.5 text-xs font-semibold text-white shadow-[0_4px_16px_rgba(82,16,248,0.25)] transition-all hover:bg-[#4210d0] hover:scale-[1.03] active:scale-95"
           >
             Book call
           </Link>
@@ -88,7 +88,7 @@ export default function Navbar({ animated = false }: NavbarProps) {
             {link.active && (
               <motion.span
                 layoutId="nav-underline"
-                className="absolute bottom-0 left-0 h-[2px] w-full bg-[#ff6b2c]"
+                className="absolute bottom-0 left-0 h-[2px] w-full bg-brand-purple"
                 transition={{ type: "spring", stiffness: 380, damping: 30 }}
               />
             )}
@@ -104,10 +104,10 @@ export default function Navbar({ animated = false }: NavbarProps) {
               key={link.label}
               href={link.href}
               onClick={() => setIsOpen(false)}
-              className={`text-sm py-1 font-medium transition-colors ${
+              className={`text-sm py-1 font-medium tracking-[-0.02em] transition-colors ${
                 link.active
-                  ? "text-[#ff6b2c] font-semibold"
-                  : "text-[#555] hover:text-black"
+                  ? "text-brand-purple font-semibold"
+                  : "text-neutral-500 hover:text-neutral-900"
               }`}
             >
               {link.label}
@@ -119,7 +119,7 @@ export default function Navbar({ animated = false }: NavbarProps) {
       {/* Desktop CTA */}
       <Link
         href="/contact-us"
-        className="hidden md:block rounded-full bg-linear-to-b from-[#8932ff] to-[#9873ff] px-5 py-2 text-sm font-semibold text-white shadow-[0_4px_14px_rgba(255,107,44,0.2)] transition-all duration-300 hover:bg-[#f35f1f] hover:shadow-[0_6px_20px_rgba(255,107,44,0.35)] hover:scale-[1.03] active:scale-95"
+        className="hidden md:block rounded-full bg-brand-purple px-5 py-2 text-sm font-semibold text-white shadow-[0_4px_16px_rgba(82,16,248,0.25)] transition-all duration-300 hover:bg-[#4210d0] hover:shadow-[0_6px_24px_rgba(82,16,248,0.35)] hover:scale-[1.03] active:scale-95"
       >
         Book a call
       </Link>
