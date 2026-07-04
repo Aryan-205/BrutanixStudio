@@ -24,6 +24,15 @@
   text-wrap: balance;
 }
 
+
+.services-grid-overlay {
+  background-image:
+    linear-gradient(rgba(0, 0, 0, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.04) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: radial-gradient(ellipse 80% 60% at 50% 40%, black, transparent);
+}
+
 .about-mesh {
   background:
     radial-gradient(ellipse 80% 60% at 20% 10%, rgba(196, 125, 253, 0.18), transparent 60%),

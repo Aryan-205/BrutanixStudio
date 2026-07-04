@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Navbar from "@/components/Navbar";
 import ServicesPageHero from "@/components/Landingpage/ServicesPageHero";
 import ServicesWhyPartner from "@/components/Landingpage/ServicesWhyPartner";
-import ServicesDetailsSection from "@/components/Landingpage/ServicesDetailsSection";
+import ServicesShowcaseSection from "@/components/Landingpage/ServicesShowcaseSection";
 import FAQSection from "@/components/Landingpage/FAQ";
 import FooterSection from "@/components/Landingpage/FooterSection";
 import { MotionProvider } from "../MotionProvider";
@@ -16,14 +16,14 @@ export const metadata: Metadata = {
 export default function ServicesPage() {
   return (
     <MotionProvider>
-      <div className="relative z-10 min-h-screen w-full overflow-x-clip rounded-b-3xl bg-[#F9F9F9] pb-10 shadow-[0_20px_50px_rgba(0,0,0,0.15)]">
+      <div className="relative z-10 min-h-screen w-full overflow-x-clip rounded-b-3xl bg-white pb-10 shadow-[0_20px_50px_rgba(82,16,248,0.06)]">
         <header className="px-4 pt-5 md:px-8 md:pt-6">
           <Navbar />
         </header>
 
         <ServicesPageHero />
         <ServicesWhyPartner />
-        <ServicesDetailsSection />
+        <ServicesShowcaseSection />
         <FAQSection />
       </div>
 

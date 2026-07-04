@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import Navbar from "@/components/Navbar";
-import ProjectsHero from "@/components/ProjectsPage/ProjectsHero";
-import ProjectsShowcase from "@/components/ProjectsPage/ProjectsShowcase";
-import ProjectsWorkList from "@/components/ProjectsPage/ProjectsWorkList";
+import ProjectsCaseStudies from "@/components/ProjectsPage/ProjectsCaseStudies";
+import ProjectsCTASection from "@/components/ProjectsPage/ProjectsCTASection";
 import FooterSection from "@/components/Landingpage/FooterSection";
 import { MotionProvider } from "../MotionProvider";
 
@@ -14,21 +13,17 @@ export const metadata: Metadata = {
 export default function ProjectsPage() {
   return (
     <MotionProvider>
-      <div className="relative z-10 min-h-screen w-full overflow-x-clip bg-[#F9F9F9] shadow-[0_20px_50px_rgba(0,0,0,0.15)] pb-10 rounded-b-3xl">
+      <div className="relative z-10 min-h-screen w-full overflow-x-clip rounded-b-3xl bg-white pb-10 shadow-[0_20px_50px_rgba(82,16,248,0.06)]">
         <header className="px-4 pt-5 md:px-8 md:pt-6">
           <Navbar />
         </header>
 
-        {/* Custom Premium Projects Page components */}
-        <ProjectsHero />
-        <ProjectsShowcase />
-        <ProjectsWorkList />
+        <ProjectsCaseStudies />
+        <ProjectsCTASection />
       </div>
 
-      {/* Spacer to scroll and reveal the fixed footer behind it */}
-      <div className="hidden md:block h-[560px] w-full pointer-events-none bg-white" />
+      <div className="pointer-events-none hidden h-[560px] w-full bg-white md:block" />
 
-      {/* Sticky Scroll-Reveal Footer */}
       <FooterSection />
     </MotionProvider>
   );

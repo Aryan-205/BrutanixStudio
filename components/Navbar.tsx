@@ -10,9 +10,10 @@ import { Menu, X } from "lucide-react";
 
 type NavbarProps = {
   animated?: boolean;
+  theme?: "light" | "dark";
 };
 
-export default function Navbar({ animated = false }: NavbarProps) {
+export default function Navbar({ animated = false, theme = "light" }: NavbarProps) {
   const pathname = usePathname();
   const reduce = useReducedMotion();
   const [isOpen, setIsOpen] = useState(false);
@@ -23,9 +24,17 @@ export default function Navbar({ animated = false }: NavbarProps) {
   const isServices = pathname === "/services";
   const isBlogs = pathname === "/blogs";
 
+  const isDark = theme === "dark";
+
   const linkClass = (active: boolean) =>
     `relative py-1 text-sm font-medium tracking-[-0.02em] transition-colors duration-300 ${
-      active ? "text-neutral-900 font-semibold" : "text-neutral-500 hover:text-neutral-900"
+      isDark
+        ? active
+          ? "text-white font-semibold"
+          : "text-white/50 hover:text-white"
+        : active
+          ? "text-neutral-900 font-semibold"
+          : "text-neutral-500 hover:text-neutral-900"
     }`;
 
   const navLinks = [
@@ -38,9 +47,11 @@ export default function Navbar({ animated = false }: NavbarProps) {
 
   return (
     <motion.nav
-      className={`fixed top-4 left-1/2 max-w-3xl w-[calc(100%-2rem)] z-50 flex flex-col md:flex-row md:items-center justify-between gap-4 border border-black/[0.06] bg-white/90 px-4 py-3 md:px-2 md:py-2 shadow-[0_8px_32px_rgba(82,16,248,0.06)] backdrop-blur-xl transition-all duration-300 ${
-        isOpen ? "rounded-3xl" : "rounded-full"
-      }`}
+      className={`fixed top-4 left-1/2 max-w-3xl w-[calc(100%-2rem)] z-50 flex flex-col md:flex-row md:items-center justify-between gap-4 px-4 py-3 md:px-2 md:py-2 backdrop-blur-xl transition-all duration-300 ${
+        isDark
+          ? "border border-white/10 bg-[#141414]/90 shadow-[0_8px_32px_rgba(0,0,0,0.4)]"
+          : "border border-black/[0.06] bg-white/90 shadow-[0_8px_32px_rgba(82,16,248,0.06)]"
+      } ${isOpen ? "rounded-3xl" : "rounded-full"}`}
       initial={
         animated && !reduce ? { opacity: 0, y: -24, x: "-50%" } : { x: "-50%" }
       }
@@ -68,7 +79,11 @@ export default function Navbar({ animated = false }: NavbarProps) {
           </Link>
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="flex h-8 w-8 items-center justify-center rounded-full border border-gray-200 bg-gray-50 text-gray-700 hover:bg-gray-100 cursor-pointer"
+            className={`flex h-8 w-8 items-center justify-center rounded-full border cursor-pointer ${
+              isDark
+                ? "border-white/10 bg-white/5 text-white/70 hover:bg-white/10"
+                : "border-gray-200 bg-gray-50 text-gray-700 hover:bg-gray-100"
+            }`}
             aria-label="Toggle navigation menu"
           >
             {isOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
@@ -88,7 +103,9 @@ export default function Navbar({ animated = false }: NavbarProps) {
             {link.active && (
               <motion.span
                 layoutId="nav-underline"
-                className="absolute bottom-0 left-0 h-[2px] w-full bg-brand-purple"
+                className={`absolute bottom-0 left-0 h-[2px] w-full ${
+                  isDark ? "bg-[#C47DFD]" : "bg-brand-purple"
+                }`}
                 transition={{ type: "spring", stiffness: 380, damping: 30 }}
               />
             )}
@@ -98,16 +115,22 @@ export default function Navbar({ animated = false }: NavbarProps) {
 
       {/* Mobile Navigation Links */}
       {isOpen && (
-        <div className="flex flex-col gap-4 py-2 px-2 md:hidden w-full border-t border-gray-100 mt-1">
+        <div className={`flex flex-col gap-4 py-2 px-2 md:hidden w-full border-t mt-1 ${
+          isDark ? "border-white/10" : "border-gray-100"
+        }`}>
           {navLinks.map((link) => (
             <Link
               key={link.label}
               href={link.href}
               onClick={() => setIsOpen(false)}
               className={`text-sm py-1 font-medium tracking-[-0.02em] transition-colors ${
-                link.active
-                  ? "text-brand-purple font-semibold"
-                  : "text-neutral-500 hover:text-neutral-900"
+                isDark
+                  ? link.active
+                    ? "text-[#C47DFD] font-semibold"
+                    : "text-white/50 hover:text-white"
+                  : link.active
+                    ? "text-brand-purple font-semibold"
+                    : "text-neutral-500 hover:text-neutral-900"
               }`}
             >
               {link.label}

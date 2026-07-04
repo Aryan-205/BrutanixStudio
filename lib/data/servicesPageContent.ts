@@ -3,16 +3,28 @@ export type ValueProp = {
   description: string;
 };
 
+export type ServiceVisualType =
+  | "brand"
+  | "website"
+  | "seo"
+  | "social"
+  | "ai-video"
+  | "crm"
+  | "lead-gen"
+  | "gtm";
+
 export type ServiceDetail = {
   title: string;
+  shortTitle: string;
   overview: string;
   keyServices: string[];
   businessBenefits: string[];
+  visualType: ServiceVisualType;
+  tags: string[];
 };
 
 export const servicesHero = {
-  badge: "Our Services",
-  headline: "Full-Service Digital Marketing Built for Growth",
+  title: "Services",
   subheadline:
     "From brand strategy to full-funnel execution, InvisiEdge provides the creative, technical, and strategic support businesses need to grow.",
 };
@@ -48,6 +60,9 @@ export const valueProps: ValueProp[] = [
 export const serviceDetails: ServiceDetail[] = [
   {
     title: "Brand Strategy & Positioning",
+    shortTitle: "Branding",
+    visualType: "brand",
+    tags: ["Positioning", "Identity", "Messaging", "Guidelines"],
     overview:
       "A strong brand gives your business clarity, trust, and direction. We help define your positioning, voice, identity, and messaging so your brand can stand out in a crowded market.",
     keyServices: [
@@ -69,6 +84,9 @@ export const serviceDetails: ServiceDetail[] = [
   },
   {
     title: "Website Design & Development",
+    shortTitle: "Web Design",
+    visualType: "website",
+    tags: ["UI/UX", "Next.js", "Landing Pages", "Webflow"],
     overview:
       "Your website should do more than look good. It should explain your value, build trust, guide users, and convert visitors into leads.",
     keyServices: [
@@ -90,6 +108,9 @@ export const serviceDetails: ServiceDetail[] = [
   },
   {
     title: "SEO & Digital Visibility",
+    shortTitle: "SEO",
+    visualType: "seo",
+    tags: ["Technical SEO", "Keywords", "Content", "Reporting"],
     overview:
       "We help your brand become more discoverable through search-focused strategy, technical optimization, and content built for authority.",
     keyServices: [
@@ -111,6 +132,9 @@ export const serviceDetails: ServiceDetail[] = [
   },
   {
     title: "Social Media & Content Marketing",
+    shortTitle: "Content",
+    visualType: "social",
+    tags: ["LinkedIn", "Instagram", "Reels", "Calendars"],
     overview:
       "Consistency builds trust. We create content systems that help your brand stay active, relevant, and engaging across digital platforms.",
     keyServices: [
@@ -133,6 +157,9 @@ export const serviceDetails: ServiceDetail[] = [
   },
   {
     title: "AI-Powered Content & Video",
+    shortTitle: "AI & Video",
+    visualType: "ai-video",
+    tags: ["AI Avatars", "Voiceovers", "Short-form", "Scripts"],
     overview:
       "We use AI tools and creative production workflows to create modern, scalable content for brands, leaders, and campaigns.",
     keyServices: [
@@ -155,6 +182,9 @@ export const serviceDetails: ServiceDetail[] = [
   },
   {
     title: "CRM & Funnel Automation",
+    shortTitle: "Automation",
+    visualType: "crm",
+    tags: ["CRM Setup", "Email", "WhatsApp", "Pipelines"],
     overview:
       "We help businesses organize, automate, and improve how they manage leads and customer communication.",
     keyServices: [
@@ -177,6 +207,9 @@ export const serviceDetails: ServiceDetail[] = [
   },
   {
     title: "Lead Generation & Outreach",
+    shortTitle: "Lead Gen",
+    visualType: "lead-gen",
+    tags: ["LinkedIn", "Email", "ICP", "Sequences"],
     overview:
       "We build outreach systems that help your business identify, connect with, and nurture the right prospects.",
     keyServices: [
@@ -198,6 +231,9 @@ export const serviceDetails: ServiceDetail[] = [
   },
   {
     title: "GTM, Events & Paid Growth",
+    shortTitle: "Growth",
+    visualType: "gtm",
+    tags: ["GTM", "Events", "Paid Media", "Campaigns"],
     overview:
       "We help brands launch campaigns, promote events, support sales teams, and reach the right audience through strategic execution.",
     keyServices: [
