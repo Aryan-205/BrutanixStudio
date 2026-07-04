@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Navbar from "@/components/Navbar";
+import ProjectsHero from "@/components/ProjectsPage/ProjectsHero";
 import ProjectsCaseStudies from "@/components/ProjectsPage/ProjectsCaseStudies";
 import ProjectsCTASection from "@/components/ProjectsPage/ProjectsCTASection";
 import FooterSection from "@/components/Landingpage/FooterSection";
@@ -17,6 +18,7 @@ export default function ProjectsPage() {
         <header className="px-4 pt-5 md:px-8 md:pt-6">
           <Navbar />
         </header>
+        <ProjectsHero />
         <ProjectsCaseStudies />
         <ProjectsCTASection />
       </div>

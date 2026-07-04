@@ -98,7 +98,7 @@ function MoreArticleCard({ post }: { post: BlogPost }) {
       </div>
       <div className="mt-4 px-1">
         <PostMeta date={post.date} category={post.category} />
-        <h3 className="mt-2 text-lg font-semibold leading-snug tracking-tight text-[#111] transition-colors duration-300 group-hover:text-[#5210F8] md:text-xl">
+        <h3 className="mt-2 text-lg font-medium leading-snug tracking-tight text-[#111] transition-colors duration-300 group-hover:text-[#5210F8] md:text-xl">
           {post.title}
         </h3>
       </div>
