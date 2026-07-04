@@ -17,7 +17,6 @@ export default function ProjectsPage() {
         <header className="px-4 pt-5 md:px-8 md:pt-6">
           <Navbar />
         </header>
-
         <ProjectsCaseStudies />
         <ProjectsCTASection />
       </div>

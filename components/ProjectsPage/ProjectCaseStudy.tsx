@@ -77,7 +77,7 @@ export default function ProjectCaseStudy({
 
       {/* Visual panel */}
       <motion.div
-        className={`relative flex items-center justify-center overflow-hidden bg-[#EDEEF2] px-8 py-20 md:px-4 md:py-4 ${
+        className={`relative flex items-center justify-center bg-white overflow-hidden px-2 py-2 md:px-4 md:py-4 ${
           isReversed ? "lg:order-1" : "lg:order-2"
         }`}
         initial={reduce ? false : { opacity: 0, x: isReversed ? -32 : 32 }}
@@ -85,12 +85,10 @@ export default function ProjectCaseStudy({
         viewport={{ once: true, amount: 0.25 }}
         transition={{ duration: 0.75, delay: 0.08, ease: easePremium }}
       >
-        <div className="pointer-events-none absolute inset-0 bg-linear-to-br from-[#5210F8]/[0.04] via-transparent to-[#C47DFD]/[0.06]" />
 
-        <div className="relative w-full max-w-md md:max-w-lg lg:max-w-xl">
-          <div className="pointer-events-none absolute -inset-8 rounded-[2.5rem] bg-[#5210F8]/10 blur-3xl" />
+        <div className="relative w-full h-full rounded-2xl">
 
-          <div className="relative aspect-square overflow-hidden rounded-3xl border border-white/60 bg-white shadow-[0_24px_64px_rgba(7,44,85,0.12)]">
+          <div className="relative aspect-square overflow-hidden border border-white/60 shadow-[0_24px_64px_rgba(7,44,85,0.12)] rounded-2xl">
             <Image
               src={project.image}
               alt={project.name}

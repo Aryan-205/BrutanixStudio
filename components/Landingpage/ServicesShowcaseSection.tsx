@@ -9,7 +9,7 @@ import ServiceAnimatedVisual from "@/components/Landingpage/Services/ServiceAnim
 
 function ServiceTags({ tags }: { tags: string[] }) {
   return (
-    <div className="mt-8 flex flex-wrap justify-center gap-2 md:justify-start">
+    <div className="mt-8 flex flex-wrap justify-center gap-2 md:justify-center">
       {tags.map((tag, i) => (
         <motion.span
           key={tag}
@@ -99,7 +99,7 @@ function ServiceShowcaseBlock({
           }`}
         >
           <motion.div
-            className="rounded-3xl border border-neutral-200/80 bg-[#FAFAFA] p-5 shadow-[0_2px_24px_rgba(0,0,0,0.04)] md:p-6"
+            className="rounded-3xl border border-neutral-200/80 p-5 md:p-6 bg-linear-to-t from-[#c47dfd]/10 to-[#5210F8]/10 shadow-[inset_0_0_10px_1px_rgba(82,16,248,0.3)]"
             initial={reduce ? false : { opacity: 0, x: isReversed ? 24 : -24 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, amount: 0.2 }}

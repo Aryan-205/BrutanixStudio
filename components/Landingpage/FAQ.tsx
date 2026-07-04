@@ -42,10 +42,10 @@ const FAQSection = () => {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   return (
-    <section className="bg-[#F9F9F9] text-black px-6 md:px-12 py-24 md:py-40 border-t border-black/[0.03] relative overflow-hidden">
+    <section className="bg-white text-black px-6 md:px-12 py-24 md:py-40 border-t border-black/3 relative overflow-hidden">
       {/* Decorative glows */}
-      <div className="absolute right-[-10%] top-1/4 h-80 w-80 rounded-full bg-brand-purple/[0.02] blur-[100px] pointer-events-none" />
-      <div className="absolute left-[-10%] bottom-1/4 h-80 w-80 rounded-full bg-brand-lavender/[0.02] blur-[100px] pointer-events-none" />
+      <div className="absolute right-[-10%] top-1/4 h-80 w-80 rounded-full bg-brand-purple/2 blur-[100px] pointer-events-none" />
+      <div className="absolute left-[-10%] bottom-1/4 h-80 w-80 rounded-full bg-brand-lavender/2 blur-[100px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 relative z-10">
         <div className="hidden md:block md:col-span-4" />
