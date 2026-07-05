@@ -42,12 +42,12 @@ const services: Service[] = [
 ];
 
 const DEV_VIEWBOX = { w: 400, h: 320 };
-const DEV_ORIGIN_Y = 340;
+const DEV_ORIGIN_Y = 320;
 
 const devOrbitRadii = [85, 125, 165, 205] as const;
 
 function devArcPath(radius: number) {
-  return `M ${radius} ${DEV_ORIGIN_Y} A ${radius} ${radius} 0 0 1 0 ${DEV_ORIGIN_Y - radius}`;
+  return `M ${200 - radius} ${DEV_ORIGIN_Y} A ${radius} ${radius} 0 0 1 ${200 + radius} ${DEV_ORIGIN_Y}`;
 }
 
 type DevOrbitIconProps = {
@@ -65,36 +65,18 @@ type DevOrbitIconProps = {
 };
 
 function DevOrbitIcon({
-  pathId,
   bg,
   size,
-  dur,
-  begin = "0s",
-  keyPoints,
   entranceDelay,
   staticX,
   staticY,
   border,
   children,
 }: DevOrbitIconProps) {
-  const reduce = useReducedMotion();
   const half = size / 2;
 
   return (
-    <g transform={reduce ? `translate(${staticX}, ${staticY})` : undefined}>
-      {!reduce && (
-        <animateMotion
-          dur={dur}
-          repeatCount="indefinite"
-          begin={begin}
-          keyPoints={keyPoints}
-          keyTimes="0;0.5;1"
-          calcMode="spline"
-          keySplines="0.45 0 0.55 1;0.45 0 0.55 1"
-        >
-          <mpath href={`#${pathId}`} />
-        </animateMotion>
-      )}
+    <g transform={`translate(${staticX}, ${staticY})`}>
       <foreignObject x={-half} y={-half} width={size} height={size}>
         <motion.div
           className={`flex h-full w-full items-center justify-center rounded-2xl shadow-lg shadow-black/10 ${
@@ -125,7 +107,7 @@ function DevelopmentVisual() {
       begin: "0s",
       keyPoints: "0.58;0.68;0.58",
       staticX: 98,
-      staticY: 118,
+      staticY: 143,
       entranceDelay: 0.15,
       children: (
         <svg viewBox="0 0 24 24" className="h-7 w-7" fill="white" aria-hidden>
@@ -140,8 +122,8 @@ function DevelopmentVisual() {
       dur: "8s",
       begin: "0.4s",
       keyPoints: "0.34;0.44;0.34",
-      staticX: 288,
-      staticY: 178,
+      staticX: 306,
+      staticY: 194,
       entranceDelay: 0.25,
       children: (
         <svg viewBox="0 0 24 24" className="h-8 w-8" fill="none" stroke="white" strokeWidth="1.2" aria-hidden>
@@ -159,8 +141,8 @@ function DevelopmentVisual() {
       dur: "7s",
       begin: "0.2s",
       keyPoints: "0.04;0.14;0.04",
-      staticX: 52,
-      staticY: 268,
+      staticX: 98,
+      staticY: 248,
       entranceDelay: 0.35,
       children: (
         <svg viewBox="0 0 24 24" className="h-7 w-7" fill="white" aria-hidden>
@@ -176,8 +158,8 @@ function DevelopmentVisual() {
       dur: "7.5s",
       begin: "0.6s",
       keyPoints: "0.2;0.3;0.2",
-      staticX: 178,
-      staticY: 252,
+      staticX: 200,
+      staticY: 235,
       entranceDelay: 0.45,
       border: true,
       children: <span className="text-sm font-bold text-black">JS</span>,
@@ -189,8 +171,8 @@ function DevelopmentVisual() {
       dur: "6.5s",
       begin: "0.8s",
       keyPoints: "0.1;0.2;0.1",
-      staticX: 312,
-      staticY: 242,
+      staticX: 302,
+      staticY: 248,
       entranceDelay: 0.55,
       children: (
         <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="white" strokeWidth="1.5" aria-hidden>
@@ -202,33 +184,28 @@ function DevelopmentVisual() {
   ];
 
   return (
-    <div className="relative h-full min-h-72 w-full overflow-hidden">
+    <div className="relative h-full min-h-42 bg-red-500 w-full overflow-hidden">
       <svg
         viewBox={`0 0 ${DEV_VIEWBOX.w} ${DEV_VIEWBOX.h}`}
-        className="h-full w-full bg-red-500"
+        className="h-full w-full bg-[#fafafa]"
         preserveAspectRatio="xMidYMax meet"
         aria-hidden
       >
-        <defs>
-          {devOrbitRadii.map((r) => (
-            <path key={r} id={`dev-orbit-${r}`} d={devArcPath(r)} />
-          ))}
-        </defs>
-
         {/* Orbital arc lines */}
         {devOrbitRadii.map((r, i) => (
           <g key={r}>
+            {/* Stationary background track line */}
             <motion.path
               d={devArcPath(r)}
               fill="none"
-              stroke="#e8e8e8"
-              strokeWidth="1.25"
+              stroke="rgba(82, 16, 248, 0.08)"
+              strokeWidth="1.5"
               initial={{ pathLength: 0, opacity: 0 }}
               whileInView={{ pathLength: 1, opacity: 1 }}
               viewport={viewportDefault}
               transition={{
-                duration: 1.1,
-                delay: reduce ? 0 : i * 0.1,
+                duration: 1.2,
+                delay: reduce ? 0 : i * 0.12,
                 ease: easePremium,
               }}
             />
@@ -236,38 +213,36 @@ function DevelopmentVisual() {
             {/* Traveling pulse along each arc */}
             {!reduce && (
               <>
-                <circle r="2.5" fill="#d4d4d4" opacity="0.5">
+                <circle r="3" fill="#8932ff">
                   <animateMotion
-                    dur={`${4.5 + i * 0.7}s`}
+                    dur={`${6 + i * 1.2}s`}
                     repeatCount="indefinite"
-                    begin={`${i * 0.5}s`}
-                  >
-                    <mpath href={`#dev-orbit-${r}`} />
-                  </animateMotion>
+                    path={devArcPath(r)}
+                  />
                 </circle>
                 <motion.path
                   d={devArcPath(r)}
                   fill="none"
-                  stroke="#d0d0d0"
-                  strokeWidth="2"
+                  stroke="#c47dfd"
+                  strokeWidth="2.5"
                   strokeLinecap="round"
-                  strokeDasharray="6 220"
-                  initial={{ strokeDashoffset: 0 }}
-                  animate={{ strokeDashoffset: -226 }}
+                  strokeDasharray="40 300"
+                  animate={{
+                    strokeDashoffset: [0, -340],
+                  }}
                   transition={{
-                    duration: 3.5 + i * 0.5,
+                    duration: 5 + i * 1,
                     repeat: Infinity,
                     ease: "linear",
-                    delay: i * 0.4,
                   }}
-                  opacity="0.7"
+                  opacity="0.6"
                 />
               </>
             )}
           </g>
         ))}
 
-        {/* Tech icons riding the orbital paths */}
+        {/* Tech icons - positioned statically as requested */}
         {icons.map((icon, i) => (
           <DevOrbitIcon key={`${icon.pathId}-${i}`} {...icon} />
         ))}
