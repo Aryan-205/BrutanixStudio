@@ -23,7 +23,7 @@ export default function ProjectsPage() {
         <ProjectsCTASection />
       </div>
 
-      <div className="pointer-events-none hidden h-[560px] w-full bg-white md:block" />
+      <div className="pointer-events-none hidden h-[562px] w-full bg-white md:block " />
 
       <FooterSection />
     </MotionProvider>
