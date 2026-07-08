@@ -32,12 +32,32 @@ export default function Prototype() {
         </div>
 
         {/* Sticky pins to the viewport top while the 200vh wrapper scrolls */}
-        <div className="sticky top-0 z-10 flex h-screen w-full items-center justify-center px-4 md:px-0">
-          <img
-            src="/prototype/Container.png"
-            alt="Prototype"
-            className="w-full h-full object-contain md:object-cover"
-          />
+        <div className="sticky top-0 z-10 flex h-screen w-full items-center justify-center overflow-hidden px-4 md:px-0">
+          {/* Wrapper matches Container.png's aspect ratio so the video can be
+              positioned as a % of the phone image and stay locked to the screen */}
+          <div className="relative aspect-[1920/940] w-full md:h-full md:w-auto">
+            <img
+              src="/prototype/Container.png"
+              alt="Prototype"
+              className="h-full w-full object-cover"
+            />
+            {/* Video clipped to the phone's screen area (measured off Container.png) */}
+            <video
+              src="/handVideo.mp4"
+              autoPlay
+              loop
+              muted
+              playsInline
+              className="absolute object-cover"
+              style={{
+                top: "6.4%",
+                left: "41.3%",
+                width: "18%",
+                height: "80%",
+                borderRadius: "11% / 5%",
+              }}
+            />
+          </div>
         </div>
       </div>
     </section>
