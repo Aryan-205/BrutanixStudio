@@ -1,22 +1,16 @@
 "use client";
 
 import { motion, useReducedMotion } from "motion/react";
-import {
-  ArrowRight,
-  ChevronDown,
-  Mail,
-  MapPin,
-} from "lucide-react";
-import BrandLogo from "@/components/BrandLogo";
+import { ArrowRight, ChevronDown, Mail, MapPin } from "lucide-react";
 import { Reveal } from "@/components/motion/Reveal";
 import { StaggerChildren } from "@/components/motion/StaggerChildren";
 import { easePremium, viewportDefault } from "@/components/motion/presets";
 
 const inputClassName =
-  "w-full rounded-xl border border-neutral-200 bg-neutral-50/30 px-4.5 py-3.5 text-sm text-neutral-900 placeholder:text-neutral-400 outline-none transition-all duration-300 hover:border-neutral-350 hover:bg-white focus:border-[#5210F8] focus:bg-white focus:shadow-[0_0_0_4px_rgba(82,16,248,0.08)] tracking-tight";
+  "w-full rounded-xl border border-neutral-200 bg-white px-4.5 py-3.5 text-sm text-neutral-900 placeholder:text-neutral-400 outline-none transition-[color,background-color,border-color,box-shadow] duration-200 hover:border-neutral-300 focus:border-brand-purple focus:shadow-[0_0_0_4px_rgba(82,16,248,0.08)] tracking-tight";
 
 const labelClassName =
-  "text-[10px] font-bold uppercase tracking-[0.15em] text-neutral-400 select-none";
+  "text-[10px] font-semibold uppercase tracking-[0.15em] text-neutral-400 select-none";
 
 const serviceOptions = [
   "Brand Strategy & Positioning",
@@ -54,26 +48,20 @@ function InfoItem({
   label: string;
   children: React.ReactNode;
 }) {
-  const reduce = useReducedMotion();
-
   return (
-    <motion.div
-      className="group flex gap-4 rounded-2xl border border-white/5 bg-white/5 p-4.5 backdrop-blur-md transition-all duration-300 hover:bg-white/10 hover:border-white/10"
-      whileHover={reduce ? undefined : { x: 4 }}
-      transition={{ duration: 0.3, ease: easePremium }}
-    >
-      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white/10 text-brand-lavender transition-all duration-300 group-hover:bg-white/15 group-hover:scale-105">
-        <Icon className="h-4.5 w-4.5" strokeWidth={1.75} />
+    <div className="flex gap-3.5">
+      <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-neutral-200 bg-white text-brand-purple">
+        <Icon className="h-4 w-4" strokeWidth={1.75} />
       </div>
       <div>
-        <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-white/40">
+        <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-neutral-400">
           {label}
         </p>
-        <div className="mt-1 text-sm font-semibold leading-relaxed text-white/90 tracking-tight">
+        <div className="mt-1 text-sm font-medium leading-relaxed text-neutral-800 tracking-tight">
           {children}
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 }
 
@@ -127,50 +115,35 @@ export default function ContactFormSection() {
   const reduce = useReducedMotion();
 
   return (
-    <section className="mx-auto max-w-6xl px-6 pb-20 md:px-12 md:pb-28 relative">
-      {/* Dynamic background highlights */}
-      <div className="absolute right-[-10%] bottom-0 h-96 w-96 rounded-full bg-brand-lavender/[0.03] blur-[120px] pointer-events-none" />
-      <div className="absolute left-[-5%] top-1/4 h-80 w-80 rounded-full bg-brand-purple/[0.02] blur-[100px] pointer-events-none" />
-
+    <section className="mx-auto max-w-6xl px-6 pb-20 md:px-12 md:pb-28">
       <Reveal delay={0.1}>
         <motion.div
-          className="overflow-hidden rounded-[2.5rem] border border-neutral-200/50 bg-white shadow-[0_24px_64px_-16px_rgba(82,16,248,0.06)]"
-          initial={reduce ? false : { opacity: 0, y: 40 }}
+          className="overflow-hidden rounded-3xl border border-neutral-200 bg-white shadow-[0_20px_50px_-28px_rgba(0,0,0,0.14)]"
+          initial={reduce ? false : { opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={viewportDefault}
-          transition={{ duration: 0.9, ease: easePremium }}
+          transition={{ duration: 0.6, ease: easePremium }}
         >
           <div className="grid grid-cols-1 lg:grid-cols-12">
             {/* Info panel */}
-            <div className="relative flex flex-col justify-between overflow-hidden bg-gradient-to-br from-brand-purple via-[#390bc5] to-brand-navy p-8 md:p-12 lg:col-span-5 lg:min-h-[660px]">
-              {/* Noise and mesh overlay */}
-              <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(196,125,253,0.15),transparent_50%)] pointer-events-none" />
-              <div className="pointer-events-none absolute -right-16 -top-10 opacity-[0.05]">
-                <div className="scale-125 grayscale">
-                  <BrandLogo />
-                </div>
-              </div>
-
-              <div className="relative z-10">
-                <span className="text-[10px] font-bold uppercase tracking-[0.22em] text-[#C47DFD]">
+            <div className="flex flex-col justify-between border-b border-neutral-200 bg-neutral-50/60 p-8 md:p-10 lg:col-span-5 lg:min-h-[600px] lg:border-b-0 lg:border-r">
+              <div>
+                <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-brand-purple">
                   Get in touch
                 </span>
-                <h3 className="mt-3 text-2xl font-extrabold tracking-tight text-white md:text-3xl leading-snug">
-                  Let's build something great together
+                <h3 className="mt-4 text-2xl font-semibold leading-snug tracking-tight text-neutral-900 md:text-3xl">
+                  Let&apos;s build something great together
                 </h3>
-                <p className="mt-4 max-w-sm text-sm leading-relaxed text-white/65 tracking-tight font-medium">
+                <p className="mt-3 max-w-sm text-sm leading-relaxed text-neutral-500">
                   Whether you have an upcoming project or want to explore a
                   strategic partnership, our team is ready to help you grow.
                 </p>
 
-                <StaggerChildren
-                  className="mt-10 flex flex-col gap-4"
-                  staggerDelay={0.08}
-                >
+                <div className="mt-10 flex flex-col gap-5">
                   <InfoItem icon={Mail} label="Our Email">
                     <a
                       href="mailto:info@invisiedge.com"
-                      className="underline decoration-white/30 underline-offset-4 transition-colors hover:text-white hover:decoration-white/60"
+                      className="underline decoration-neutral-300 underline-offset-4 transition-colors hover:text-brand-purple hover:decoration-brand-purple/50"
                     >
                       info@invisiedge.com
                     </a>
@@ -178,27 +151,24 @@ export default function ContactFormSection() {
                   <InfoItem icon={MapPin} label="Headquarters">
                     San Francisco, CA — 2 Embarcadero Center, 8th floor, 94111
                   </InfoItem>
-                </StaggerChildren>
+                </div>
               </div>
 
-              <div className="relative z-10 mt-12 lg:mt-0">
-                <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-white/40">
+              <div className="mt-12">
+                <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-neutral-400">
                   Connect with us
                 </p>
-                <div className="mt-4 flex flex-wrap gap-2.5">
+                <div className="mt-3 flex flex-wrap gap-x-5 gap-y-2">
                   {socialLinks.map(({ label, href }) => (
-                    <motion.a
+                    <a
                       key={label}
                       href={href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="rounded-full border border-white/10 bg-white/5 px-4.5 py-2.5 text-xs font-bold text-white/80 backdrop-blur-md transition-colors hover:border-white/20 hover:bg-white/10 hover:text-white tracking-tight"
-                      whileHover={reduce ? undefined : { scale: 1.03, y: -1 }}
-                      whileTap={reduce ? undefined : { scale: 0.97 }}
-                      transition={{ duration: 0.25, ease: easePremium }}
+                      className="text-xs font-medium text-neutral-500 underline-offset-4 transition-colors hover:text-brand-purple hover:underline"
                     >
                       {label}
-                    </motion.a>
+                    </a>
                   ))}
                 </div>
               </div>
@@ -206,19 +176,22 @@ export default function ContactFormSection() {
 
             {/* Form panel */}
             <form
-              className="flex flex-col gap-5 p-8 md:gap-6 md:p-12 lg:col-span-7 justify-center"
+              className="flex flex-col justify-center gap-5 p-8 md:gap-6 md:p-10 lg:col-span-7"
               onSubmit={(e) => e.preventDefault()}
             >
               <div>
-                <h4 className="text-xl font-bold tracking-tight text-neutral-900">
+                <h4 className="text-xl font-semibold tracking-tight text-neutral-900">
                   Send us a message
                 </h4>
                 <p className="mt-1.5 text-sm text-neutral-500 tracking-tight">
-                  Fill in the details below and we'll get back to you shortly.
+                  Fill in the details below and we&apos;ll get back to you shortly.
                 </p>
               </div>
 
-              <StaggerChildren className="flex flex-col gap-5 md:gap-6" staggerDelay={0.06}>
+              <StaggerChildren
+                className="flex flex-col gap-5 md:gap-6"
+                staggerDelay={0.06}
+              >
                 <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 md:gap-6">
                   <div className="flex flex-col gap-2">
                     <label htmlFor="name" className={labelClassName}>
@@ -322,20 +295,13 @@ export default function ContactFormSection() {
 
                 <motion.button
                   type="submit"
-                  className="group mt-2 flex w-full items-center justify-center gap-2 rounded-xl bg-brand-purple px-6 py-4 text-sm font-bold text-white shadow-[0_8px_24px_rgba(82,16,248,0.25)] transition-all duration-300 hover:bg-[#4210d0] hover:shadow-[0_12px_32px_rgba(82,16,248,0.35)] tracking-tight cursor-pointer"
-                  whileHover={
-                    reduce
-                      ? undefined
-                      : {
-                          scale: 1.01,
-                        }
-                  }
+                  className="group mt-2 flex w-full items-center justify-center gap-2 rounded-xl bg-brand-purple px-6 py-3.5 text-sm font-semibold text-white transition-colors duration-200 hover:bg-[#4210d0] cursor-pointer"
                   whileTap={reduce ? undefined : { scale: 0.98 }}
-                  transition={{ duration: 0.3, ease: easePremium }}
+                  transition={{ duration: 0.16, ease: easePremium }}
                 >
                   Send Message
                   <ArrowRight
-                    className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1"
+                    className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5"
                     strokeWidth={2}
                   />
                 </motion.button>

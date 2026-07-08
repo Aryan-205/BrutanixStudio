@@ -9,7 +9,7 @@ import {
   blogCategories,
   blogPosts,
   type BlogPost,
-} from "@/lib/data/blogPageContent";
+} from "@/data/blogPageContent";
 
 function PostMeta({ date, category }: { date: string; category: string }) {
   return (

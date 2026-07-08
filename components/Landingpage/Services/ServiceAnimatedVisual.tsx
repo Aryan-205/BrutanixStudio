@@ -3,7 +3,7 @@
 import type { ComponentType } from "react";
 import { motion, useReducedMotion } from "motion/react";
 import BrandLogo from "@/components/BrandLogo";
-import type { ServiceVisualType } from "@/lib/data/servicesPageContent";
+import type { ServiceVisualType } from "@/data/servicesPageContent";
 
 const brandColors = [
   { hex: "#FFFFFF", label: "White" },

@@ -1,6 +1,6 @@
 "use client";
 
-import { projectCaseStudies } from "@/lib/data/projectsPageContent";
+import { projectCaseStudies } from "@/data/projectsPageContent";
 import ProjectCaseStudy from "./ProjectCaseStudy";
 
 export default function ProjectsCaseStudies() {

@@ -6,7 +6,7 @@ import { motion, useReducedMotion } from "motion/react";
 import { Reveal } from "@/components/motion/Reveal";
 import { StaggerChildren } from "@/components/motion/StaggerChildren";
 import { easePremium } from "@/components/motion/presets";
-import { blogPosts } from "@/lib/data/blogPageContent";
+import { blogPosts } from "@/data/blogPageContent";
 
 function BlogPostCard({
   title,

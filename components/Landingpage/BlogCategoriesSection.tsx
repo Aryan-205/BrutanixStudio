@@ -16,7 +16,7 @@ import { motion, useReducedMotion } from "motion/react";
 import { Reveal } from "@/components/motion/Reveal";
 import { StaggerChildren } from "@/components/motion/StaggerChildren";
 import { easePremium } from "@/components/motion/presets";
-import { blogCategories } from "@/lib/data/blogPageContent";
+import { blogCategories } from "@/data/blogPageContent";
 
 const categoryIcons: Record<string, LucideIcon> = {
   "Brand Strategy": Target,

@@ -4,7 +4,7 @@ import BlogsPageHero from "@/components/Landingpage/BlogsPageHero";
 import BlogListing from "@/components/Landingpage/BlogListing";
 import BlogCTASection from "@/components/Landingpage/BlogCTASection";
 import FooterSection from "@/components/Landingpage/FooterSection";
-import { blogHero } from "@/lib/data/blogPageContent";
+import { blogHero } from "@/data/blogPageContent";
 import { MotionProvider } from "../MotionProvider";
 
 export const metadata: Metadata = {

@@ -1,10 +1,9 @@
 "use client";
 
-import Link from "next/link";
 import { motion, useReducedMotion } from "motion/react";
 import { Reveal } from "@/components/motion/Reveal";
 import { easePremium } from "@/components/motion/presets";
-import { serviceDetails } from "@/lib/data/servicesPageContent";
+import { serviceDetails } from "@/data/servicesPageContent";
 import ServiceAnimatedVisual from "@/components/Landingpage/Services/ServiceAnimatedVisual";
 
 function ServiceTags({ tags }: { tags: string[] }) {
@@ -118,16 +117,6 @@ function ServiceShowcaseBlock({
               keyServices={service.keyServices}
               businessBenefits={service.businessBenefits}
             />
-
-            <Link
-              href="/contact-us"
-              className="group mt-10 inline-flex items-center gap-2 rounded-full bg-[#5210F8] px-7 py-3.5 text-sm font-semibold text-white transition-all duration-300 hover:bg-[#4210d0] hover:shadow-[0_8px_32px_rgba(82,16,248,0.25)]"
-            >
-              View details
-              <span className="transition-transform duration-300 group-hover:translate-x-1">
-                →
-              </span>
-            </Link>
           </motion.div>
         </div>
       </div>

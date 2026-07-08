@@ -4,7 +4,7 @@ import Link from "next/link";
 import { motion, useReducedMotion } from "motion/react";
 import { Reveal } from "@/components/motion/Reveal";
 import { easePremium } from "@/components/motion/presets";
-import { blogCTA } from "@/lib/data/blogPageContent";
+import { blogCTA } from "@/data/blogPageContent";
 
 export default function BlogCTASection() {
   const reduce = useReducedMotion();

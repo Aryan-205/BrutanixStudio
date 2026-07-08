@@ -2,7 +2,7 @@
 
 import { motion, useReducedMotion } from "motion/react";
 import { easePremium } from "@/components/motion/presets";
-import { blogHero } from "@/lib/data/blogPageContent";
+import { blogHero } from "@/data/blogPageContent";
 
 export default function BlogsPageHero() {
   const reduce = useReducedMotion();

@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion, useReducedMotion } from "motion/react";
 import { easePremium } from "@/components/motion/presets";
-import type { ProjectCaseStudy as ProjectCaseStudyType } from "@/lib/data/projectsPageContent";
+import type { ProjectCaseStudy as ProjectCaseStudyType } from "@/data/projectsPageContent";
 
 type ProjectCaseStudyProps = {
   project: ProjectCaseStudyType;
@@ -65,7 +65,7 @@ export default function ProjectCaseStudy({
         </div>
 
         <Link
-          href="/contact-us"
+          href={`/projects/${project.id}`}
           className="group mt-10 inline-flex w-fit items-center gap-2 rounded-full bg-[#111] px-8 py-3.5 text-sm font-semibold text-white transition-all duration-300 hover:bg-[#5210F8] hover:shadow-[0_8px_32px_rgba(82,16,248,0.25)]"
         >
           View details
@@ -77,7 +77,7 @@ export default function ProjectCaseStudy({
 
       {/* Visual panel */}
       <motion.div
-        className={`relative flex items-center justify-center bg-white overflow-hidden px-2 py-2 md:px-4 md:py-4 ${
+        className={`relative flex items-center justify-center bg-neutral-100 px-8 py-16 md:px-12 md:py-20 ${
           isReversed ? "lg:order-1" : "lg:order-2"
         }`}
         initial={reduce ? false : { opacity: 0, x: isReversed ? -32 : 32 }}
@@ -85,19 +85,15 @@ export default function ProjectCaseStudy({
         viewport={{ once: true, amount: 0.25 }}
         transition={{ duration: 0.75, delay: 0.08, ease: easePremium }}
       >
-
-        <div className="relative w-full h-full rounded-2xl">
-
-          <div className="relative aspect-square overflow-hidden border border-white/60 shadow-[0_24px_64px_rgba(7,44,85,0.12)] rounded-2xl">
-            <Image
-              src={project.image}
-              alt={project.name}
-              fill
-              sizes="(min-width: 1024px) w-full h-full"
-              className="object-cover"
-              priority={isFirst}
-            />
-          </div>
+        <div className="relative aspect-[16/10] w-full max-w-lg overflow-hidden rounded-xl border border-black/5 bg-white shadow-[0_24px_64px_rgba(7,44,85,0.12)]">
+          <Image
+            src={project.image}
+            alt={project.name}
+            fill
+            sizes="(min-width: 1024px) 32rem, 90vw"
+            className="object-cover"
+            priority={isFirst}
+          />
         </div>
       </motion.div>
     </section>

@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { easePremium } from "@/components/motion/presets";
-import { serviceDetails, servicesHero } from "@/lib/data/servicesPageContent";
+import { serviceDetails, servicesHero } from "@/data/servicesPageContent";
 
 const CYCLE_MS = 4000;
 

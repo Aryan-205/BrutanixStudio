@@ -3,7 +3,7 @@
 import { motion, useReducedMotion } from "motion/react";
 import { Reveal } from "@/components/motion/Reveal";
 import { easePremium } from "@/components/motion/presets";
-import { valueProps } from "@/lib/data/servicesPageContent";
+import { valueProps } from "@/data/servicesPageContent";
 
 export default function ServicesWhyPartner() {
   const reduce = useReducedMotion();

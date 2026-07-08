@@ -5,7 +5,7 @@ import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { Check, ChevronDown } from "lucide-react";
 import { Reveal } from "@/components/motion/Reveal";
 import { easePremium } from "@/components/motion/presets";
-import { serviceDetails } from "@/lib/data/servicesPageContent";
+import { serviceDetails } from "@/data/servicesPageContent";
 
 const serviceSlugs = [
   "brand-strategy",
