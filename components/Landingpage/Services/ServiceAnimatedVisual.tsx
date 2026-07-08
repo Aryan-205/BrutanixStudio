@@ -26,7 +26,7 @@ function BrandVisual() {
           {Array.from({ length: 24 }).map((_, i) => (
             <div
               key={i}
-              className="aspect-square rounded-sm"
+              className="aspect-square rounded-sm border"
               style={{
                 backgroundColor:
                   [0, 5, 12, 18].includes(i) ? brandColors[(i % 3) + 1].hex : "transparent",
@@ -53,17 +53,16 @@ function BrandVisual() {
         {brandColors.map((color, i) => (
           <div key={color.hex} className="flex flex-1 flex-col items-center gap-2">
             <motion.div
-              className="w-full flex-1 rounded-full border border-neutral-100"
+              className="w-full flex-1 rounded-lg border border-neutral-200 relative"
               style={{ backgroundColor: color.hex }}
-              animate={reduce ? undefined : { scaleY: [1, 1.05, 1] }}
-              transition={{ duration: 3, repeat: Infinity, delay: i * 0.3 }}
-            />
+            >
             <span
-              className="text-[9px] font-medium tracking-wider text-neutral-400"
+              className="text-[9px] font-medium tracking-wider text-neutral-400 absolute right-1 bottom-2"
               style={{ writingMode: "vertical-rl", transform: "rotate(180deg)" }}
             >
               {color.hex}
             </span>
+            </motion.div>
           </div>
         ))}
       </motion.div>

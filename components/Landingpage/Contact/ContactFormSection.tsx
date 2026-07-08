@@ -1,10 +1,17 @@
 "use client";
 
 import { motion, useReducedMotion } from "motion/react";
-import { ArrowRight, ChevronDown, Mail, MapPin } from "lucide-react";
+import { ArrowRight, Mail, MapPin } from "lucide-react";
 import { Reveal } from "@/components/motion/Reveal";
 import { StaggerChildren } from "@/components/motion/StaggerChildren";
 import { easePremium, viewportDefault } from "@/components/motion/presets";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const inputClassName =
   "w-full rounded-xl border border-neutral-200 bg-white px-4.5 py-3.5 text-sm text-neutral-900 placeholder:text-neutral-400 outline-none transition-[color,background-color,border-color,box-shadow] duration-200 hover:border-neutral-300 focus:border-brand-purple focus:shadow-[0_0_0_4px_rgba(82,16,248,0.08)] tracking-tight";
@@ -85,28 +92,18 @@ function SelectField({
       <label htmlFor={id} className={labelClassName}>
         {label}
       </label>
-      <div className="relative">
-        <select
-          id={id}
-          name={name}
-          required={required}
-          defaultValue=""
-          className={`${inputClassName} appearance-none cursor-pointer pr-10`}
-        >
-          <option value="" disabled>
-            {placeholder}
-          </option>
+      <Select name={name} required={required}>
+        <SelectTrigger id={id} aria-label={label}>
+          <SelectValue placeholder={placeholder} />
+        </SelectTrigger>
+        <SelectContent>
           {options.map((option) => (
-            <option key={option} value={option}>
+            <SelectItem key={option} value={option}>
               {option}
-            </option>
+            </SelectItem>
           ))}
-        </select>
-        <ChevronDown
-          className="pointer-events-none absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 text-neutral-400"
-          strokeWidth={1.75}
-        />
-      </div>
+        </SelectContent>
+      </Select>
     </div>
   );
 }
