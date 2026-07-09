@@ -10,8 +10,26 @@ import {
 import {
   ArrowUpRight,
   BarChart3,
+  Calendar,
+  Check,
+  Clock,
+  Eye,
+  Film,
+  Filter,
   Globe,
+  Handshake,
+  Heart,
+  Mail,
+  Megaphone,
+  MessageCircle,
+  Mic,
+  MoreVertical,
+  Rocket,
+  Settings,
   SlidersHorizontal,
+  Sparkles,
+  Ticket,
+  TrendingUp,
 } from "lucide-react";
 import BrandLogo from "@/components/BrandLogo";
 import type { ServiceVisualType } from "@/data/servicesPageContent";
@@ -37,452 +55,703 @@ function loop(duration: number, delay = 0): Transition {
 }
 
 /* ================================================================== *
- * 1. BRAND — brand board: lockup + morphing color blobs, palette,
- *    logo construction grid. (inspiration: brand identity boards)
+ * 1. BRAND — a clean brand guidelines sheet: lockup, type specimen,
+ *    colour palette and brand voice.
  * ================================================================== */
 const paletteColors = [
-  { hex: "#FFFFFF", label: "Paper", text: "text-neutral-400" },
-  { hex: PURPLE, label: "Signal", text: "text-white/70" },
-  { hex: LAVENDER, label: "Lift", text: "text-white/80" },
-  { hex: NAVY, label: "Depth", text: "text-white/70" },
-  { hex: "#111111", label: "Ink", text: "text-white/60" },
+  { hex: "#FFFFFF", label: "Paper" },
+  { hex: PURPLE, label: "Signal" },
+  { hex: LAVENDER, label: "Lift" },
+  { hex: NAVY, label: "Depth" },
+  { hex: "#111111", label: "Ink" },
 ];
 
-const blobShapes = [
-  "42% 58% 63% 37% / 41% 44% 56% 59%",
-  "58% 42% 38% 62% / 62% 38% 62% 38%",
-  "38% 62% 55% 45% / 55% 48% 52% 45%",
-];
+const brandVoice = ["Confident", "Human", "Clear", "Modern"];
 
 function BrandVisual() {
   const reduce = useReducedMotion();
-  const [active, setActive] = useState(1);
-
-  useEffect(() => {
-    if (reduce) return;
-    const t = setInterval(
-      () => setActive((p) => (p + 1) % paletteColors.length),
-      1800,
-    );
-    return () => clearInterval(t);
-  }, [reduce]);
 
   return (
-    <div className={`grid ${FRAME} grid-cols-5 grid-rows-[1.2fr_1fr] gap-3`}>
-      {/* Lockup with morphing brand blobs */}
-      <div
-        className={`${CARD} relative col-span-5 flex items-center justify-center overflow-hidden`}
-      >
-        {/* dotted grid, radially masked */}
-        <div
-          className="pointer-events-none absolute inset-0 opacity-[0.5]"
-          style={{
-            backgroundImage:
-              "radial-gradient(rgba(82,16,248,0.16) 1.1px, transparent 1.1px)",
-            backgroundSize: "18px 18px",
-            maskImage:
-              "radial-gradient(ellipse 70% 70% at 50% 50%, black, transparent)",
-            WebkitMaskImage:
-              "radial-gradient(ellipse 70% 70% at 50% 50%, black, transparent)",
-          }}
-        />
-        {[
-          { c: PURPLE, top: "14%", left: "12%", d: 7 },
-          { c: LAVENDER, top: "22%", right: "16%", d: 8.5 },
-          { c: NAVY, bottom: "16%", left: "20%", d: 9.5 },
-        ].map((b, i) => (
-          <motion.div
-            key={i}
-            className="absolute h-9 w-11 md:h-11 md:w-14"
-            style={{
-              backgroundColor: b.c,
-              top: b.top,
-              left: b.left,
-              right: b.right,
-              bottom: b.bottom,
-              borderRadius: blobShapes[i],
-              filter: "blur(0.2px)",
-            }}
-            animate={
-              reduce
-                ? undefined
-                : { borderRadius: blobShapes, scale: [1, 1.08, 1] }
-            }
-            transition={loop(b.d, i * 0.5)}
-          />
-        ))}
-
-        <div className="relative flex items-center gap-3">
-          <div className="h-10 w-10 shrink-0 [&_svg]:h-full [&_svg]:w-full">
+    <div className={`${CARD} ${FRAME} flex w-full flex-col overflow-hidden p-6`}>
+      {/* Lockup */}
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-2.5">
+          <div className="h-8 w-8 shrink-0 [&_svg]:h-full [&_svg]:w-full">
             <BrandLogo />
           </div>
-          <span className="text-2xl font-semibold tracking-tight text-[#111] md:text-[1.7rem]">
+          <span className="text-xl font-semibold tracking-tight text-[#111]">
             InvisiEdge
           </span>
         </div>
+        <span className="rounded-full bg-[#5210F8]/8 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-[#5210F8]">
+          Brand Guidelines
+        </span>
       </div>
 
-      {/* Palette strip — active swatch lifts (Emil: origin-aware, transform-only) */}
-      <div className={`${CARD} col-span-3 flex gap-1.5 p-2.5`}>
-        {paletteColors.map((color, i) => (
-          <motion.div
-            key={color.hex}
-            className="relative flex-1 overflow-hidden rounded-lg border border-black/5"
-            style={{ backgroundColor: color.hex, transformOrigin: "bottom" }}
-            animate={reduce ? undefined : { scale: active === i ? 1 : 0.94 }}
-            transition={{ duration: 0.4, ease: EASE_OUT }}
-          >
-            <span
-              className={`absolute bottom-2 right-1 text-[8px] font-medium tracking-wider ${color.text}`}
-              style={{ writingMode: "vertical-rl", transform: "rotate(180deg)" }}
+      {/* Typography specimen */}
+      <motion.div
+        className="mt-6 flex items-end justify-between border-b border-neutral-100 pb-5"
+        initial={reduce ? false : { opacity: 0, y: 10 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5, ease: EASE_OUT }}
+      >
+        <span className="text-6xl font-semibold leading-none tracking-tight text-[#111]">
+          Aa
+        </span>
+        <div className="text-right">
+          <p className="text-[9px] font-medium uppercase tracking-wider text-neutral-400">
+            Typeface
+          </p>
+          <p className="text-sm font-semibold text-[#111]">Geist Sans</p>
+          <p className="mt-0.5 text-[11px] text-neutral-400">
+            Regular · Medium · Semibold
+          </p>
+        </div>
+      </motion.div>
+
+      {/* Palette */}
+      <div className="mt-5">
+        <p className="mb-2 text-[9px] font-medium uppercase tracking-wider text-neutral-400">
+          Palette
+        </p>
+        <div className="grid grid-cols-5 gap-2">
+          {paletteColors.map((color, i) => (
+            <motion.div
+              key={color.hex}
+              initial={reduce ? false : { opacity: 0, y: 8 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4, delay: i * 0.06, ease: EASE_OUT }}
             >
-              {color.hex}
-            </span>
-          </motion.div>
-        ))}
+              <div
+                className="h-12 w-full rounded-lg border border-black/5"
+                style={{ backgroundColor: color.hex }}
+              />
+              <p className="mt-1.5 text-[9px] font-semibold text-neutral-600">
+                {color.label}
+              </p>
+              <p className="text-[8px] uppercase tracking-wide text-neutral-400">
+                {color.hex}
+              </p>
+            </motion.div>
+          ))}
+        </div>
       </div>
 
-      {/* Logo construction grid */}
-      <div className={`${CARD} col-span-2 relative overflow-hidden p-3`}>
-        <div
-          className="absolute inset-0 opacity-40"
-          style={{
-            backgroundImage:
-              "linear-gradient(rgba(7,44,85,0.12) 1px, transparent 1px), linear-gradient(90deg, rgba(7,44,85,0.12) 1px, transparent 1px)",
-            backgroundSize: "14px 14px",
-          }}
-        />
-        <svg
-          viewBox="0 0 100 100"
-          className="relative h-full w-full"
-          fill="none"
-          stroke={PURPLE}
-          strokeWidth="1"
-        >
-          <motion.g
-            initial={reduce ? false : { pathLength: 0, opacity: 0 }}
-            animate={{ pathLength: 1, opacity: 1 }}
-            transition={{ duration: 1.4, ease: EASE_OUT }}
-          >
-            <motion.rect
-              x="24"
-              y="24"
-              width="52"
-              height="52"
-              rx="14"
-              initial={reduce ? false : { pathLength: 0 }}
-              animate={{ pathLength: 1 }}
-              transition={{ duration: 1.4, ease: EASE_OUT }}
-            />
-            <motion.path
-              d="M24 24 Q50 40 76 24 Q60 50 76 76 Q50 60 24 76 Q40 50 24 24Z"
-              stroke={LAVENDER}
-              initial={reduce ? false : { pathLength: 0 }}
-              animate={{ pathLength: 1 }}
-              transition={{ duration: 1.6, delay: 0.2, ease: EASE_OUT }}
-            />
-          </motion.g>
-          {[
-            [24, 24],
-            [76, 24],
-            [24, 76],
-            [76, 76],
-            [50, 50],
-          ].map(([cx, cy], i) => (
-            <circle key={i} cx={cx} cy={cy} r="3" fill={PURPLE} stroke="none" />
+      {/* Brand voice */}
+      <div className="mt-auto pt-5">
+        <p className="mb-2 text-[9px] font-medium uppercase tracking-wider text-neutral-400">
+          Brand voice
+        </p>
+        <div className="flex flex-wrap gap-2">
+          {brandVoice.map((word, i) => (
+            <motion.span
+              key={word}
+              className="rounded-full border border-neutral-200 px-3 py-1 text-[11px] font-medium text-neutral-600"
+              initial={reduce ? false : { opacity: 0, scale: 0.92 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.35, delay: i * 0.06, ease: EASE_OUT }}
+            >
+              {word}
+            </motion.span>
           ))}
-        </svg>
+        </div>
       </div>
     </div>
   );
 }
 
 /* ================================================================== *
- * 2. WEBSITE — builder window + syntax-highlighted code panel + stack
+ * 2. WEBSITE — a design-tool canvas: layers rail, artboard under
+ *    selection, live dimension badge, and multiplayer cursors.
  * ================================================================== */
-const stack = [
-  { name: "Next.js", active: true },
-  { name: "React", active: false },
-  { name: "Tailwind", active: false },
-  { name: "Webflow", active: false },
+const layers = [
+  { name: "Hero", depth: 0 },
+  { name: "Nav", depth: 1 },
+  { name: "CTA / active", depth: 1, selected: true },
+  { name: "Pricing", depth: 0 },
+  { name: "Footer", depth: 0 },
 ];
 
-const codeTokens: { k: string; rest: string }[] = [
-  { k: "export default", rest: "function Hero() {" },
-  { k: "  return", rest: "(" },
-  { k: "    <section", rest: 'className="hero">' },
-  { k: "      <h1>", rest: "Grow faster</h1>" },
-  { k: "    </section>", rest: ");" },
-  { k: "}", rest: "" },
+/** Collaborators drift on their own loops so the canvas never feels staged. */
+const collaborators = [
+  {
+    name: "UX writer",
+    color: LAVENDER,
+    top: "16%",
+    left: "46%",
+    x: [0, 14, -6, 0],
+    y: [0, -10, 6, 0],
+    d: 7.5,
+  },
+  {
+    name: "Developer",
+    color: NAVY,
+    top: "38%",
+    left: "58%",
+    x: [0, -12, 8, 0],
+    y: [0, 8, -6, 0],
+    d: 9,
+  },
+  {
+    name: "Designer",
+    color: PURPLE,
+    bottom: "12%",
+    left: "52%",
+    x: [0, 10, -8, 0],
+    y: [0, -6, 10, 0],
+    d: 8.2,
+  },
 ];
+
+/** Selection handle — hollow square, the way every design tool draws it. */
+function Handle({ className }: { className: string }) {
+  return (
+    <span
+      className={`absolute h-1.5 w-1.5 rounded-[1px] border bg-white ${className}`}
+      style={{ borderColor: PURPLE }}
+    />
+  );
+}
+
+function Cursor({ color }: { color: string }) {
+  return (
+    <svg viewBox="0 0 12 16" className="h-3.5 w-3.5 drop-shadow-sm">
+      <path
+        d="M1 1L11 11H6.2L4.2 15L1 1Z"
+        fill={color}
+        stroke="white"
+        strokeWidth="1"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
 
 function WebsiteVisual() {
   const reduce = useReducedMotion();
 
-  return (
-    <div className={`relative flex ${FRAME} flex-col justify-center`}>
-      {/* stack pills */}
-      <div className="mb-4 flex flex-wrap gap-2">
-        {stack.map((s, i) => (
-          <motion.span
-            key={s.name}
-            className={`rounded-full border px-3 py-1 text-[11px] font-medium ${
-              s.active
-                ? "border-[#5210F8]/30 bg-[#5210F8]/5 text-[#5210F8]"
-                : "border-neutral-200 bg-white text-neutral-500"
-            }`}
-            initial={reduce ? false : { opacity: 0, y: 8 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.4, delay: i * 0.06, ease: EASE_OUT }}
-          >
-            {s.name}
-          </motion.span>
-        ))}
-      </div>
-
-      {/* browser window + floating code panel — wrapper reserves room so the
-          panel overlaps the window without spilling outside the frame */}
-      <div className="relative pb-9">
-        <div className={`${CARD} overflow-hidden`}>
-          <div className="flex items-center gap-2 border-b border-neutral-100 bg-neutral-50 px-4 py-2.5">
-            <div className="h-2.5 w-2.5 rounded-full bg-neutral-300" />
-            <div className="h-2.5 w-2.5 rounded-full bg-neutral-300" />
-            <div className="h-2.5 w-2.5 rounded-full bg-neutral-300" />
-            <span className="ml-2 text-[10px] text-neutral-400">
-              invisiedge.com
-            </span>
-          </div>
-          <div className="relative overflow-hidden bg-linear-to-br from-[#5210F8] to-[#072C55] p-6 md:p-7">
-            {/* soft moving sheen */}
-            <motion.div
-              className="pointer-events-none absolute inset-0"
-              style={{
-                background:
-                  "radial-gradient(120px 120px at 20% 20%, rgba(196,125,253,0.35), transparent)",
-              }}
-              animate={reduce ? undefined : { x: ["-10%", "40%", "-10%"] }}
-              transition={loop(9)}
-            />
-            <p className="relative text-[10px] font-bold uppercase tracking-[0.2em] text-white/60">
-              Built for conversion
-            </p>
-            <p className="relative mt-2 text-xl font-semibold text-white md:text-2xl">
-              Your value, clearly delivered
-            </p>
-            <motion.div
-              className="relative mt-4 h-8 w-28 rounded-full bg-white/20"
-              animate={reduce ? undefined : { scaleX: [1, 1.18, 1] }}
-              style={{ transformOrigin: "left" }}
-              transition={loop(3.2)}
-            />
-          </div>
-        </div>
-
-        {/* floating code panel — positive insets keep it inside the frame */}
-        <motion.div
-          className="absolute bottom-0 right-0 w-[58%] rounded-xl border border-white/10 bg-[#0e0e12] p-3.5 shadow-[0_16px_40px_-12px_rgba(7,44,85,0.5)]"
-          animate={reduce ? undefined : { y: [0, -6, 0] }}
-          transition={loop(4.5)}
-        >
-          <div className="mb-2 flex gap-1.5">
-            <div className="h-2 w-2 rounded-full bg-[#C47DFD]/70" />
-            <div className="h-2 w-2 rounded-full bg-white/20" />
-            <div className="h-2 w-2 rounded-full bg-white/20" />
-          </div>
-          <pre className="font-mono text-[10px] leading-relaxed md:text-[11px]">
-            {codeTokens.map((line, i) => (
-              <motion.div
-                key={line.k + i}
-                initial={reduce ? false : { opacity: 0, x: -6 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.35, delay: i * 0.12, ease: EASE_OUT }}
-              >
-                <span className="text-[#C47DFD]">{line.k}</span>
-                <span className="text-white/70"> {line.rest}</span>
-              </motion.div>
-            ))}
-            <motion.span
-              className="inline-block h-3 w-1.5 translate-y-0.5 bg-[#C47DFD]"
-              animate={reduce ? undefined : { opacity: [1, 0, 1] }}
-              transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-            />
-          </pre>
-        </motion.div>
-      </div>
-    </div>
-  );
-}
-
-/* ================================================================== *
- * 3. SEO — Search Performance card (queries / pages / countries / devices)
- * ================================================================== */
-const seoTabs = ["QUERIES", "PAGES", "COUNTRIES", "DEVICES"];
-const seoCountryData = [
-  { country: "United States", clicks: "4,702,093", impressions: "253,120,445" },
-  { country: "India", clicks: "3,751,421", impressions: "165,732,782" },
-  { country: "United Kingdom", clicks: "1,083,446", impressions: "47,736,726" },
-  { country: "Germany", clicks: "842,110", impressions: "32,104,551" },
-];
-
-function SeoVisual() {
-  const [activeTab, setActiveTab] = useState("COUNTRIES");
+  const dotColors = ["bg-red-500", "bg-yellow-400", "bg-green-500"];
 
   return (
-    <div className="w-full overflow-hidden rounded-3xl border border-purple-100/50 bg-white p-6 shadow-[0_20px_50px_rgba(120,119,198,0.08)] backdrop-blur-sm transition-all duration-300 hover:shadow-[0_20px_60px_rgba(120,119,198,0.12)]">
-      {/* Card header & tabs */}
-      <div className="border-b border-slate-100 pb-2">
-        <div className="mb-4 flex items-center justify-between">
-          <div className="flex items-center gap-2 rounded-full bg-purple-50 px-3 py-1.5 text-xs font-semibold uppercase tracking-wider text-purple-600">
-            <BarChart3 size={14} />
-            Search Performance
-          </div>
-          <button className="rounded-lg p-1.5 text-slate-400 transition-colors hover:bg-slate-50">
-            <SlidersHorizontal size={16} />
-          </button>
+    <div
+      className={`relative ${FRAME} flex flex-col overflow-hidden rounded-2xl border border-neutral-200/70 bg-white shadow-md`}
+    >
+      {/* toolbar */}
+      <div className="flex shrink-0 items-center gap-3 border-b border-neutral-100 px-3 py-2">
+        <div className="flex items-center gap-2.5 text-neutral-400">
+          {dotColors.map((color, i) => (
+            <div key={i} className={`h-2.5 w-2.5 rounded-full ${color}`} />
+          ))}
         </div>
+        <span className="mx-auto truncate text-[10px] font-medium text-neutral-500">
+          invisiedge <span className="text-neutral-300">/</span> Web design
+        </span>
+        <div className="flex items-center gap-1.5">
+          <div className="h-4 w-4 rounded-full border-2 border-white bg-[#C47DFD]" />
+          <div className="-ml-3 h-4 w-4 rounded-full border-2 border-white bg-[#072C55]" />
+          <div className="-ml-3 h-4 w-4 rounded-full border-2 border-white bg-[#1eb95c]" />
+          <span className="ml-1 hidden text-[9px] text-neutral-400 sm:inline">
+            100%
+          </span>
+        </div>
+      </div>
 
-        {/* Navigation tabs */}
-        <div className="no-scrollbar flex gap-6 overflow-x-auto scroll-smooth">
-          {seoTabs.map((tab) => (
-            <button
-              key={tab}
-              onClick={() => setActiveTab(tab)}
-              className={`relative whitespace-nowrap pb-3 text-xs font-bold tracking-widest transition-all duration-200 ${
-                activeTab === tab
-                  ? "text-slate-900"
-                  : "text-slate-400 hover:text-slate-600"
+      <div className="flex min-h-0 flex-1">
+        {/* layers rail */}
+        <div className="hidden w-32 shrink-0 border-r border-neutral-100 py-3 sm:block">
+          <p className="px-3 pb-2 text-[9px] font-semibold uppercase tracking-wider text-neutral-500">
+            Layers
+          </p>
+          {layers.map((layer, i) => (
+            <motion.div
+              key={layer.name}
+              className={`flex items-center gap-1.5 py-1.5 pr-2 text-[10px] ${
+                layer.selected
+                  ? "bg-[#5210F8]/6 font-medium text-[#5210F8]"
+                  : "text-neutral-500"
               }`}
+              style={{ paddingLeft: 12 + layer.depth * 10 }}
+              initial={reduce ? false : { opacity: 0, x: -6 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.35, delay: i * 0.07, ease: EASE_OUT }}
             >
-              {tab}
-              {activeTab === tab && (
-                <span className="absolute bottom-0 left-0 h-[3px] w-full rounded-full bg-linear-to-r from-violet-600 to-indigo-600" />
-              )}
-            </button>
+              <span
+                className="h-1 w-1 rounded-full"
+                style={{
+                  backgroundColor: layer.selected ? PURPLE : "#d4d4d4",
+                }}
+              />
+              {layer.name}
+            </motion.div>
+          ))}
+        </div>
+
+        {/* canvas */}
+        <div className="relative flex min-w-0 flex-1 items-center justify-center bg-[#f1f1f3] p-5">
+          {/* artboard */}
+          <motion.div
+            className="relative w-full max-w-[220px] rounded-lg bg-white p-2.5 shadow-[0_10px_30px_-12px_rgba(7,44,85,0.35)]"
+            initial={reduce ? false : { opacity: 0, scale: 0.96 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, ease: EASE_OUT }}
+          >
+            <div
+              className="relative h-20 overflow-hidden rounded-md md:h-24"
+              style={{
+                background: `linear-gradient(140deg, ${PURPLE}, ${NAVY})`,
+              }}
+            >
+              <motion.div
+                className="pointer-events-none absolute inset-0"
+                style={{
+                  background:
+                    "radial-gradient(90px 90px at 25% 25%, rgba(196,125,253,0.55), transparent)",
+                }}
+                animate={reduce ? undefined : { x: ["-15%", "45%", "-15%"] }}
+                transition={loop(9)}
+              />
+            </div>
+
+            <div className="mt-2.5 flex items-baseline justify-between px-0.5">
+              <span className="text-base font-semibold tracking-tight text-[#111]">
+                Hero
+              </span>
+              <span className="text-[11px] text-neutral-400">v2.4</span>
+            </div>
+
+            {/* selected CTA — outline, handles, dimension badge */}
+            <div className="relative mt-2.5 px-0.5 pb-1">
+              <div
+                className="relative flex h-9 items-center justify-center rounded-md text-[11px] font-bold tracking-wide text-white"
+                style={{ backgroundColor: PURPLE }}
+              >
+                GET STARTED
+                <ArrowUpRight size={12} className="ml-1" strokeWidth={2.5} />
+              </div>
+
+              <span
+                className="pointer-events-none absolute -inset-[3px] rounded-[7px] border"
+                style={{ borderColor: PURPLE }}
+              />
+              <Handle className="-left-[6px] -top-[6px]" />
+              <Handle className="-right-[6px] -top-[6px]" />
+              <Handle className="-bottom-[3px] -left-[6px]" />
+              <Handle className="-bottom-[3px] -right-[6px]" />
+
+              <motion.span
+                className="absolute -bottom-4 left-1/2 -translate-x-1/2 rounded-[3px] px-1.5 py-0.5 text-[8px] font-semibold text-white"
+                style={{ backgroundColor: PURPLE }}
+                animate={reduce ? undefined : { opacity: [1, 0.55, 1] }}
+                transition={loop(3)}
+              >
+                220 × 36
+              </motion.span>
+            </div>
+          </motion.div>
+
+          {/* multiplayer cursors */}
+          {collaborators.map((c) => (
+            <motion.div
+              key={c.name}
+              className="absolute flex items-start"
+              style={{
+                top: c.top,
+                left: c.left,
+                bottom: c.bottom,
+              }}
+              animate={reduce ? undefined : { x: c.x, y: c.y }}
+              transition={loop(c.d)}
+            >
+              <Cursor color={c.color} />
+              <span
+                className="-ml-0.5 mt-2 rounded-[4px] px-1.5 py-0.5 text-[9px] font-semibold text-white shadow-sm"
+                style={{ backgroundColor: c.color }}
+              >
+                {c.name}
+              </span>
+            </motion.div>
           ))}
         </div>
       </div>
+    </div>
+  );
+}
 
-      {/* Table content */}
-      <div className="mt-4 overflow-hidden rounded-xl border border-slate-50">
-        <table className="w-full border-collapse text-left">
-          <thead>
-            <tr className="bg-slate-50/70 text-[11px] font-bold uppercase tracking-wider text-slate-400">
-              <th className="px-4 py-3">Country</th>
-              <th className="px-4 py-3 text-right">Clicks</th>
-              <th className="hidden px-4 py-3 text-right sm:table-cell">
-                Impressions
-              </th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-slate-50 text-sm">
-            {seoCountryData.map((row) => (
-              <tr
-                key={row.country}
-                className="group transition-colors duration-150 hover:bg-violet-50/30"
-              >
-                {/* Country name & icon */}
-                <td className="flex items-center gap-3 px-4 py-3.5 font-medium text-slate-700">
-                  <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-slate-50 text-slate-400 transition-colors group-hover:bg-purple-100/50 group-hover:text-purple-600">
-                    <Globe size={14} />
-                  </div>
-                  {row.country}
-                </td>
+/* ================================================================== *
+ * 3. SEO — a brand-styled "Search Performance" card. Abstract, not a
+ *    literal analytics clone: two metric tiles, a dual-line trend
+ *    chart, dimension tabs and a compact country breakdown.
+ * ================================================================== */
+const seoMetrics = [
+  { label: "Clicks", value: "25.2M", filled: PURPLE },
+  { label: "Impressions", value: "1.43B", filled: NAVY },
+  { label: "Avg. CTR", value: "1.8%", filled: null },
+  { label: "Avg. position", value: "11.2", filled: null },
+];
 
-                {/* Clicks */}
-                <td className="px-4 py-3.5 text-right font-semibold tabular-nums text-slate-900">
-                  {row.clicks}
-                </td>
+const seoTabs = ["QUERIES", "PAGES", "COUNTRIES", "DEVICES"];
 
-                {/* Impressions */}
-                <td className="hidden px-4 py-3.5 text-right font-medium tabular-nums text-slate-400 transition-colors group-hover:text-slate-500 sm:table-cell">
-                  {row.impressions}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+const seoCountryData = [
+  { country: "United States", clicks: "4.7M", share: "34%" },
+  { country: "India", clicks: "3.7M", share: "27%" },
+  { country: "United Kingdom", clicks: "1.1M", share: "12%" },
+];
+
+const CHART_W = 620;
+const CHART_H = 150;
+const CHART_POINTS = 40;
+
+/** Gentle wave → SVG path. Enough rhythm to read as a trend, no more. */
+function buildSeries({
+  base,
+  trend,
+  wave,
+  phase,
+}: {
+  base: number;
+  trend: number;
+  wave: number;
+  phase: number;
+}) {
+  const pts: string[] = [];
+  for (let i = 0; i < CHART_POINTS; i++) {
+    const x = (i / (CHART_POINTS - 1)) * CHART_W;
+    const w = Math.sin((i / 6) * Math.PI + phase);
+    const y = base - trend * (i / CHART_POINTS) - wave * w;
+    pts.push(`${x.toFixed(1)} ${y.toFixed(1)}`);
+  }
+  return "M " + pts.join(" L ");
+}
+
+function SeoVisual() {
+  const reduce = useReducedMotion();
+  const [activeTab, setActiveTab] = useState("COUNTRIES");
+
+  const impressionsPath = buildSeries({ base: 78, trend: 22, wave: 20, phase: 0 });
+  const clicksPath = buildSeries({ base: 120, trend: 10, wave: 12, phase: 0.7 });
+
+  return (
+    <div className={`${CARD} ${FRAME} w-full overflow-hidden p-5`}>
+      {/* Header */}
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-2 rounded-full bg-[#5210F8]/8 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-wider text-[#5210F8]">
+          <BarChart3 size={14} />
+          Search Performance
+        </div>
+        <button className="rounded-lg p-1.5 text-neutral-400 transition-colors hover:bg-neutral-50">
+          <SlidersHorizontal size={15} />
+        </button>
       </div>
 
-      {/* Card footer / callout */}
-      <div className="mt-4 flex items-center justify-between border-t border-slate-50 pt-2 text-xs text-slate-400">
-        <span>Showing top traffic sources</span>
-        <a
-          href="#details"
-          className="flex items-center gap-1 font-semibold text-purple-600 transition-colors hover:text-purple-700"
+      {/* Metric tiles */}
+      <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-4">
+        {seoMetrics.map((m) => (
+          <div
+            key={m.label}
+            className={`rounded-xl px-3 py-2.5 ${
+              m.filled ? "text-white" : "border border-neutral-200/70 bg-white text-[#111]"
+            }`}
+            style={m.filled ? { backgroundColor: m.filled } : undefined}
+          >
+            <p
+              className={`text-[9px] font-medium uppercase tracking-wide ${
+                m.filled ? "text-white/70" : "text-neutral-400"
+              }`}
+            >
+              {m.label}
+            </p>
+            <p className="mt-1 text-lg font-semibold leading-none tracking-tight">
+              {m.value}
+            </p>
+          </div>
+        ))}
+      </div>
+
+      {/* Trend chart */}
+      <div className="mt-4">
+        <div className="mb-1.5 flex items-center gap-4 text-[10px] font-medium">
+          <span className="flex items-center gap-1.5 text-neutral-500">
+            <span className="h-1.5 w-1.5 rounded-full" style={{ backgroundColor: LAVENDER }} />
+            Clicks
+          </span>
+          <span className="flex items-center gap-1.5 text-neutral-500">
+            <span className="h-1.5 w-1.5 rounded-full" style={{ backgroundColor: PURPLE }} />
+            Impressions
+          </span>
+        </div>
+        <svg
+          viewBox={`0 0 ${CHART_W} ${CHART_H}`}
+          className="h-24 w-full"
+          preserveAspectRatio="none"
         >
-          Full Report <ArrowUpRight size={14} />
-        </a>
+          {[0.33, 0.66].map((g) => (
+            <line
+              key={g}
+              x1="0"
+              x2={CHART_W}
+              y1={CHART_H * g}
+              y2={CHART_H * g}
+              stroke="#f1f1f3"
+              strokeWidth="1"
+            />
+          ))}
+          <motion.path
+            d={impressionsPath}
+            fill="none"
+            stroke={PURPLE}
+            strokeWidth="2.5"
+            strokeLinejoin="round"
+            strokeLinecap="round"
+            vectorEffect="non-scaling-stroke"
+            initial={reduce ? false : { pathLength: 0 }}
+            whileInView={{ pathLength: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1.4, ease: EASE_OUT }}
+          />
+          <motion.path
+            d={clicksPath}
+            fill="none"
+            stroke={LAVENDER}
+            strokeWidth="2.5"
+            strokeLinejoin="round"
+            strokeLinecap="round"
+            vectorEffect="non-scaling-stroke"
+            initial={reduce ? false : { pathLength: 0 }}
+            whileInView={{ pathLength: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1.4, delay: 0.15, ease: EASE_OUT }}
+          />
+        </svg>
+      </div>
+
+      {/* Dimension tabs */}
+      <div className="no-scrollbar mt-4 flex gap-5 overflow-x-auto border-b border-neutral-100">
+        {seoTabs.map((tab) => (
+          <button
+            key={tab}
+            onClick={() => setActiveTab(tab)}
+            className={`relative whitespace-nowrap pb-2 text-[10px] font-bold tracking-widest transition-colors ${
+              activeTab === tab
+                ? "text-[#111]"
+                : "text-neutral-400 hover:text-neutral-600"
+            }`}
+          >
+            {tab}
+            {activeTab === tab && (
+              <span
+                className="absolute -bottom-px left-0 h-[2px] w-full rounded-full"
+                style={{ backgroundColor: PURPLE }}
+              />
+            )}
+          </button>
+        ))}
+      </div>
+
+      {/* Country breakdown */}
+      <div className="mt-2 space-y-0.5">
+        {seoCountryData.map((row) => (
+          <div
+            key={row.country}
+            className="flex items-center gap-3 rounded-lg px-1 py-2 text-[12px] transition-colors hover:bg-neutral-50"
+          >
+            <div className="flex h-6 w-6 items-center justify-center rounded-md bg-neutral-50 text-neutral-400">
+              <Globe size={13} />
+            </div>
+            <span className="font-medium text-neutral-700">{row.country}</span>
+            <span className="ml-auto font-semibold tabular-nums text-[#111]">
+              {row.clicks}
+            </span>
+            <span className="w-9 text-right tabular-nums text-neutral-400">
+              {row.share}
+            </span>
+          </div>
+        ))}
       </div>
     </div>
   );
 }
 
 /* ================================================================== *
- * 4. SOCIAL — auto-scrolling content feed (constant motion → linear)
+ * 4. CONTENT — a content-calendar card: weekly plan across platforms,
+ *    a scheduled-post queue, and community engagement.
  * ================================================================== */
-const posts = [
-  { platform: "LinkedIn", text: "Thought leadership post", likes: "2.4k" },
-  { platform: "Instagram", text: "Brand story reel", likes: "8.1k" },
-  { platform: "LinkedIn", text: "Product launch", likes: "1.9k" },
-  { platform: "Instagram", text: "Behind the scenes", likes: "5.3k" },
+const platformColor: Record<string, string> = {
+  LI: NAVY,
+  IG: LAVENDER,
+  RL: PURPLE,
+};
+const platformName: Record<string, string> = {
+  LI: "LinkedIn",
+  IG: "Instagram",
+  RL: "Reels",
+};
+
+const contentWeek: { day: string; posts: string[]; today?: boolean }[] = [
+  { day: "M", posts: ["LI"] },
+  { day: "T", posts: ["IG", "RL"] },
+  { day: "W", posts: ["LI"] },
+  { day: "T", posts: ["IG"], today: true },
+  { day: "F", posts: ["RL", "LI"] },
+  { day: "S", posts: ["IG"] },
+  { day: "S", posts: [] },
+];
+
+const contentQueue = [
+  { platform: "LI", title: "Thought leadership: scaling lean teams", time: "9:00 AM" },
+  { platform: "IG", title: "Brand story carousel", time: "1:30 PM" },
+  { platform: "RL", title: "60-sec product reel", time: "6:00 PM" },
 ];
 
 function SocialVisual() {
   const reduce = useReducedMotion();
 
   return (
-    <div className={`relative overflow-hidden ${FRAME}`}>
-      {/* fade masks top & bottom */}
-      <div className="pointer-events-none absolute inset-x-0 top-0 z-10 h-10 bg-linear-to-b from-white to-transparent" />
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-10 bg-linear-to-t from-white to-transparent" />
-      <motion.div
-        className="flex flex-col gap-3"
-        animate={reduce ? undefined : { y: ["0%", "-50%"] }}
-        transition={{ duration: 14, repeat: Infinity, ease: "linear" }}
-      >
-        {[...posts, ...posts].map((post, i) => (
-          <div key={`${post.text}-${i}`} className={`${CARD} p-4`}>
-            <div className="flex items-center justify-between">
+    <div className={`${CARD} ${FRAME} flex w-full flex-col overflow-hidden p-5`}>
+      {/* Header */}
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-2 rounded-full bg-[#5210F8]/8 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-wider text-[#5210F8]">
+          <Calendar size={14} />
+          Content Calendar
+        </div>
+        <div className="hidden items-center gap-3 text-[10px] font-medium text-neutral-400 sm:flex">
+          {Object.keys(platformName).map((key) => (
+            <span key={key} className="flex items-center gap-1.5">
               <span
-                className="rounded-full px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider"
-                style={{
-                  color: PURPLE,
-                  backgroundColor: "rgba(82,16,248,0.07)",
-                }}
-              >
-                {post.platform}
-              </span>
-              <span className="text-xs text-neutral-400">♥ {post.likes}</span>
-            </div>
-            <p className="mt-2 text-sm text-neutral-700">{post.text}</p>
-            <div className="mt-3 h-1.5 w-full overflow-hidden rounded-full bg-neutral-100">
-              <motion.div
-                className="h-full rounded-full"
-                style={{ background: `linear-gradient(90deg, ${PURPLE}, ${LAVENDER})` }}
-                animate={reduce ? { width: "70%" } : { width: ["24%", "82%", "24%"] }}
-                transition={loop(4, i * 0.4)}
+                className="h-2 w-2 rounded-full"
+                style={{ backgroundColor: platformColor[key] }}
               />
+              {platformName[key]}
+            </span>
+          ))}
+        </div>
+      </div>
+
+      {/* Weekly plan */}
+      <div className="mt-4 grid grid-cols-7 gap-1.5">
+        {contentWeek.map((d, di) => (
+          <div
+            key={di}
+            className={`rounded-lg border p-1.5 ${
+              d.today
+                ? "border-[#5210F8]/40 bg-[#5210F8]/5"
+                : "border-neutral-100 bg-white"
+            }`}
+          >
+            <p
+              className={`mb-1.5 text-center text-[9px] font-semibold ${
+                d.today ? "text-[#5210F8]" : "text-neutral-400"
+              }`}
+            >
+              {d.day}
+            </p>
+            <div className="flex min-h-[14px] flex-col gap-1">
+              {d.posts.map((key, pi) => (
+                <motion.span
+                  key={pi}
+                  className="h-1.5 origin-left rounded-full"
+                  style={{ backgroundColor: platformColor[key] }}
+                  initial={reduce ? false : { scaleX: 0, opacity: 0 }}
+                  whileInView={{ scaleX: 1, opacity: 1 }}
+                  viewport={{ once: true }}
+                  transition={{
+                    duration: 0.4,
+                    delay: di * 0.06 + pi * 0.08,
+                    ease: EASE_OUT,
+                  }}
+                />
+              ))}
             </div>
           </div>
         ))}
-      </motion.div>
+      </div>
+
+      {/* Scheduled queue */}
+      <p className="mb-2 mt-4 text-[10px] font-semibold uppercase tracking-wider text-neutral-400">
+        Up next
+      </p>
+      <div className="space-y-2">
+        {contentQueue.map((post, i) => (
+          <motion.div
+            key={post.title}
+            className="flex items-center gap-2.5 rounded-xl border border-neutral-200/70 bg-white p-2.5"
+            initial={reduce ? false : { opacity: 0, x: -8 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.4, delay: i * 0.1, ease: EASE_OUT }}
+          >
+            <span
+              className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg text-[9px] font-bold text-white"
+              style={{ backgroundColor: platformColor[post.platform] }}
+            >
+              {post.platform}
+            </span>
+            <div className="min-w-0 flex-1">
+              <p className="truncate text-[12px] font-medium text-neutral-700">
+                {post.title}
+              </p>
+              <p className="text-[10px] text-neutral-400">
+                {platformName[post.platform]} · {post.time}
+              </p>
+            </div>
+            <span className="hidden shrink-0 rounded-full bg-neutral-50 px-2 py-0.5 text-[9px] font-medium text-neutral-400 sm:inline">
+              Scheduled
+            </span>
+          </motion.div>
+        ))}
+      </div>
+
+      {/* Community engagement */}
+      <div className="mt-auto flex items-center justify-between border-t border-neutral-100 pt-3">
+        <div className="flex items-center gap-3 text-[11px] font-medium text-neutral-500">
+          <span className="flex items-center gap-1">
+            <Heart size={12} style={{ color: LAVENDER }} /> 8.1k
+          </span>
+          <span className="flex items-center gap-1">
+            <MessageCircle size={12} style={{ color: PURPLE }} /> 640
+          </span>
+        </div>
+        <span
+          className="rounded-full px-2 py-0.5 text-[10px] font-semibold"
+          style={{ color: PURPLE, backgroundColor: "rgba(82,16,248,0.08)" }}
+        >
+          Engagement +42%
+        </span>
+      </div>
     </div>
   );
 }
 
 /* ================================================================== *
- * 5. AI-VIDEO — generator: avatar + waveform + render progress cycle
+ * 5. AI-VIDEO — an AI video studio: avatar player with live script
+ *    captions + format badge, an AI-voiceover waveform, and an
+ *    automated render queue churning out multiple video formats.
  * ================================================================== */
 const waveform = Array.from(
-  { length: 28 },
+  { length: 22 },
   (_, i) => 24 + Math.sin(i * 0.7) * 34 + 30,
 );
+
+const scriptLines = [
+  "Meet your AI presenter —",
+  "on-brand, in every format.",
+  "Scripted, voiced, rendered.",
+];
+
+const renderQueue = [
+  { label: "Explainer video", pct: 100, done: true, color: "#22C55E" },
+  { label: "Corporate video", pct: 64, done: false, color: LAVENDER },
+  { label: "Event recap", pct: 28, done: false, color: PURPLE },
+];
 
 function AiVideoVisual() {
   const reduce = useReducedMotion();
   const [rendering, setRendering] = useState(true);
+  const [line, setLine] = useState(0);
 
   useEffect(() => {
     if (reduce) return;
@@ -490,16 +759,36 @@ function AiVideoVisual() {
     return () => clearInterval(t);
   }, [reduce]);
 
+  useEffect(() => {
+    if (reduce) return;
+    const t = setInterval(
+      () => setLine((p) => (p + 1) % scriptLines.length),
+      2600,
+    );
+    return () => clearInterval(t);
+  }, [reduce]);
+
   return (
     <div className={`flex ${FRAME} flex-col gap-3`}>
-      {/* player card */}
+      {/* Player card */}
       <div
         className="relative flex flex-1 items-center justify-center overflow-hidden rounded-2xl"
         style={{ background: `linear-gradient(150deg, ${NAVY}, #0d4a8a)` }}
       >
+        {/* soft light sweep */}
+        <motion.div
+          className="pointer-events-none absolute inset-0"
+          style={{
+            background:
+              "radial-gradient(120px 120px at 30% 25%, rgba(196,125,253,0.35), transparent)",
+          }}
+          animate={reduce ? undefined : { x: ["-12%", "40%", "-12%"] }}
+          transition={loop(10)}
+        />
+
         {/* avatar orb */}
         <motion.div
-          className="relative flex h-24 w-24 items-center justify-center rounded-full"
+          className="relative flex h-20 w-20 items-center justify-center rounded-full md:h-24 md:w-24"
           style={{
             background: `radial-gradient(circle at 35% 30%, ${LAVENDER}, ${PURPLE})`,
           }}
@@ -534,11 +823,42 @@ function AiVideoVisual() {
             </motion.span>
           </AnimatePresence>
         </div>
+
+        {/* format badge */}
+        <div className="absolute right-3 top-3 flex items-center gap-1.5 rounded-full bg-white/12 px-2.5 py-1 text-[10px] font-medium text-white backdrop-blur-sm">
+          <Sparkles size={11} />
+          9:16 · Short-form
+        </div>
+
+        {/* live script caption */}
+        <div className="absolute inset-x-3 bottom-3 flex justify-center">
+          <AnimatePresence mode="wait">
+            <motion.span
+              key={line}
+              className="rounded-lg bg-black/30 px-3 py-1.5 text-center text-[11px] font-medium text-white backdrop-blur-sm"
+              initial={{ opacity: 0, y: 6 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -6 }}
+              transition={{ duration: 0.3, ease: EASE_OUT }}
+            >
+              {scriptLines[line]}
+            </motion.span>
+          </AnimatePresence>
+        </div>
       </div>
 
-      {/* waveform + timeline */}
-      <div className={`${CARD} p-4`}>
-        <div className="flex h-12 items-center justify-center gap-[3px]">
+      {/* AI voiceover waveform */}
+      <div className={`${CARD} p-3`}>
+        <div className="mb-2 flex items-center justify-between">
+          <span className="flex items-center gap-1.5 text-[10px] font-semibold text-neutral-500">
+            <Mic size={12} style={{ color: PURPLE }} />
+            AI Voiceover
+          </span>
+          <span className="rounded-full bg-neutral-50 px-2 py-0.5 text-[9px] font-medium text-neutral-400">
+            EN · Natural
+          </span>
+        </div>
+        <div className="flex h-8 items-center justify-center gap-[3px]">
           {waveform.map((h, i) => (
             <motion.div
               key={i}
@@ -560,13 +880,66 @@ function AiVideoVisual() {
             />
           ))}
         </div>
-        <div className="mt-3 h-1 w-full overflow-hidden rounded-full bg-neutral-100">
-          <motion.div
-            className="h-full rounded-full"
-            style={{ background: `linear-gradient(90deg, ${PURPLE}, ${LAVENDER})`, transformOrigin: "left" }}
-            animate={reduce ? { scaleX: 0.6 } : { scaleX: [0, 1] }}
-            transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
-          />
+      </div>
+
+      {/* Automated render queue */}
+      <div className={`${CARD} p-3`}>
+        <div className="mb-2.5 flex items-center justify-between">
+          <span className="text-[10px] font-semibold text-neutral-500">
+            Render queue
+          </span>
+          <span
+            className="flex items-center gap-1 rounded-full px-2 py-0.5 text-[9px] font-semibold"
+            style={{ color: PURPLE, backgroundColor: "rgba(82,16,248,0.08)" }}
+          >
+            <Sparkles size={9} />
+            Automated
+          </span>
+        </div>
+        <div className="space-y-2.5">
+          {renderQueue.map((item, i) => (
+            <div key={item.label} className="flex items-center gap-2.5">
+              <span
+                className="flex h-6 w-6 shrink-0 items-center justify-center rounded-md text-white"
+                style={{ backgroundColor: item.color }}
+              >
+                <Film size={12} />
+              </span>
+              <div className="min-w-0 flex-1">
+                <div className="mb-1 flex items-center justify-between">
+                  <span className="truncate text-[11px] font-medium text-neutral-600">
+                    {item.label}
+                  </span>
+                  <span
+                    className="flex items-center gap-0.5 text-[10px] font-semibold tabular-nums"
+                    style={{ color: item.done ? "#22C55E" : "#a3a3a3" }}
+                  >
+                    {item.done ? (
+                      <>
+                        <Check size={11} /> Done
+                      </>
+                    ) : (
+                      `${item.pct}%`
+                    )}
+                  </span>
+                </div>
+                <div className="h-1 w-full overflow-hidden rounded-full bg-neutral-100">
+                  <motion.div
+                    className="h-full origin-left rounded-full"
+                    style={{ backgroundColor: item.color }}
+                    initial={reduce ? false : { scaleX: 0 }}
+                    whileInView={{ scaleX: item.pct / 100 }}
+                    viewport={{ once: true }}
+                    transition={{
+                      duration: 1,
+                      delay: 0.15 + i * 0.12,
+                      ease: EASE_OUT,
+                    }}
+                  />
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </div>
@@ -574,74 +947,215 @@ function AiVideoVisual() {
 }
 
 /* ================================================================== *
- * 6. CRM — funnel pipeline with a lead flowing stage → stage
+ * 6. AUTOMATION — a workflow builder canvas: trigger → delay → branch,
+ *    with a live toolbar and collaborator cursors that drift past the
+ *    panel edges (deliberately unclipped for a "shared canvas" feel).
  * ================================================================== */
-const stages = [
-  { label: "Lead", count: 128, w: "100%" },
-  { label: "Qualified", count: 74, w: "82%" },
-  { label: "Proposal", count: 39, w: "64%" },
-  { label: "Closed", count: 21, w: "46%" },
+type FlowIcon = ComponentType<{ size?: number; className?: string }>;
+
+/** A single automation step card. */
+function FlowNode({
+  icon: Icon,
+  iconBg,
+  label,
+  title,
+  highlight,
+  delay = 0,
+}: {
+  icon: FlowIcon;
+  iconBg: string;
+  label: string;
+  title: string;
+  highlight?: boolean;
+  delay?: number;
+}) {
+  const reduce = useReducedMotion();
+  return (
+    <motion.div
+      className={`relative flex items-center gap-2.5 rounded-xl border bg-white px-3 py-2.5 shadow-[0_6px_18px_-8px_rgba(7,44,85,0.3)] ${
+        highlight
+          ? "border-amber-300 ring-2 ring-amber-100"
+          : "border-neutral-200/80"
+      }`}
+      initial={reduce ? false : { opacity: 0, y: 10 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.45, delay, ease: EASE_OUT }}
+    >
+      <span
+        className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg text-white"
+        style={{ backgroundColor: iconBg }}
+      >
+        <Icon size={14} />
+      </span>
+      <div className="pr-1">
+        <p className="text-[9px] font-medium text-neutral-400">{label}</p>
+        <p className="text-[12px] font-semibold leading-tight text-[#111]">
+          {title}
+        </p>
+      </div>
+    </motion.div>
+  );
+}
+
+/** Down-pointing connector arrowhead. */
+function FlowArrow({ className }: { className: string }) {
+  return (
+    <span
+      className={`absolute h-0 w-0 border-x-[3px] border-x-transparent border-t-[5px] ${className}`}
+      style={{ borderTopColor: "#c9c9c9" }}
+    />
+  );
+}
+
+const flowCollab = [
+  {
+    name: "Lily Harper",
+    color: PURPLE,
+    style: { top: "22%", right: "-4%" } as const,
+    x: [0, -9, 5, 0],
+    y: [0, 7, -5, 0],
+    d: 7,
+  },
+  {
+    name: "Ethan Carter",
+    color: "#12B76A",
+    style: { bottom: "30%", left: "-5%" } as const,
+    x: [0, 11, -6, 0],
+    y: [0, -6, 9, 0],
+    d: 8.5,
+  },
+];
+
+const avatarGradients = [
+  "linear-gradient(135deg,#c084fc,#7c3aed)",
+  "linear-gradient(135deg,#60a5fa,#2563eb)",
+  "linear-gradient(135deg,#fbbf24,#f97316)",
 ];
 
 function CrmVisual() {
   const reduce = useReducedMotion();
-  const [step, setStep] = useState(0);
-
-  useEffect(() => {
-    if (reduce) return;
-    const t = setInterval(() => setStep((p) => (p + 1) % stages.length), 1400);
-    return () => clearInterval(t);
-  }, [reduce]);
 
   return (
-    <div className={`flex ${FRAME} flex-col justify-center gap-2.5`}>
-      {stages.map((stage, i) => {
-        const on = step === i;
-        return (
-          <motion.div
-            key={stage.label}
-            className="relative mx-auto flex items-center justify-between rounded-xl border px-4 py-3"
-            style={{ width: stage.w }}
-            animate={{
-              borderColor: on ? "rgba(82,16,248,0.5)" : "rgba(0,0,0,0.08)",
-              backgroundColor: on ? "rgba(82,16,248,0.05)" : "#ffffff",
-              boxShadow: on
-                ? "0 10px 24px -12px rgba(82,16,248,0.4)"
-                : "0 2px 12px -8px rgba(82,16,248,0.15)",
-            }}
-            transition={{ duration: 0.35, ease: EASE_OUT }}
-          >
-            <span className="text-sm text-neutral-700">{stage.label}</span>
-            <span
-              className="text-xs font-bold"
-              style={{ color: on ? PURPLE : "#a3a3a3" }}
-            >
-              {stage.count}
-            </span>
-            {/* flowing lead dot */}
-            {on && !reduce && (
-              <motion.span
-                layoutId="crm-lead"
-                className="absolute -left-1.5 top-1/2 h-2.5 w-2.5 -translate-y-1/2 rounded-full"
-                style={{ backgroundColor: PURPLE }}
-                transition={{ type: "spring", duration: 0.5, bounce: 0.2 }}
-              />
-            )}
-          </motion.div>
-        );
-      })}
-      <motion.div
-        className="mx-auto mt-1 rounded-xl px-4 py-2.5 text-center text-xs font-medium"
+    <div className="relative">
+      {/* Canvas panel — dotted grid, clipped edges */}
+      <div
+        className={`relative flex ${FRAME} flex-col overflow-hidden rounded-2xl border border-neutral-200`}
         style={{
-          width: "46%",
-          color: PURPLE,
-          backgroundColor: "rgba(82,16,248,0.06)",
+          backgroundColor: "#f6f6f8",
+          backgroundImage:
+            "radial-gradient(rgba(7,44,85,0.10) 1px, transparent 1px)",
+          backgroundSize: "16px 16px",
         }}
-        animate={reduce ? undefined : { opacity: [0.65, 1, 0.65] }}
-        transition={loop(2.6)}
       >
-        Auto follow-up sent
-      </motion.div>
+        {/* Toolbar */}
+        <div className="flex items-center justify-end gap-2 border-b border-neutral-200/60 bg-white/70 px-3 py-2 backdrop-blur-sm">
+          <div className="mr-1 flex items-center">
+            {avatarGradients.map((g, i) => (
+              <div
+                key={i}
+                className={`h-6 w-6 rounded-full border-2 border-white ${
+                  i > 0 ? "-ml-2" : ""
+                }`}
+                style={{ background: g }}
+              />
+            ))}
+          </div>
+          {[MoreVertical, Settings, Eye].map((Icon, i) => (
+            <button
+              key={i}
+              className="flex h-6 w-6 items-center justify-center rounded-md border border-neutral-200 bg-white text-neutral-500"
+            >
+              <Icon size={13} />
+            </button>
+          ))}
+          <button
+            className="rounded-md px-3 py-1 text-[11px] font-semibold text-white"
+            style={{ backgroundColor: PURPLE }}
+          >
+            Publish
+          </button>
+        </div>
+
+        {/* Flow */}
+        <div className="flex flex-1 flex-col items-center justify-center px-4 py-3">
+          {/* trigger stem */}
+          <div className="relative h-4 w-px bg-neutral-300">
+            <FlowArrow className="-bottom-1 left-1/2 -translate-x-1/2" />
+          </div>
+
+          <FlowNode
+            icon={Clock}
+            iconBg="#F04438"
+            label="Add delay"
+            title="1 day"
+            delay={0}
+          />
+
+          {/* connector */}
+          <div className="relative h-6 w-px bg-neutral-300">
+            <FlowArrow className="-bottom-1 left-1/2 -translate-x-1/2" />
+          </div>
+
+          <FlowNode
+            icon={Filter}
+            iconBg="#F59E0B"
+            label="Check field"
+            title="Plan is Premium"
+            highlight
+            delay={0.1}
+          />
+
+          {/* branch */}
+          <div className="relative h-6 w-full">
+            <div className="absolute left-1/2 top-0 h-3 w-px -translate-x-1/2 bg-neutral-300" />
+            <div className="absolute left-[24%] right-[24%] top-3 h-px bg-neutral-300" />
+            <div className="absolute left-[24%] top-3 h-3 w-px bg-neutral-300">
+              <FlowArrow className="-bottom-1 left-1/2 -translate-x-1/2" />
+            </div>
+            <div className="absolute right-[24%] top-3 h-3 w-px bg-neutral-300">
+              <FlowArrow className="-bottom-1 left-1/2 -translate-x-1/2" />
+            </div>
+          </div>
+
+          {/* branch outcomes */}
+          <div className="grid w-full grid-cols-2 gap-3">
+            <FlowNode
+              icon={Mail}
+              iconBg="#072C55"
+              label="Send email"
+              title="Finish subscribing"
+              delay={0.2}
+            />
+            <FlowNode
+              icon={Handshake}
+              iconBg="#F04438"
+              label="Create new deal"
+              title="High value customer"
+              delay={0.28}
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* Collaborator cursors — allowed to spill outside the panel */}
+      {flowCollab.map((c) => (
+        <motion.div
+          key={c.name}
+          className="absolute z-20 flex items-start"
+          style={c.style}
+          animate={reduce ? undefined : { x: c.x, y: c.y }}
+          transition={loop(c.d)}
+        >
+          <Cursor color={c.color} />
+          <span
+            className="-ml-0.5 mt-2 rounded-md px-2 py-0.5 text-[10px] font-semibold text-white shadow-sm"
+            style={{ backgroundColor: c.color }}
+          >
+            {c.name}
+          </span>
+        </motion.div>
+      ))}
     </div>
   );
 }
@@ -740,45 +1254,32 @@ function LeadGenVisual() {
 }
 
 /* ================================================================== *
- * 8. GTM — campaign launch board: headline metrics + goal progress
+ * 8. GROWTH — a live campaign dashboard: gradient hero with KPIs, a
+ *    weekly-reach growth chart, and the paid/events/organic channel mix.
  * ================================================================== */
-const gtmTags = ["GTM", "Events", "Paid Ads", "Sales Deck"];
-const gtmStats = [
+const gtmKpis = [
   { label: "Reach", value: "2.4M" },
   { label: "Leads", value: "840" },
   { label: "ROI", value: "312%" },
+];
+
+const gtmBars = [40, 52, 46, 63, 58, 74, 82, 96];
+
+const gtmChannels = [
+  { icon: Megaphone, label: "Paid media", pct: 48, color: PURPLE },
+  { icon: Ticket, label: "Events", pct: 32, color: LAVENDER },
+  { icon: Globe, label: "Organic", pct: 20, color: NAVY },
 ];
 
 function GtmVisual() {
   const reduce = useReducedMotion();
 
   return (
-    <div className={`flex ${FRAME} flex-col gap-3`}>
-      <div className="flex flex-wrap gap-2">
-        {gtmTags.map((tag, i) => (
-          <motion.span
-            key={tag}
-            className={`rounded-full border px-3 py-1 text-[11px] font-medium ${
-              i === 0
-                ? "border-[#5210F8]/30 bg-[#5210F8]/5 text-[#5210F8]"
-                : "border-neutral-200 bg-white text-neutral-500"
-            }`}
-            initial={reduce ? false : { opacity: 0, scale: 0.92 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.35, delay: i * 0.06, ease: EASE_OUT }}
-          >
-            {tag}
-          </motion.span>
-        ))}
-      </div>
-
+    <div className={`${CARD} ${FRAME} flex w-full flex-col overflow-hidden`}>
+      {/* Gradient hero */}
       <div
-        className="relative flex-1 overflow-hidden rounded-2xl p-6"
-        style={{
-          background: `linear-gradient(150deg, ${PURPLE}, ${NAVY})`,
-          boxShadow: "0 20px 44px -18px rgba(82,16,248,0.5)",
-        }}
+        className="relative overflow-hidden p-5"
+        style={{ background: `linear-gradient(150deg, ${PURPLE}, ${NAVY})` }}
       >
         <motion.div
           className="pointer-events-none absolute -right-8 -top-8 h-28 w-28 rounded-full"
@@ -786,44 +1287,109 @@ function GtmVisual() {
           animate={reduce ? undefined : { scale: [1, 1.2, 1], opacity: [0.6, 1, 0.6] }}
           transition={loop(5)}
         />
-        <p className="relative text-[10px] font-bold uppercase tracking-[0.2em] text-white/55">
-          Campaign launch
-        </p>
-        <p className="relative mt-2 text-xl font-semibold text-white">
+
+        <div className="relative flex items-center justify-between">
+          <span className="flex items-center gap-1.5 rounded-full bg-white/12 px-2.5 py-1 text-[10px] font-semibold text-white backdrop-blur-sm">
+            <Rocket size={12} />
+            Growth Campaign
+          </span>
+          <span className="flex items-center gap-1.5 rounded-full bg-white/12 px-2 py-1 text-[10px] font-bold tracking-wide text-white backdrop-blur-sm">
+            <motion.span
+              className="h-1.5 w-1.5 rounded-full bg-emerald-400"
+              animate={reduce ? undefined : { opacity: [1, 0.3, 1] }}
+              transition={loop(1.6)}
+            />
+            LIVE
+          </span>
+        </div>
+
+        <p className="relative mt-3 text-lg font-semibold text-white">
           Q4 Growth Sprint
         </p>
+        <p className="relative text-[10px] text-white/55">
+          Go-to-market · Paid + Events
+        </p>
 
-        <div className="relative mt-6 grid grid-cols-3 gap-3">
-          {gtmStats.map((s, i) => (
+        <div className="relative mt-4 grid grid-cols-3 gap-3">
+          {gtmKpis.map((s, i) => (
             <motion.div
               key={s.label}
               initial={reduce ? false : { opacity: 0, y: 10 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.45, delay: 0.15 + i * 0.1, ease: EASE_OUT }}
+              transition={{ duration: 0.45, delay: 0.1 + i * 0.1, ease: EASE_OUT }}
             >
               <p className="text-lg font-bold text-white">{s.value}</p>
               <p className="text-[10px] text-white/55">{s.label}</p>
             </motion.div>
           ))}
         </div>
+      </div>
 
-        {/* goal progress */}
-        <div className="relative mt-5">
-          <div className="mb-1.5 flex justify-between text-[9px] text-white/55">
-            <span>Goal progress</span>
-            <span>78%</span>
+      {/* Body */}
+      <div className="flex flex-1 flex-col gap-4 p-5">
+        {/* Weekly reach chart */}
+        <div>
+          <div className="mb-2 flex items-center justify-between">
+            <span className="text-[10px] font-semibold text-neutral-500">
+              Weekly reach
+            </span>
+            <span
+              className="flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-semibold"
+              style={{ color: PURPLE, backgroundColor: "rgba(82,16,248,0.08)" }}
+            >
+              <TrendingUp size={11} />
+              +312%
+            </span>
           </div>
-          <div className="h-1.5 w-full overflow-hidden rounded-full bg-white/15">
-            <motion.div
-              className="h-full rounded-full bg-white"
-              style={{ transformOrigin: "left" }}
-              initial={reduce ? false : { scaleX: 0 }}
-              whileInView={{ scaleX: 0.78 }}
-              viewport={{ once: true }}
-              transition={{ duration: 1.2, ease: EASE_OUT }}
-            />
+          <div className="flex h-20 items-end gap-1.5">
+            {gtmBars.map((b, i) => (
+              <motion.div
+                key={i}
+                className="flex-1 origin-bottom rounded-t-sm"
+                style={{
+                  height: `${b}%`,
+                  background: `linear-gradient(to top, ${PURPLE}, ${LAVENDER})`,
+                }}
+                initial={reduce ? false : { scaleY: 0 }}
+                whileInView={{ scaleY: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: i * 0.06, ease: EASE_OUT }}
+              />
+            ))}
           </div>
+        </div>
+
+        {/* Channel mix */}
+        <div className="mt-auto space-y-2.5">
+          {gtmChannels.map((ch) => (
+            <div key={ch.label} className="flex items-center gap-2.5">
+              <span
+                className="flex h-6 w-6 shrink-0 items-center justify-center rounded-md text-white"
+                style={{ backgroundColor: ch.color }}
+              >
+                <ch.icon size={12} />
+              </span>
+              <div className="min-w-0 flex-1">
+                <div className="mb-1 flex items-center justify-between text-[10px]">
+                  <span className="font-medium text-neutral-600">{ch.label}</span>
+                  <span className="font-semibold tabular-nums text-neutral-400">
+                    {ch.pct}%
+                  </span>
+                </div>
+                <div className="h-1 w-full overflow-hidden rounded-full bg-neutral-100">
+                  <motion.div
+                    className="h-full origin-left rounded-full"
+                    style={{ backgroundColor: ch.color }}
+                    initial={reduce ? false : { scaleX: 0 }}
+                    whileInView={{ scaleX: ch.pct / 100 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 1, ease: EASE_OUT }}
+                  />
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </div>
