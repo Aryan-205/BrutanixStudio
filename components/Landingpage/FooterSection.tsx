@@ -80,6 +80,9 @@ export default function FooterSection() {
           {/* Spacer */}
           <div className="hidden md:block md:col-span-1" />
 
+          {/* Link groups — compact 2/3-col grid on mobile, spread into the 12-col grid on desktop */}
+          <div className="grid grid-cols-2 gap-8 sm:grid-cols-3 md:contents">
+
           {/* Footer Links */}
           <div className="md:col-span-2">
             <h4 className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-white/40 mb-4">
@@ -141,6 +144,7 @@ export default function FooterSection() {
                 </li>
               ))}
             </ul>
+          </div>
           </div>
         </div>
 

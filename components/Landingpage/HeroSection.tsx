@@ -424,7 +424,7 @@ const HeroSection = () => {
           </motion.span>
 
           <motion.h1
-            className="mt-6 text-4xl font-semibold leading-[1.05] tracking-tight text-[#111] sm:text-5xl md:text-6xl lg:text-[4.25rem] max-w-3xl"
+            className="mt-6 max-w-3xl text-[2rem] font-semibold leading-[1.1] tracking-tight text-[#111] sm:text-5xl md:text-6xl lg:text-[4.25rem]"
             initial={reduce ? false : { opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, ease: easePremium, delay: 0.16 }}
@@ -434,6 +434,37 @@ const HeroSection = () => {
             for SaaS Startups
           </motion.h1>
         </motion.div>
+
+        {/* Mobile widget strip — decorative cards are hidden as absolute floaters below sm,
+            so surface a curated set in a horizontal scroll instead (no overlap). */}
+        <div className="no-scrollbar -mx-4 mt-10 flex gap-3 overflow-x-auto px-4 pb-2 sm:hidden">
+          <div className="w-52 shrink-0 rounded-2xl bg-[#1f1f1f] p-4 text-white shadow-[0_16px_40px_rgba(0,0,0,0.22)]">
+            <InstallsChart />
+          </div>
+          <div className="w-56 shrink-0 rounded-2xl bg-[#1f1f1f] p-4 text-white shadow-[0_16px_40px_rgba(0,0,0,0.22)]">
+            <p className="mb-3 text-xs text-white/70">Widget control</p>
+            <div className="h-20">
+              <WidgetLineChart />
+            </div>
+          </div>
+          <div className="flex h-32 w-32 shrink-0 flex-col items-center justify-center rounded-full bg-[#3b82f6] p-3 text-center text-white shadow-[0_16px_40px_rgba(59,130,246,0.45)]">
+            <span className="text-2xl font-bold">+30%</span>
+            <span className="mt-1 text-[9px] leading-tight text-white/90">
+              Speed up your productivity
+            </span>
+          </div>
+          <div className="w-44 shrink-0 rounded-2xl bg-[#1f1f1f] p-3 text-white shadow-[0_16px_40px_rgba(0,0,0,0.22)]">
+            <div className="mb-2 flex items-center justify-between">
+              <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-white/10">
+                <Rocket className="h-3.5 w-3.5" color="orange" />
+              </div>
+              <span className="rounded-full bg-white/10 px-2 py-0.5 text-[10px] font-semibold">
+                346+
+              </span>
+            </div>
+            <ScrollingBars />
+          </div>
+        </div>
 
         {/* Placeholder to measure the initial dimensions of the video container on any screen width */}
         <div

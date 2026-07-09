@@ -220,9 +220,9 @@ function WebsiteVisual() {
   const reduce = useReducedMotion();
 
   return (
-    <div className={`relative ${FRAME}`}>
+    <div className={`relative flex ${FRAME} flex-col justify-center`}>
       {/* stack pills */}
-      <div className="mb-3 flex flex-wrap gap-2">
+      <div className="mb-4 flex flex-wrap gap-2">
         {stack.map((s, i) => (
           <motion.span
             key={s.name}
@@ -241,73 +241,76 @@ function WebsiteVisual() {
         ))}
       </div>
 
-      {/* browser window */}
-      <div className={`${CARD} overflow-hidden`}>
-        <div className="flex items-center gap-2 border-b border-neutral-100 bg-neutral-50 px-4 py-2.5">
-          <div className="h-2.5 w-2.5 rounded-full bg-neutral-300" />
-          <div className="h-2.5 w-2.5 rounded-full bg-neutral-300" />
-          <div className="h-2.5 w-2.5 rounded-full bg-neutral-300" />
-          <span className="ml-2 text-[10px] text-neutral-400">
-            invisiedge.com
-          </span>
-        </div>
-        <div className="relative overflow-hidden bg-linear-to-br from-[#5210F8] to-[#072C55] p-7 md:p-9">
-          {/* soft moving sheen */}
-          <motion.div
-            className="pointer-events-none absolute inset-0"
-            style={{
-              background:
-                "radial-gradient(120px 120px at 20% 20%, rgba(196,125,253,0.35), transparent)",
-            }}
-            animate={reduce ? undefined : { x: ["-10%", "40%", "-10%"] }}
-            transition={loop(9)}
-          />
-          <p className="relative text-[10px] font-bold uppercase tracking-[0.2em] text-white/60">
-            Built for conversion
-          </p>
-          <p className="relative mt-2 text-xl font-semibold text-white md:text-2xl">
-            Your value, clearly delivered
-          </p>
-          <motion.div
-            className="relative mt-4 h-8 w-28 rounded-full bg-white/20"
-            animate={reduce ? undefined : { scaleX: [1, 1.18, 1] }}
-            style={{ transformOrigin: "left" }}
-            transition={loop(3.2)}
-          />
-        </div>
-      </div>
-
-      {/* floating code panel */}
-      <motion.div
-        className="absolute -bottom-5 -right-2 w-[68%] rounded-xl border border-white/10 bg-[#0e0e12] p-4 shadow-[0_16px_40px_-12px_rgba(7,44,85,0.5)] md:-right-4"
-        animate={reduce ? undefined : { y: [0, -7, 0] }}
-        transition={loop(4.5)}
-      >
-        <div className="mb-2 flex gap-1.5">
-          <div className="h-2 w-2 rounded-full bg-[#C47DFD]/70" />
-          <div className="h-2 w-2 rounded-full bg-white/20" />
-          <div className="h-2 w-2 rounded-full bg-white/20" />
-        </div>
-        <pre className="font-mono text-[10px] leading-relaxed md:text-[11px]">
-          {codeTokens.map((line, i) => (
+      {/* browser window + floating code panel — wrapper reserves room so the
+          panel overlaps the window without spilling outside the frame */}
+      <div className="relative pb-9">
+        <div className={`${CARD} overflow-hidden`}>
+          <div className="flex items-center gap-2 border-b border-neutral-100 bg-neutral-50 px-4 py-2.5">
+            <div className="h-2.5 w-2.5 rounded-full bg-neutral-300" />
+            <div className="h-2.5 w-2.5 rounded-full bg-neutral-300" />
+            <div className="h-2.5 w-2.5 rounded-full bg-neutral-300" />
+            <span className="ml-2 text-[10px] text-neutral-400">
+              invisiedge.com
+            </span>
+          </div>
+          <div className="relative overflow-hidden bg-linear-to-br from-[#5210F8] to-[#072C55] p-6 md:p-7">
+            {/* soft moving sheen */}
             <motion.div
-              key={line.k + i}
-              initial={reduce ? false : { opacity: 0, x: -6 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.35, delay: i * 0.12, ease: EASE_OUT }}
-            >
-              <span className="text-[#C47DFD]">{line.k}</span>
-              <span className="text-white/70"> {line.rest}</span>
-            </motion.div>
-          ))}
-          <motion.span
-            className="inline-block h-3 w-1.5 translate-y-0.5 bg-[#C47DFD]"
-            animate={reduce ? undefined : { opacity: [1, 0, 1] }}
-            transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-          />
-        </pre>
-      </motion.div>
+              className="pointer-events-none absolute inset-0"
+              style={{
+                background:
+                  "radial-gradient(120px 120px at 20% 20%, rgba(196,125,253,0.35), transparent)",
+              }}
+              animate={reduce ? undefined : { x: ["-10%", "40%", "-10%"] }}
+              transition={loop(9)}
+            />
+            <p className="relative text-[10px] font-bold uppercase tracking-[0.2em] text-white/60">
+              Built for conversion
+            </p>
+            <p className="relative mt-2 text-xl font-semibold text-white md:text-2xl">
+              Your value, clearly delivered
+            </p>
+            <motion.div
+              className="relative mt-4 h-8 w-28 rounded-full bg-white/20"
+              animate={reduce ? undefined : { scaleX: [1, 1.18, 1] }}
+              style={{ transformOrigin: "left" }}
+              transition={loop(3.2)}
+            />
+          </div>
+        </div>
+
+        {/* floating code panel — positive insets keep it inside the frame */}
+        <motion.div
+          className="absolute bottom-0 right-0 w-[58%] rounded-xl border border-white/10 bg-[#0e0e12] p-3.5 shadow-[0_16px_40px_-12px_rgba(7,44,85,0.5)]"
+          animate={reduce ? undefined : { y: [0, -6, 0] }}
+          transition={loop(4.5)}
+        >
+          <div className="mb-2 flex gap-1.5">
+            <div className="h-2 w-2 rounded-full bg-[#C47DFD]/70" />
+            <div className="h-2 w-2 rounded-full bg-white/20" />
+            <div className="h-2 w-2 rounded-full bg-white/20" />
+          </div>
+          <pre className="font-mono text-[10px] leading-relaxed md:text-[11px]">
+            {codeTokens.map((line, i) => (
+              <motion.div
+                key={line.k + i}
+                initial={reduce ? false : { opacity: 0, x: -6 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.35, delay: i * 0.12, ease: EASE_OUT }}
+              >
+                <span className="text-[#C47DFD]">{line.k}</span>
+                <span className="text-white/70"> {line.rest}</span>
+              </motion.div>
+            ))}
+            <motion.span
+              className="inline-block h-3 w-1.5 translate-y-0.5 bg-[#C47DFD]"
+              animate={reduce ? undefined : { opacity: [1, 0, 1] }}
+              transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+            />
+          </pre>
+        </motion.div>
+      </div>
     </div>
   );
 }

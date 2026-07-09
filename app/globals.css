@@ -20,6 +20,11 @@
   --font-sans: var(--font-onest);
 }
 
+html,
+body {
+  overflow-x: clip;
+}
+
 .text-balance {
   text-wrap: balance;
 }

@@ -9,6 +9,7 @@ import {
   useScroll,
   useTransform,
 } from "motion/react";
+import { easePremium } from "@/components/motion/presets";
 
 const avatarImages = [
   "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=80&q=80",
@@ -329,11 +330,41 @@ function SolutionCard({
   );
 }
 
+// Mobile variant: same card content, but a clean fade-up on view instead of the
+// scroll-driven x/y/rotate parallax (which overlaps in a single-column layout).
+function SolutionCardMobile({
+  value,
+  description,
+  variant,
+}: (typeof stats)[number] & { index: number }) {
+  const reduce = useReducedMotion();
+
+  return (
+    <motion.article
+      initial={reduce ? false : { opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.25 }}
+      transition={{ duration: 0.55, ease: easePremium }}
+      className="group relative flex min-h-70 w-full min-w-0 flex-col justify-between rounded-[1.75rem] border border-[#1c1c1c] bg-[#0a0a0a] p-7 shadow-[inset_1px_1px_10px_1px_rgba(255,255,255,0.1),inset_-4px_-4px_20px_0px_rgba(0,0,0,1)]"
+    >
+      <StatCardContent variant={variant} value={value} description={description} />
+    </motion.article>
+  );
+}
+
 const SolutionsSection = () => {
   return (
     <section id="services" className="overflow-hidden bg-[#080909] font-sans">
       <div className="flex h-full w-full items-center justify-center">
-        <div className="flex w-full max-w-5xl flex-col items-center gap-12 px-6 py-24 md:grid md:grid-cols-2 md:gap-6 md:px-12 md:py-24">
+        {/* Mobile: single-column stacked layout, fade-up on view (no overlap) */}
+        <div className="flex w-full flex-col gap-6 px-6 py-20 md:hidden">
+          {stats.map((stat, index) => (
+            <SolutionCardMobile key={stat.id} index={index} {...stat} />
+          ))}
+        </div>
+
+        {/* Desktop: scroll-driven parallax grid */}
+        <div className="hidden w-full max-w-5xl grid-cols-2 gap-6 px-12 py-24 md:grid">
           {stats.map((stat, index) => (
             <SolutionCard key={stat.id} index={index} {...stat} />
           ))}

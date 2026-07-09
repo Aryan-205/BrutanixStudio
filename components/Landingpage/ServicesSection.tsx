@@ -184,10 +184,10 @@ function DevelopmentVisual() {
   ];
 
   return (
-    <div className="relative h-full min-h-42 bg-red-500 w-full overflow-hidden">
+    <div className="relative h-full bg-blue-500 w-full overflow-hidden">
       <svg
         viewBox={`0 0 ${DEV_VIEWBOX.w} ${DEV_VIEWBOX.h}`}
-        className="h-full w-full bg-[#fafafa]"
+        className="w-full bg-[#e71111] h-full"
         preserveAspectRatio="xMidYMax meet"
         aria-hidden
       >
@@ -755,7 +755,7 @@ function ServiceCard({ service }: { service: Service }) {
         </p>
       </div>
 
-      <div className="relative mt-auto flex flex-1 items-end overflow-hidden">
+      <div className="relative mt-auto flex flex-1 items-end overflow-hidden bg-green-400">
         <CardVisual key={animCycle} type={service.visual} />
       </div>
     </motion.article>

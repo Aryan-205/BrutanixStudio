@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { motion, useReducedMotion } from "motion/react";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import BrandLogo from "./BrandLogo";
 import { easePremium } from "@/components/motion/presets";
 import { Menu, X } from "lucide-react";
@@ -45,7 +45,7 @@ export default function Navbar({ animated = false, theme = "light" }: NavbarProp
 
   return (
     <motion.nav
-      className={`fixed top-4 left-1/2 max-w-3xl w-[calc(100%-2rem)] z-50 flex flex-col md:flex-row md:items-center justify-between gap-4 px-4 py-3 md:px-2 md:py-2 backdrop-blur-xl transition-all duration-300 ${
+      className={`fixed top-4 left-1/2 max-w-3xl w-[calc(100%-2rem)] z-50 flex flex-col md:flex-row md:items-center justify-between gap-x-4 gap-y-0 px-4 py-3 md:gap-4 md:px-2 md:py-2 backdrop-blur-xl transition-all duration-300 ${
         isDark
           ? "border border-white/10 bg-[#141414]/90 shadow-[0_8px_32px_rgba(0,0,0,0.4)]"
           : "border border-black/[0.06] bg-white/90 shadow-[0_8px_32px_rgba(82,16,248,0.06)]"
@@ -95,9 +95,20 @@ export default function Navbar({ animated = false, theme = "light" }: NavbarProp
           <Link
             key={link.label}
             href={link.href}
-            className={linkClass(link.active)}
+            className={`${linkClass(link.active)} group`}
           >
-            {link.label}
+            {/* Rolling text-flip on hover */}
+            <span className="relative block overflow-hidden">
+              <span className="block transition-transform duration-[280ms] ease-[cubic-bezier(0.23,1,0.32,1)] motion-safe:group-hover:-translate-y-full">
+                {link.label}
+              </span>
+              <span
+                aria-hidden
+                className="absolute inset-0 block translate-y-full transition-transform duration-[280ms] ease-[cubic-bezier(0.23,1,0.32,1)] motion-safe:group-hover:translate-y-0"
+              >
+                {link.label}
+              </span>
+            </span>
             {link.active && (
               <motion.span
                 layoutId="nav-underline"
@@ -112,30 +123,53 @@ export default function Navbar({ animated = false, theme = "light" }: NavbarProp
       </div>
 
       {/* Mobile Navigation Links */}
-      {isOpen && (
-        <div className={`flex flex-col gap-4 py-2 px-2 md:hidden w-full border-t mt-1 ${
-          isDark ? "border-white/10" : "border-gray-100"
-        }`}>
-          {navLinks.map((link) => (
-            <Link
-              key={link.label}
-              href={link.href}
-              onClick={() => setIsOpen(false)}
-              className={`text-sm py-1 font-medium tracking-[-0.02em] transition-colors ${
-                isDark
-                  ? link.active
-                    ? "text-[#C47DFD] font-semibold"
-                    : "text-white/50 hover:text-white"
-                  : link.active
-                    ? "text-brand-purple font-semibold"
-                    : "text-neutral-500 hover:text-neutral-900"
+      <AnimatePresence initial={false}>
+        {isOpen && (
+          <motion.div
+            key="mobile-menu"
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.24, ease: [0.23, 1, 0.32, 1] }}
+            className="w-full overflow-hidden md:hidden"
+          >
+            <div
+              className={`mt-1 flex flex-col gap-1 border-t px-2 py-2 ${
+                isDark ? "border-white/10" : "border-gray-100"
               }`}
             >
-              {link.label}
-            </Link>
-          ))}
-        </div>
-      )}
+              {navLinks.map((link, i) => (
+                <motion.div
+                  key={link.label}
+                  initial={{ opacity: 0, y: -6 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{
+                    duration: 0.2,
+                    ease: [0.23, 1, 0.32, 1],
+                    delay: 0.04 + i * 0.04,
+                  }}
+                >
+                  <Link
+                    href={link.href}
+                    onClick={() => setIsOpen(false)}
+                    className={`block py-1.5 text-sm font-medium tracking-[-0.02em] transition-colors ${
+                      isDark
+                        ? link.active
+                          ? "text-[#C47DFD] font-semibold"
+                          : "text-white/50 hover:text-white"
+                        : link.active
+                          ? "text-brand-purple font-semibold"
+                          : "text-neutral-500 hover:text-neutral-900"
+                    }`}
+                  >
+                    {link.label}
+                  </Link>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Desktop CTA */}
       <Link
