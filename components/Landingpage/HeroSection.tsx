@@ -111,7 +111,7 @@ function WidgetLineChart() {
       <motion.path
         d={linePath}
         fill="none"
-        stroke="#facc15"
+        stroke="#C47DFD"
         strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -126,7 +126,7 @@ function WidgetLineChart() {
           cx={point.x}
           cy={point.y}
           r={3.5}
-          fill="#facc15"
+          fill="#C47DFD"
           initial={{ scale: 0, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{
@@ -178,9 +178,9 @@ function AnimatedInstallBar({
     <motion.div
       className={`relative w-full rounded-lg ${
         isHighlightTop
-          ? "bg-[#4ade80]"
+          ? "bg-[#C47DFD]"
           : isHighlightBottom
-            ? "bg-[#eab308]"
+            ? "bg-[#5210F8]"
             : isTop
               ? "bg-[#3a3a3a]"
               : "border border-white/5 bg-[#2a2a2a]"
@@ -318,7 +318,7 @@ const HeroSection = () => {
     <section
       id="hero"
       ref={heroRef}
-      className="relative min-h-[115vh] overflow-x-clip bg-[#f9f9f9] px-4 pt-5 font-sans text-[#111] selection:bg-[#ff6b2c] selection:text-white md:px-8 md:pt-6"
+      className="relative min-h-[115vh] overflow-x-clip bg-[#f9f9f9] px-4 pt-5 font-sans text-[#111] selection:bg-[#5210F8] selection:text-white md:px-8 md:pt-6"
     >
 
       <div className="relative mx-auto mt-4 max-w-7xl md:mt-6">
@@ -329,7 +329,7 @@ const HeroSection = () => {
           className="absolute left-[8%] top-[8%] z-20 hidden sm:block"
         >
           <div className="flex h-24 w-24 items-center justify-center rounded-full bg-white shadow-[0_10px_30px_rgba(0,0,0,0.12)]">
-            <div className="flex h-8 w-8 items-center justify-center rounded-md bg-[#ef4444] text-white">
+            <div className="flex h-8 w-8 items-center justify-center rounded-md bg-[#5210F8] text-white">
               <Activity className="h-4 w-4" strokeWidth={2.5} />
             </div>
           </div>
@@ -344,7 +344,7 @@ const HeroSection = () => {
           <div className="w-44 rounded-2xl bg-[#1f1f1f] p-3 text-white shadow-[0_16px_40px_rgba(0,0,0,0.22)]">
             <div className="mb-2 flex items-center justify-between">
               <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-white/10">
-                <Rocket className="h-3.5 w-3.5" color="orange" />
+                <Rocket className="h-3.5 w-3.5" color="#C47DFD" />
               </div>
               <span className="rounded-full bg-white/10 px-2 py-0.5 text-[10px] font-semibold">
                 346+
@@ -365,7 +365,7 @@ const HeroSection = () => {
             <div className="h-20">
               <WidgetLineChart />
             </div>
-            <span className="absolute right-2 bottom-2 rounded-lg bg-[#3b82f6] px-2 py-1 text-[10px] font-semibold">
+            <span className="absolute right-2 bottom-2 rounded-lg bg-[#5210F8] px-2 py-1 text-[10px] font-semibold">
               Result + 58%
             </span>
           </div>
@@ -388,7 +388,7 @@ const HeroSection = () => {
           reduce={!!reduce}
           className="absolute right-[12%] top-[26%] z-0 hidden sm:block"
         >
-          <div className="flex h-32 w-32 flex-col items-center justify-center rounded-full bg-[#3b82f6] p-3 text-center text-white shadow-[0_16px_40px_rgba(59,130,246,0.45)]">
+          <div className="flex h-32 w-32 flex-col items-center justify-center rounded-full bg-[#5210F8] p-3 text-center text-white shadow-[0_16px_40px_rgba(82,16,248,0.45)]">
             <span className="text-2xl font-bold">+30%</span>
             <span className="mt-1 text-[9px] leading-tight text-white/90">
               Speed up your productivity
@@ -404,7 +404,7 @@ const HeroSection = () => {
         >
           <div className="inline-flex items-center justify-start gap-2 rounded-full bg-[#1f1f1f] p-1 font-medium text-white w-40">
             <div className="flex items-center justify-center bg-white w-8 h-8 rounded-full">
-              <Zap className="h-4 w-4 text-[#ff6b2c]" fill="#ff6b2c" />
+              <Zap className="h-4 w-4 text-[#5210F8]" fill="#5210F8" />
             </div>
             <p className="text-sm font-medium py-2 pr-2">Key features</p>
           </div>
@@ -447,7 +447,7 @@ const HeroSection = () => {
               <WidgetLineChart />
             </div>
           </div>
-          <div className="flex h-32 w-32 shrink-0 flex-col items-center justify-center rounded-full bg-[#3b82f6] p-3 text-center text-white shadow-[0_16px_40px_rgba(59,130,246,0.45)]">
+          <div className="flex h-32 w-32 shrink-0 flex-col items-center justify-center rounded-full bg-[#5210F8] p-3 text-center text-white shadow-[0_16px_40px_rgba(82,16,248,0.45)]">
             <span className="text-2xl font-bold">+30%</span>
             <span className="mt-1 text-[9px] leading-tight text-white/90">
               Speed up your productivity
@@ -456,7 +456,7 @@ const HeroSection = () => {
           <div className="w-44 shrink-0 rounded-2xl bg-[#1f1f1f] p-3 text-white shadow-[0_16px_40px_rgba(0,0,0,0.22)]">
             <div className="mb-2 flex items-center justify-between">
               <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-white/10">
-                <Rocket className="h-3.5 w-3.5" color="orange" />
+                <Rocket className="h-3.5 w-3.5" color="#C47DFD" />
               </div>
               <span className="rounded-full bg-white/10 px-2 py-0.5 text-[10px] font-semibold">
                 346+

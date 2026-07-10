@@ -101,7 +101,7 @@ function DevelopmentVisual() {
   const icons: DevOrbitIconProps[] = [
     {
       pathId: "dev-orbit-205",
-      bg: "#8932ff",
+      bg: "#5210F8",
       size: 56,
       dur: "9s",
       begin: "0s",
@@ -117,7 +117,7 @@ function DevelopmentVisual() {
     },
     {
       pathId: "dev-orbit-165",
-      bg: "#4ade80",
+      bg: "#C47DFD",
       size: 56,
       dur: "8s",
       begin: "0.4s",
@@ -136,7 +136,7 @@ function DevelopmentVisual() {
     },
     {
       pathId: "dev-orbit-85",
-      bg: "#2d2d2d",
+      bg: "#072C55",
       size: 56,
       dur: "7s",
       begin: "0.2s",
@@ -166,7 +166,7 @@ function DevelopmentVisual() {
     },
     {
       pathId: "dev-orbit-165",
-      bg: "#ff6b2c",
+      bg: "#072C55",
       size: 48,
       dur: "6.5s",
       begin: "0.8s",
@@ -184,10 +184,10 @@ function DevelopmentVisual() {
   ];
 
   return (
-    <div className="relative h-full bg-blue-500 w-full overflow-hidden">
+    <div className="flex h-full min-h-72 w-full items-end justify-center overflow-hidden px-3 pb-0">
       <svg
         viewBox={`0 0 ${DEV_VIEWBOX.w} ${DEV_VIEWBOX.h}`}
-        className="w-full bg-[#e71111] h-full"
+        className="h-auto w-full max-w-[400px]"
         preserveAspectRatio="xMidYMax meet"
         aria-hidden
       >
@@ -213,7 +213,7 @@ function DevelopmentVisual() {
             {/* Traveling pulse along each arc */}
             {!reduce && (
               <>
-                <circle r="3" fill="#8932ff">
+                <circle r="3" fill="#5210F8">
                   <animateMotion
                     dur={`${6 + i * 1.2}s`}
                     repeatCount="indefinite"
@@ -279,7 +279,7 @@ function PlatformsVisual() {
           <p className="text-[11px] text-black/40">11/15 tasks</p>
           <div className="mt-3 flex items-center gap-2">
             <motion.span
-              className="rounded-full bg-[#8932ff] px-3 py-1.5 text-[10px] font-semibold text-white"
+              className="rounded-full bg-[#5210F8] px-3 py-1.5 text-[10px] font-semibold text-white"
               initial={{ opacity: 0, scale: 0.8 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={viewportDefault}
@@ -302,7 +302,7 @@ function PlatformsVisual() {
                   cy="18"
                   r="14"
                   fill="none"
-                  stroke="#ff6b2c"
+                  stroke="#5210F8"
                   strokeWidth="3"
                   strokeLinecap="round"
                   initial={{ strokeDasharray: "0 88" }}
@@ -433,7 +433,7 @@ function PlatformsVisual() {
             <motion.path
               d="M 0 35 Q 30 30 50 22 T 100 28 T 150 15 T 200 20"
               fill="none"
-              stroke="#ff6b2c"
+              stroke="#5210F8"
               strokeWidth="2"
               strokeLinecap="round"
               initial={{ pathLength: 0, opacity: 0 }}
@@ -445,7 +445,7 @@ function PlatformsVisual() {
               cx="50"
               cy="22"
               r="3.5"
-              fill="#ff6b2c"
+              fill="#5210F8"
               initial={{ scale: 0, opacity: 0 }}
               whileInView={{ scale: 1, opacity: 1 }}
               viewport={viewportDefault}
@@ -520,9 +520,9 @@ function WebsiteVisual() {
           >
             Meet all-in-one platform to{" "}
             <motion.span
-              className="rounded bg-[#fef08a] px-1.5 py-0.5 font-semibold text-black/80"
-              initial={{ backgroundColor: "rgba(254,240,138,0)" }}
-              whileInView={{ backgroundColor: "rgba(254,240,138,1)" }}
+              className="rounded bg-[#C47DFD] px-1.5 py-0.5 font-semibold text-black/80"
+              initial={{ backgroundColor: "rgba(196,125,253,0)" }}
+              whileInView={{ backgroundColor: "rgba(196,125,253,1)" }}
               viewport={viewportDefault}
               transition={{ duration: 0.4, delay: reduce ? 0 : 0.9 }}
             >
@@ -648,16 +648,16 @@ function MarketingVisual() {
         {/* Gradient ring segments */}
         <defs>
           <linearGradient id="mkt-grad-1" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#ff6b2c" />
-            <stop offset="100%" stopColor="#ef4444" />
+            <stop offset="0%" stopColor="#5210F8" />
+            <stop offset="100%" stopColor="#C47DFD" />
           </linearGradient>
           <linearGradient id="mkt-grad-2" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="#facc15" />
-            <stop offset="100%" stopColor="#ff6b2c" />
+            <stop offset="0%" stopColor="#C47DFD" />
+            <stop offset="100%" stopColor="#5210F8" />
           </linearGradient>
           <linearGradient id="mkt-grad-3" x1="100%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stopColor="#8932ff" />
-            <stop offset="100%" stopColor="#3b82f6" />
+            <stop offset="0%" stopColor="#5210F8" />
+            <stop offset="100%" stopColor="#072C55" />
           </linearGradient>
         </defs>
 
@@ -755,7 +755,7 @@ function ServiceCard({ service }: { service: Service }) {
         </p>
       </div>
 
-      <div className="relative mt-auto flex flex-1 items-end overflow-hidden bg-green-400">
+      <div className="relative mt-auto flex flex-1 items-end overflow-hidden">
         <CardVisual key={animCycle} type={service.visual} />
       </div>
     </motion.article>

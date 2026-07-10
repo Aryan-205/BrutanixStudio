@@ -21,7 +21,6 @@ export default function Navbar({ animated = false, theme = "light" }: NavbarProp
   const isAbout = pathname === "/about";
   const isProjects = pathname === "/projects";
   const isServices = pathname === "/services";
-  const isBlogs = pathname === "/blogs";
 
   const isDark = theme === "dark";
 
@@ -40,7 +39,6 @@ export default function Navbar({ animated = false, theme = "light" }: NavbarProp
     { label: "About us", href: "/about", active: isAbout },
     { label: "Project", href: "/projects", active: isProjects },
     { label: "Services", href: "/services", active: isServices },
-    { label: "Blogs", href: "/blogs", active: isBlogs },
   ];
 
   return (
