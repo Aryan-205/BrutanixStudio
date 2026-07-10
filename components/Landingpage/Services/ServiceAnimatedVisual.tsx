@@ -25,6 +25,7 @@ import {
   Mic,
   MoreVertical,
   Rocket,
+  Send,
   Settings,
   SlidersHorizontal,
   Sparkles,
@@ -591,15 +592,20 @@ const platformName: Record<string, string> = {
   RL: "Reels",
 };
 
-const contentWeek: { day: string; posts: string[]; today?: boolean }[] = [
-  { day: "M", posts: ["LI"] },
-  { day: "T", posts: ["IG", "RL"] },
-  { day: "W", posts: ["LI"] },
-  { day: "T", posts: ["IG"], today: true },
-  { day: "F", posts: ["RL", "LI"] },
-  { day: "S", posts: ["IG"] },
-  { day: "S", posts: [] },
-];
+/** Month laid out for the grid — leading blanks align day 1 to a weekday. */
+const calLeadingBlanks = 2;
+const calDays = Array.from({ length: 30 }, (_, i) => i + 1);
+const calToday = 9;
+const calScheduled: Record<number, string[]> = {
+  2: ["LI"],
+  5: ["IG", "RL"],
+  9: ["LI", "IG"],
+  12: ["RL"],
+  16: ["IG"],
+  19: ["LI"],
+  23: ["RL", "IG"],
+  26: ["LI"],
+};
 
 const contentQueue = [
   { platform: "LI", title: "Thought leadership: scaling lean teams", time: "9:00 AM" },
@@ -607,121 +613,213 @@ const contentQueue = [
   { platform: "RL", title: "60-sec product reel", time: "6:00 PM" },
 ];
 
+/** Instagram-style glyph (lucide dropped its brand icons). */
+function IgGlyph({ size = 12 }: { size?: number }) {
+  return (
+    <span
+      className="relative inline-block rounded-[4px] border-[1.5px] border-current"
+      style={{ height: size, width: size }}
+    >
+      <span className="absolute left-1/2 top-1/2 h-1/2 w-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border-[1.5px] border-current" />
+      <span className="absolute right-[1.5px] top-[1.5px] h-[1.5px] w-[1.5px] rounded-full bg-current" />
+    </span>
+  );
+}
+
 function SocialVisual() {
   const reduce = useReducedMotion();
 
   return (
-    <div className={`${CARD} ${FRAME} flex w-full flex-col overflow-hidden p-5`}>
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2 rounded-full bg-[#5210F8]/8 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-wider text-[#5210F8]">
-          <Calendar size={14} />
-          Content Calendar
+    <div className="relative">
+      <div className={`${CARD} ${FRAME} flex w-full flex-col p-5`}>
+        {/* Header */}
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2 rounded-full bg-[#5210F8]/8 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-wider text-[#5210F8]">
+            <Calendar size={14} />
+            Content Calendar
+          </div>
+          <div className="hidden items-center gap-3 text-[10px] font-medium text-neutral-400 sm:flex">
+            {Object.keys(platformName).map((key) => (
+              <span key={key} className="flex items-center gap-1.5">
+                <span
+                  className="h-2 w-2 rounded-full"
+                  style={{ backgroundColor: platformColor[key] }}
+                />
+                {platformName[key]}
+              </span>
+            ))}
+          </div>
         </div>
-        <div className="hidden items-center gap-3 text-[10px] font-medium text-neutral-400 sm:flex">
-          {Object.keys(platformName).map((key) => (
-            <span key={key} className="flex items-center gap-1.5">
-              <span
-                className="h-2 w-2 rounded-full"
-                style={{ backgroundColor: platformColor[key] }}
-              />
-              {platformName[key]}
+
+        {/* Month calendar */}
+        <div className="mt-4">
+          <div className="mb-2 flex items-center justify-between">
+            <span className="text-[11px] font-semibold text-neutral-700">
+              July 2026
             </span>
+            <span className="text-[10px] font-medium text-neutral-400">
+              8 scheduled
+            </span>
+          </div>
+          <div className="grid grid-cols-7 gap-x-1 gap-y-1 text-center">
+            {["S", "M", "T", "W", "T", "F", "S"].map((w, i) => (
+              <span
+                key={i}
+                className="text-[8px] font-semibold uppercase tracking-wide text-neutral-300"
+              >
+                {w}
+              </span>
+            ))}
+            {Array.from({ length: calLeadingBlanks }).map((_, i) => (
+              <span key={`b${i}`} />
+            ))}
+            {calDays.map((day) => {
+              const posts = calScheduled[day];
+              const isToday = day === calToday;
+              return (
+                <div
+                  key={day}
+                  className={`flex h-8 flex-col items-center justify-center rounded-md text-[10px] ${
+                    isToday
+                      ? "font-bold text-white"
+                      : "text-neutral-500"
+                  }`}
+                  style={
+                    isToday ? { backgroundColor: PURPLE } : undefined
+                  }
+                >
+                  {day}
+                  <span className="mt-0.5 flex h-1 items-center gap-0.5">
+                    {posts?.map((key, pi) => (
+                      <span
+                        key={pi}
+                        className="h-1 w-1 rounded-full"
+                        style={{
+                          backgroundColor: isToday ? "#fff" : platformColor[key],
+                        }}
+                      />
+                    ))}
+                  </span>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Scheduled queue */}
+        <p className="mb-2 mt-4 text-[10px] font-semibold uppercase tracking-wider text-neutral-400">
+          Up next
+        </p>
+        <div className="space-y-2">
+          {contentQueue.map((post, i) => (
+            <motion.div
+              key={post.title}
+              className="flex items-center gap-2.5 rounded-xl border border-neutral-200/70 bg-white p-2.5"
+              initial={reduce ? false : { opacity: 0, x: -8 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4, delay: i * 0.1, ease: EASE_OUT }}
+            >
+              <span
+                className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg text-[9px] font-bold text-white"
+                style={{ backgroundColor: platformColor[post.platform] }}
+              >
+                {post.platform}
+              </span>
+              <div className="min-w-0 flex-1">
+                <p className="truncate text-[12px] font-medium text-neutral-700">
+                  {post.title}
+                </p>
+                <p className="text-[10px] text-neutral-400">
+                  {platformName[post.platform]} · {post.time}
+                </p>
+              </div>
+              <span className="hidden shrink-0 rounded-full bg-neutral-50 px-2 py-0.5 text-[9px] font-medium text-neutral-400 sm:inline">
+                Scheduled
+              </span>
+            </motion.div>
           ))}
         </div>
-      </div>
 
-      {/* Weekly plan */}
-      <div className="mt-4 grid grid-cols-7 gap-1.5">
-        {contentWeek.map((d, di) => (
-          <div
-            key={di}
-            className={`rounded-lg border p-1.5 ${
-              d.today
-                ? "border-[#5210F8]/40 bg-[#5210F8]/5"
-                : "border-neutral-100 bg-white"
-            }`}
-          >
-            <p
-              className={`mb-1.5 text-center text-[9px] font-semibold ${
-                d.today ? "text-[#5210F8]" : "text-neutral-400"
-              }`}
-            >
-              {d.day}
-            </p>
-            <div className="flex min-h-[14px] flex-col gap-1">
-              {d.posts.map((key, pi) => (
-                <motion.span
-                  key={pi}
-                  className="h-1.5 origin-left rounded-full"
-                  style={{ backgroundColor: platformColor[key] }}
-                  initial={reduce ? false : { scaleX: 0, opacity: 0 }}
-                  whileInView={{ scaleX: 1, opacity: 1 }}
-                  viewport={{ once: true }}
-                  transition={{
-                    duration: 0.4,
-                    delay: di * 0.06 + pi * 0.08,
-                    ease: EASE_OUT,
-                  }}
-                />
-              ))}
-            </div>
+        {/* Community engagement */}
+        <div className="mt-auto flex items-center justify-between border-t border-neutral-100 pt-3">
+          <div className="flex items-center gap-3 text-[11px] font-medium text-neutral-500">
+            <span className="flex items-center gap-1">
+              <Heart size={12} style={{ color: LAVENDER }} /> 8.1k
+            </span>
+            <span className="flex items-center gap-1">
+              <MessageCircle size={12} style={{ color: PURPLE }} /> 640
+            </span>
           </div>
-        ))}
-      </div>
-
-      {/* Scheduled queue */}
-      <p className="mb-2 mt-4 text-[10px] font-semibold uppercase tracking-wider text-neutral-400">
-        Up next
-      </p>
-      <div className="space-y-2">
-        {contentQueue.map((post, i) => (
-          <motion.div
-            key={post.title}
-            className="flex items-center gap-2.5 rounded-xl border border-neutral-200/70 bg-white p-2.5"
-            initial={reduce ? false : { opacity: 0, x: -8 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.4, delay: i * 0.1, ease: EASE_OUT }}
+          <span
+            className="rounded-full px-2 py-0.5 text-[10px] font-semibold"
+            style={{ color: PURPLE, backgroundColor: "rgba(82,16,248,0.08)" }}
           >
-            <span
-              className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg text-[9px] font-bold text-white"
-              style={{ backgroundColor: platformColor[post.platform] }}
-            >
-              {post.platform}
-            </span>
-            <div className="min-w-0 flex-1">
-              <p className="truncate text-[12px] font-medium text-neutral-700">
-                {post.title}
-              </p>
-              <p className="text-[10px] text-neutral-400">
-                {platformName[post.platform]} · {post.time}
-              </p>
-            </div>
-            <span className="hidden shrink-0 rounded-full bg-neutral-50 px-2 py-0.5 text-[9px] font-medium text-neutral-400 sm:inline">
-              Scheduled
-            </span>
-          </motion.div>
-        ))}
-      </div>
-
-      {/* Community engagement */}
-      <div className="mt-auto flex items-center justify-between border-t border-neutral-100 pt-3">
-        <div className="flex items-center gap-3 text-[11px] font-medium text-neutral-500">
-          <span className="flex items-center gap-1">
-            <Heart size={12} style={{ color: LAVENDER }} /> 8.1k
-          </span>
-          <span className="flex items-center gap-1">
-            <MessageCircle size={12} style={{ color: PURPLE }} /> 640
+            Engagement +42%
           </span>
         </div>
-        <span
-          className="rounded-full px-2 py-0.5 text-[10px] font-semibold"
-          style={{ color: PURPLE, backgroundColor: "rgba(82,16,248,0.08)" }}
-        >
-          Engagement +42%
-        </span>
       </div>
+
+      {/* Instagram Reel mock — overlays the card and spills past its edge */}
+      <motion.div
+        className="absolute -bottom-8 right-2 z-20 w-[42%] max-w-[150px] sm:right-6"
+        initial={reduce ? false : { opacity: 0, y: 20, rotate: 3 }}
+        whileInView={{ opacity: 1, y: 0, rotate: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6, ease: EASE_OUT }}
+      >
+        <div className="overflow-hidden rounded-[22px] border-[5px] border-neutral-900 bg-neutral-900 shadow-[0_30px_60px_-20px_rgba(7,44,85,0.6)]">
+          <div
+            className="relative aspect-[9/16]"
+            style={{ background: `linear-gradient(150deg, ${PURPLE}, ${NAVY})` }}
+          >
+            {/* light bloom */}
+            <div
+              className="pointer-events-none absolute inset-0"
+              style={{
+                background:
+                  "radial-gradient(70px 70px at 30% 22%, rgba(196,125,253,0.5), transparent)",
+              }}
+            />
+            {/* top bar */}
+            <div className="absolute inset-x-0 top-0 flex items-center justify-between px-2.5 pt-2 text-white">
+              <span className="text-[10px] font-semibold">Reels</span>
+              <IgGlyph size={12} />
+            </div>
+            {/* play affordance */}
+            <div className="absolute left-1/2 top-1/2 flex h-8 w-8 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-white/15 backdrop-blur-sm">
+              <div className="ml-0.5 h-0 w-0 border-y-[5px] border-l-[8px] border-y-transparent border-l-white" />
+            </div>
+            {/* action rail */}
+            <div className="absolute bottom-3 right-1.5 flex flex-col items-center gap-2.5 text-white">
+              <span className="flex flex-col items-center">
+                <Heart size={14} className="fill-white" />
+                <span className="text-[7px] font-medium">8.1k</span>
+              </span>
+              <span className="flex flex-col items-center">
+                <MessageCircle size={14} />
+                <span className="text-[7px] font-medium">640</span>
+              </span>
+              <Send size={14} />
+            </div>
+            {/* caption */}
+            <div className="absolute inset-x-0 bottom-2.5 pl-2.5 pr-8 text-white">
+              <div className="flex items-center gap-1.5">
+                <div
+                  className="h-4 w-4 rounded-full border border-white/70"
+                  style={{
+                    background: `linear-gradient(135deg, ${LAVENDER}, ${PURPLE})`,
+                  }}
+                />
+                <span className="text-[8px] font-semibold">invisiedge</span>
+              </div>
+              <p className="mt-1 text-[8px] leading-tight text-white/90">
+                Brand story reel ✨ #growth
+              </p>
+            </div>
+          </div>
+        </div>
+      </motion.div>
     </div>
   );
 }
@@ -772,8 +870,7 @@ function AiVideoVisual() {
     <div className={`flex ${FRAME} flex-col gap-3`}>
       {/* Player card */}
       <div
-        className="relative flex flex-1 items-center justify-center overflow-hidden rounded-2xl"
-        style={{ background: `linear-gradient(150deg, ${NAVY}, #0d4a8a)` }}
+        className="relative flex flex-1 items-center justify-center overflow-hidden rounded-2xl border"
       >
         {/* soft light sweep */}
         <motion.div
@@ -805,7 +902,7 @@ function AiVideoVisual() {
         </motion.div>
 
         {/* render status pill */}
-        <div className="absolute left-3 top-3">
+        <div className="absolute left-3 top-3 ">
           <AnimatePresence mode="wait">
             <motion.span
               key={rendering ? "render" : "done"}
@@ -858,27 +955,32 @@ function AiVideoVisual() {
             EN · Natural
           </span>
         </div>
-        <div className="flex h-8 items-center justify-center gap-[3px]">
-          {waveform.map((h, i) => (
-            <motion.div
-              key={i}
-              className="w-[3px] rounded-full"
-              style={{
-                background: `linear-gradient(to top, ${PURPLE}, ${LAVENDER})`,
-              }}
-              animate={
-                reduce
-                  ? { height: `${h * 0.6}%` }
-                  : { height: [`${h * 0.45}%`, `${h}%`, `${h * 0.45}%`] }
-              }
-              transition={{
-                duration: 1.1,
-                repeat: Infinity,
-                delay: i * 0.04,
-                ease: EASE_IN_OUT,
-              }}
-            />
-          ))}
+        <div className="w-full flex justify-center">
+          <div className="rounded-full p-1 border border-neutral-200 flex gap-4 items-center w-fit pr-4">
+            <img src="https://imgs.search.brave.com/G3UvNaiAK0qLtlTzR5gEzWFcDFIPuk5IwgEkSTx1YO8/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9tZWRp/YS5nZXR0eWltYWdl/cy5jb20vaWQvMjE1/MTM4ODg4Ny9waG90/by9tZWRpdW0tcHJv/ZmlsZS1wb3J0cmFp/dC1vZi15b3VuZy1h/c2lhbi13b21hbi5q/cGc_cz02MTJ4NjEy/Jnc9MCZrPTIwJmM9/ZTkxUFRMYnpBVDJG/X2k5ZUYxeW82RS1h/OUR4UF9XNHVMODNN/WUhVNlhHRT0" alt="" className="rounded-full w-12 h-12" />
+            <div className="flex h-8 items-center justify-center gap-[3px] w-fit">
+              {waveform.map((h, i) => (
+                <motion.div
+                  key={i}
+                  className="w-[3px] rounded-full"
+                  style={{
+                    background: `linear-gradient(to top, ${PURPLE}, ${LAVENDER})`,
+                  }}
+                  animate={
+                    reduce
+                      ? { height: `${h * 0.6}%` }
+                      : { height: [`${h * 0.45}%`, `${h}%`, `${h * 0.45}%`] }
+                  }
+                  transition={{
+                    duration: 1.1,
+                    repeat: Infinity,
+                    delay: i * 0.04,
+                    ease: EASE_IN_OUT,
+                  }}
+                />
+              ))}
+            </div>
+          </div>
         </div>
       </div>
 
