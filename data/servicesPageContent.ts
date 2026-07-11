@@ -134,7 +134,7 @@ export const serviceDetails: ServiceDetail[] = [
     title: "Social Media & Content Marketing",
     shortTitle: "Content",
     visualType: "social",
-    tags: ["LinkedIn", "Instagram", "Reels", "Calendars"],
+    tags: ["Calendars", "LinkedIn", "Instagram", "Reels"],
     overview:
       "Consistency builds trust. We create content systems that help your brand stay active, relevant, and engaging across digital platforms.",
     keyServices: [

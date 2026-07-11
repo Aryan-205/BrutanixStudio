@@ -50,6 +50,7 @@ import {
   SlidersHorizontal,
   Smartphone,
   Sparkles,
+  Square,
   Tablet,
   ThumbsUp,
   Ticket,
@@ -603,16 +604,32 @@ function SeoVisual() {
 }
 
 /* ================================================================== *
- * 4. CONTENT — one mock per tab: a LinkedIn feed, an Instagram feed,
- *    a Reels player and the content calendar. The three phone mocks are
+ * 4. CONTENT — one mock per tab: the content calendar, then a LinkedIn
+ *    feed, an Instagram feed and a Reels player. The three phone mocks are
  *    drawn as flat wireframes — neutral placeholders, hairline rules,
- *    brand colour only where it carries meaning (active state, ring,
- *    progress) — so the UI reads as interface, not as decoration.
+ *    platform colour only where it carries meaning (active state, story
+ *    ring, progress) — so the UI reads as interface, not as decoration.
  * ================================================================== */
+/** Real platform brand colours, so each mock reads as the app it's imitating. */
+const LINKEDIN_BLUE = "#0A66C2";
+const IG_PINK = "#E1306C";
+const IG_RED = "#ED4956"; // Instagram's "liked" heart
+const IG_BLUE = "#0095F6"; // Instagram's active carousel dot
+const IG_PURPLE = "#8134AF";
+const IG_GRADIENT =
+  "linear-gradient(45deg, #F58529, #DD2A7B 45%, #8134AF 75%, #515BD4)";
+
+/** Solid ink — safe for text, borders and any single-colour surface. */
 const platformColor: Record<string, string> = {
-  LI: NAVY,
-  IG: LAVENDER,
-  RL: PURPLE,
+  LI: LINKEDIN_BLUE,
+  IG: IG_PINK,
+  RL: IG_PURPLE,
+};
+/** Fill — may be a gradient, so only ever set via `background`. */
+const platformFill: Record<string, string> = {
+  LI: LINKEDIN_BLUE,
+  IG: IG_GRADIENT,
+  RL: IG_PURPLE,
 };
 const platformName: Record<string, string> = {
   LI: "LinkedIn",
@@ -715,9 +732,15 @@ function LinkedInVisual() {
       {/* app bar */}
       <div className="flex items-center gap-2 px-3 py-2">
         <span className="h-6 w-6 shrink-0 rounded-full bg-neutral-100" />
+        <span
+          className="flex h-5 w-5 shrink-0 items-center justify-center rounded-[4px] text-[9px] font-bold lowercase text-white"
+          style={{ backgroundColor: LINKEDIN_BLUE }}
+        >
+          in
+        </span>
         <span className="flex h-6 flex-1 items-center gap-1.5 rounded-md bg-neutral-50 px-2">
           <Search size={10} className="text-neutral-300" />
-          <Skel w="52px" h={4} dark />
+          <Skel w="40px" h={4} dark />
         </span>
         <MessageCircle size={13} className="shrink-0 text-neutral-400" />
       </div>
@@ -756,7 +779,7 @@ function LinkedInVisual() {
         <div className="mt-2.5 flex items-center gap-1.5">
           <motion.span
             className="flex h-3.5 w-3.5 items-center justify-center rounded-full"
-            style={{ backgroundColor: PURPLE }}
+            style={{ backgroundColor: LINKEDIN_BLUE }}
             animate={reduce ? undefined : { scale: [1, 1.18, 1] }}
             transition={loop(3.2)}
           >
@@ -775,7 +798,7 @@ function LinkedInVisual() {
               className={`flex items-center gap-1 text-[8px] font-medium ${
                 active ? "" : "text-neutral-400"
               }`}
-              style={active ? { color: PURPLE } : undefined}
+              style={active ? { color: LINKEDIN_BLUE } : undefined}
             >
               <Icon size={11} />
               {label}
@@ -790,7 +813,7 @@ function LinkedInVisual() {
           <Home size={13} />
           <span
             className="absolute -bottom-1 left-1/2 h-[2px] w-3.5 -translate-x-1/2 rounded-full"
-            style={{ backgroundColor: PURPLE }}
+            style={{ backgroundColor: LINKEDIN_BLUE }}
           />
         </span>
         <Users size={13} />
@@ -830,11 +853,16 @@ function InstagramPanel() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.35, delay: i * 0.06, ease: EASE_OUT }}
           >
+            {/* unviewed stories carry Instagram's gradient ring */}
             <span
-              className="flex h-9 w-9 items-center justify-center rounded-full border p-[2px]"
-              style={{ borderColor: i === 0 ? PURPLE : "#e5e5e5" }}
+              className="flex h-9 w-9 items-center justify-center rounded-full p-[1.5px]"
+              style={{
+                background: i < 3 ? IG_GRADIENT : "#e5e5e5",
+              }}
             >
-              <span className="h-full w-full rounded-full bg-neutral-100" />
+              <span className="flex h-full w-full items-center justify-center rounded-full bg-white p-[1.5px]">
+                <span className="h-full w-full rounded-full bg-neutral-100" />
+              </span>
             </span>
             <Skel w="20px" h={3} dark />
           </motion.div>
@@ -843,7 +871,12 @@ function InstagramPanel() {
 
       {/* post header */}
       <div className="flex items-center gap-2 border-t border-neutral-100 px-3 py-2">
-        <span className="h-6 w-6 shrink-0 rounded-full border border-neutral-200 bg-neutral-50" />
+        <span
+          className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full p-[1.5px]"
+          style={{ background: IG_GRADIENT }}
+        >
+          <span className="h-full w-full rounded-full border border-white bg-neutral-100" />
+        </span>
         <div className="min-w-0 flex-1">
           <p className="text-[9px] font-semibold leading-tight text-[#111]">
             invisiedge
@@ -865,7 +898,7 @@ function InstagramPanel() {
               key={d}
               className="h-1 w-1 rounded-full"
               style={{
-                backgroundColor: d === 0 ? PURPLE : "#d4d4d4",
+                backgroundColor: d === 0 ? IG_BLUE : "#d4d4d4",
               }}
             />
           ))}
@@ -876,7 +909,7 @@ function InstagramPanel() {
       <div className="flex items-center justify-between px-3 pb-1 pt-2.5">
         <div className="flex items-center gap-3">
           <motion.span
-            style={{ color: PURPLE }}
+            style={{ color: IG_RED }}
             animate={reduce ? undefined : { scale: [1, 1.15, 1] }}
             transition={loop(3.4)}
           >
@@ -934,7 +967,7 @@ function ReelsPanel() {
           className="pointer-events-none absolute inset-y-0 w-1/2 -skew-x-12"
           style={{
             background:
-              "linear-gradient(90deg, transparent, rgba(82,16,248,0.07), transparent)",
+              "linear-gradient(90deg, transparent, rgba(221,42,123,0.08), transparent)",
           }}
           animate={reduce ? undefined : { x: ["-70%", "190%"] }}
           transition={loop(6)}
@@ -945,7 +978,9 @@ function ReelsPanel() {
           <span className="text-[10px] font-semibold text-neutral-900">
             Reels
           </span>
-          <IgGlyph size={12} />
+          <span style={{ color: IG_PINK }}>
+            <IgGlyph size={12} />
+          </span>
         </div>
 
         {/* play affordance */}
@@ -955,9 +990,13 @@ function ReelsPanel() {
 
         {/* action rail */}
         <div className="absolute bottom-14 right-2 flex flex-col items-center gap-3 text-neutral-500">
-          {reelStats.map(({ icon: Icon, value }) => (
+          {reelStats.map(({ icon: Icon, value }, i) => (
             <span key={value} className="flex flex-col items-center gap-0.5">
-              <Icon size={14} />
+              <Icon
+                size={14}
+                className={i === 0 ? "fill-current" : undefined}
+                style={i === 0 ? { color: IG_RED } : undefined}
+              />
               <span className="text-[7px] font-medium">{value}</span>
             </span>
           ))}
@@ -972,7 +1011,7 @@ function ReelsPanel() {
             </span>
             <span
               className="rounded-full px-1.5 py-[1px] text-[7px] font-semibold"
-              style={{ color: PURPLE, backgroundColor: "rgba(82,16,248,0.08)" }}
+              style={{ color: IG_PINK, backgroundColor: "rgba(225,48,108,0.09)" }}
             >
               Follow
             </span>
@@ -986,7 +1025,7 @@ function ReelsPanel() {
         <div className="absolute inset-x-0 bottom-0 h-[2px] bg-neutral-200">
           <motion.div
             className="h-full origin-left"
-            style={{ backgroundColor: PURPLE }}
+            style={{ background: IG_GRADIENT }}
             animate={reduce ? { scaleX: 0.4 } : { scaleX: [0, 1] }}
             transition={
               reduce
@@ -1016,7 +1055,7 @@ function CalendarPanel() {
             <span key={key} className="flex items-center gap-1.5">
               <span
                 className="h-1.5 w-1.5 rounded-full"
-                style={{ backgroundColor: platformColor[key] }}
+                style={{ background: platformFill[key] }}
               />
               {platformName[key]}
             </span>
@@ -1025,8 +1064,8 @@ function CalendarPanel() {
       </div>
 
       {/* Month calendar */}
-      <div className="mt-4">
-        <div className="mb-2 flex items-center justify-between">
+      <div className="mt-3">
+        <div className="mb-1.5 flex items-center justify-between">
           <span className="text-[11px] font-semibold text-neutral-700">
             July 2026
           </span>
@@ -1034,11 +1073,11 @@ function CalendarPanel() {
             8 scheduled
           </span>
         </div>
-        <div className="grid grid-cols-7 gap-x-1 gap-y-1 text-center">
+        <div className="grid grid-cols-7 gap-x-0.5 gap-y-0.5 text-center">
           {["S", "M", "T", "W", "T", "F", "S"].map((w, i) => (
             <span
               key={i}
-              className="text-[8px] font-semibold uppercase tracking-wide text-neutral-300"
+              className="pb-0.5 text-[8px] font-semibold uppercase tracking-wide text-neutral-300"
             >
               {w}
             </span>
@@ -1052,7 +1091,7 @@ function CalendarPanel() {
             return (
               <div
                 key={day}
-                className={`flex h-8 flex-col items-center justify-center rounded-md text-[10px] ${
+                className={`flex h-6 flex-col items-center justify-center rounded-[5px] text-[9px] leading-none ${
                   isToday ? "font-semibold" : "text-neutral-500"
                 }`}
                 style={
@@ -1062,12 +1101,12 @@ function CalendarPanel() {
                 }
               >
                 {day}
-                <span className="mt-0.5 flex h-1 items-center gap-0.5">
+                <span className="mt-[3px] flex h-1 items-center gap-0.5">
                   {posts?.map((key, pi) => (
                     <span
                       key={pi}
                       className="h-1 w-1 rounded-full"
-                      style={{ backgroundColor: platformColor[key] }}
+                      style={{ background: platformFill[key] }}
                     />
                   ))}
                 </span>
@@ -1078,7 +1117,7 @@ function CalendarPanel() {
       </div>
 
       {/* Scheduled queue */}
-      <p className="mb-2 mt-4 text-[10px] font-semibold uppercase tracking-wider text-neutral-400">
+      <p className="mb-2 mt-3 text-[10px] font-semibold uppercase tracking-wider text-neutral-400">
         Up next
       </p>
       <div className="space-y-2">
@@ -1136,28 +1175,45 @@ function CalendarPanel() {
 }
 
 /* ================================================================== *
- * 5. AI-VIDEO — an AI video studio: avatar player with live script
- *    captions + format badge, an AI-voiceover waveform, and an
- *    automated render queue churning out multiple video formats.
+ * 5. AI-VIDEO — one surface per tab: the presenter studio, the voice
+ *    editor, the short-form export bay and the script doc. All drawn as
+ *    flat, light UI — hairline rules, neutral placeholders, brand colour
+ *    only on the active state — so each reads as a tool, not a poster.
  * ================================================================== */
-const waveform = Array.from(
-  { length: 22 },
-  (_, i) => 24 + Math.sin(i * 0.7) * 34 + 30,
-);
-
 const scriptLines = [
   "Meet your AI presenter —",
   "on-brand, in every format.",
   "Scripted, voiced, rendered.",
 ];
 
-const renderQueue = [
-  { label: "Explainer video", pct: 100, done: true, color: "#22C55E" },
-  { label: "Corporate video", pct: 64, done: false, color: LAVENDER },
-  { label: "Event recap", pct: 28, done: false, color: PURPLE },
+/** Speech-shaped waveform: loud through the middle, quiet at the edges. */
+const waveform = Array.from({ length: 34 }, (_, i) =>
+  Math.round(30 + Math.sin(i * 0.55) * 26 + Math.sin(i * 1.7) * 11),
+);
+
+const avatarPresets = [
+  { name: "Ava", role: "Presenter" },
+  { name: "Noah", role: "Explainer" },
+  { name: "Mia", role: "Founder" },
+  { name: "Leo", role: "Support" },
 ];
 
-function AiVideoVisual() {
+/** Wireframe bust — a stand-in for the presenter, never a stock photo. */
+function AvatarBust({ className = "" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 64 64" className={className} fill="none">
+      <circle cx="32" cy="23" r="12" stroke="currentColor" strokeWidth="2" />
+      <path
+        d="M9 60c0-12.5 10.3-20 23-20s23 7.5 23 20"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
+function AvatarStudioVisual() {
   const reduce = useReducedMotion();
   const [rendering, setRendering] = useState(true);
   const [line, setLine] = useState(0);
@@ -1178,72 +1234,76 @@ function AiVideoVisual() {
   }, [reduce]);
 
   return (
-    <div className={`flex ${FRAME} flex-col gap-3`}>
-      {/* Player card */}
-      <div
-        className="relative flex flex-1 items-center justify-center overflow-hidden rounded-2xl border"
-      >
-        {/* soft light sweep */}
+    <div className={PANEL_SHELL}>
+      <div className="flex items-center justify-between">
+        <PanelHeader badge="AI Avatars" />
+        <AnimatePresence mode="wait">
+          <motion.span
+            key={rendering ? "render" : "done"}
+            className="flex items-center gap-1.5 rounded-full border border-neutral-200 px-2.5 py-1 text-[10px] font-medium text-neutral-500"
+            initial={{ opacity: 0, y: -4 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 4 }}
+            transition={{ duration: 0.26, ease: EASE_OUT }}
+          >
+            <span
+              className="h-1.5 w-1.5 rounded-full"
+              style={{ backgroundColor: rendering ? PURPLE : "#22C55E" }}
+            />
+            {rendering ? "Generating…" : "Ready to publish"}
+          </motion.span>
+        </AnimatePresence>
+      </div>
+
+      {/* Stage */}
+      <div className="relative mt-4 flex flex-1 items-center justify-center overflow-hidden rounded-xl border border-neutral-200/80 bg-neutral-50">
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage:
+              "linear-gradient(rgba(7,44,85,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(7,44,85,0.04) 1px, transparent 1px)",
+            backgroundSize: "22px 22px",
+          }}
+        />
+        {/* the render pass, sweeping across the frame */}
         <motion.div
-          className="pointer-events-none absolute inset-0"
+          className="pointer-events-none absolute inset-y-0 w-1/3 -skew-x-12"
           style={{
             background:
-              "radial-gradient(120px 120px at 30% 25%, rgba(196,125,253,0.35), transparent)",
+              "linear-gradient(90deg, transparent, rgba(82,16,248,0.07), transparent)",
           }}
-          animate={reduce ? undefined : { x: ["-12%", "40%", "-12%"] }}
-          transition={loop(10)}
+          animate={reduce ? undefined : { x: ["-80%", "300%"] }}
+          transition={loop(7)}
         />
 
-        {/* avatar orb */}
         <motion.div
-          className="relative flex h-20 w-20 items-center justify-center rounded-full md:h-24 md:w-24"
-          style={{
-            background: `radial-gradient(circle at 35% 30%, ${LAVENDER}, ${PURPLE})`,
-          }}
-          animate={reduce ? undefined : { scale: [1, 1.05, 1] }}
-          transition={loop(3.4)}
+          className="relative flex h-20 w-20 items-center justify-center rounded-full border border-neutral-200 bg-white md:h-24 md:w-24"
+          animate={reduce ? undefined : { scale: [1, 1.03, 1] }}
+          transition={loop(3.6)}
         >
           <motion.span
-            className="absolute inset-0 rounded-full"
-            style={{ border: "1.5px solid rgba(255,255,255,0.4)" }}
-            animate={reduce ? undefined : { scale: [1, 1.5], opacity: [0.5, 0] }}
-            transition={{ duration: 2.4, repeat: Infinity, ease: EASE_OUT }}
+            className="absolute inset-0 rounded-full border"
+            style={{ borderColor: "rgba(82,16,248,0.35)" }}
+            animate={reduce ? undefined : { scale: [1, 1.45], opacity: [0.6, 0] }}
+            transition={{ duration: 2.6, repeat: Infinity, ease: EASE_OUT }}
           />
-          <div className="ml-1 h-0 w-0 border-y-[9px] border-l-[14px] border-y-transparent border-l-white" />
+          <AvatarBust className="h-10 w-10 text-neutral-300 md:h-12 md:w-12" />
         </motion.div>
 
-        {/* render status pill */}
-        <div className="absolute left-3 top-3 ">
-          <AnimatePresence mode="wait">
-            <motion.span
-              key={rendering ? "render" : "done"}
-              className="flex items-center gap-1.5 rounded-full bg-white/12 px-2.5 py-1 text-[10px] font-medium text-white backdrop-blur-sm"
-              initial={{ opacity: 0, y: -4, filter: "blur(4px)" }}
-              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-              exit={{ opacity: 0, y: 4, filter: "blur(4px)" }}
-              transition={{ duration: 0.28, ease: EASE_OUT }}
-            >
-              <span
-                className="h-1.5 w-1.5 rounded-full"
-                style={{ backgroundColor: rendering ? LAVENDER : "#4ade80" }}
-              />
-              {rendering ? "Generating…" : "Ready to publish"}
-            </motion.span>
-          </AnimatePresence>
-        </div>
+        <span className="absolute left-3 top-3 flex items-center gap-1 rounded-full border border-neutral-200 bg-white px-2 py-0.5 text-[9px] font-medium text-neutral-500">
+          <Sparkles size={9} style={{ color: PURPLE }} />
+          Lip-sync · 60 fps
+        </span>
+        <span className="absolute right-3 top-3 rounded-full border border-neutral-200 bg-white px-2 py-0.5 text-[9px] font-medium tabular-nums text-neutral-500">
+          9:16
+        </span>
 
-        {/* format badge */}
-        <div className="absolute right-3 top-3 flex items-center gap-1.5 rounded-full bg-white/12 px-2.5 py-1 text-[10px] font-medium text-white backdrop-blur-sm">
-          <Sparkles size={11} />
-          9:16 · Short-form
-        </div>
-
-        {/* live script caption */}
+        {/* the script, spoken line by line */}
         <div className="absolute inset-x-3 bottom-3 flex justify-center">
           <AnimatePresence mode="wait">
             <motion.span
               key={line}
-              className="rounded-lg bg-black/30 px-3 py-1.5 text-center text-[11px] font-medium text-white backdrop-blur-sm"
+              className="rounded-lg border border-neutral-200 bg-white/90 px-2.5 py-1 text-center text-[10px] font-medium text-neutral-600 backdrop-blur-sm"
               initial={{ opacity: 0, y: 6 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -6 }}
@@ -1255,105 +1315,426 @@ function AiVideoVisual() {
         </div>
       </div>
 
-      {/* AI voiceover waveform */}
-      <div className={`${CARD} p-3`}>
-        <div className="mb-2 flex items-center justify-between">
-          <span className="flex items-center gap-1.5 text-[10px] font-semibold text-neutral-500">
-            <Mic size={12} style={{ color: PURPLE }} />
-            AI Voiceover
+      {/* Presenter presets */}
+      <div className="mt-3 flex items-center gap-2">
+        {avatarPresets.map((preset, i) => (
+          <motion.div
+            key={preset.name}
+            className={`flex flex-1 items-center gap-2 rounded-xl border p-2 ${
+              i === 0
+                ? "border-[#5210F8]/30 bg-[#5210F8]/5"
+                : "border-neutral-200/70 bg-white"
+            }`}
+            initial={reduce ? false : { opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.35, delay: i * 0.06, ease: EASE_OUT }}
+          >
+            <span
+              className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full border ${
+                i === 0 ? "border-[#5210F8]/40" : "border-neutral-200"
+              }`}
+            >
+              <AvatarBust
+                className={`h-3.5 w-3.5 ${
+                  i === 0 ? "text-[#5210F8]" : "text-neutral-300"
+                }`}
+              />
+            </span>
+            <span className="hidden min-w-0 sm:block">
+              <span className="block truncate text-[10px] font-semibold text-[#111]">
+                {preset.name}
+              </span>
+              <span className="block truncate text-[8px] text-neutral-400">
+                {preset.role}
+              </span>
+            </span>
+          </motion.div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+const voices = [
+  { name: "Ava", tag: "Warm · Narration", active: true },
+  { name: "Noah", tag: "Confident · Explainer", active: false },
+  { name: "Brand voice", tag: "Cloned · Private", active: false },
+];
+
+function VoiceoverPanel() {
+  const reduce = useReducedMotion();
+
+  return (
+    <div className={PANEL_SHELL}>
+      <div className="flex items-center justify-between">
+        <PanelHeader badge="Voiceovers" />
+        <span className="rounded-full border border-neutral-200 px-2.5 py-1 text-[10px] font-medium text-neutral-500">
+          EN · Natural
+        </span>
+      </div>
+
+      {/* Track */}
+      <div className="mt-4 rounded-xl border border-neutral-200/80 bg-white p-3">
+        <div className="flex items-center gap-3">
+          <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#111] text-white">
+            <Play size={11} className="ml-[1px] fill-current" />
           </span>
-          <span className="rounded-full bg-neutral-50 px-2 py-0.5 text-[9px] font-medium text-neutral-400">
-            EN · Natural
-          </span>
-        </div>
-        <div className="w-full flex justify-center">
-          <div className="rounded-full p-1 border border-neutral-200 flex gap-4 items-center w-fit pr-4">
-            <img src="https://imgs.search.brave.com/G3UvNaiAK0qLtlTzR5gEzWFcDFIPuk5IwgEkSTx1YO8/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9tZWRp/YS5nZXR0eWltYWdl/cy5jb20vaWQvMjE1/MTM4ODg4Ny9waG90/by9tZWRpdW0tcHJv/ZmlsZS1wb3J0cmFp/dC1vZi15b3VuZy1h/c2lhbi13b21hbi5q/cGc_cz02MTJ4NjEy/Jnc9MCZrPTIwJmM9/ZTkxUFRMYnpBVDJG/X2k5ZUYxeW82RS1h/OUR4UF9XNHVMODNN/WUhVNlhHRT0" alt="" className="rounded-full w-12 h-12" />
-            <div className="flex h-8 items-center justify-center gap-[3px] w-fit">
-              {waveform.map((h, i) => (
-                <motion.div
-                  key={i}
-                  className="w-[3px] rounded-full"
-                  style={{
-                    background: `linear-gradient(to top, ${PURPLE}, ${LAVENDER})`,
-                  }}
-                  animate={
-                    reduce
-                      ? { height: `${h * 0.6}%` }
-                      : { height: [`${h * 0.45}%`, `${h}%`, `${h * 0.45}%`] }
-                  }
-                  transition={{
-                    duration: 1.1,
-                    repeat: Infinity,
-                    delay: i * 0.04,
-                    ease: EASE_IN_OUT,
-                  }}
-                />
-              ))}
-            </div>
+          <div className="relative flex h-10 flex-1 items-center gap-[2px]">
+            {waveform.map((h, i) => (
+              <motion.span
+                key={i}
+                className="flex-1 rounded-full bg-neutral-200"
+                animate={
+                  reduce
+                    ? { height: `${h}%` }
+                    : { height: [`${h * 0.45}%`, `${h}%`, `${h * 0.45}%`] }
+                }
+                transition={{
+                  duration: 1.2,
+                  repeat: Infinity,
+                  delay: i * 0.03,
+                  ease: EASE_IN_OUT,
+                }}
+              />
+            ))}
+            {/* playhead — tints everything already spoken */}
+            <motion.span
+              className="pointer-events-none absolute inset-y-0 left-0 border-r"
+              style={{
+                borderColor: PURPLE,
+                backgroundColor: "rgba(82,16,248,0.07)",
+              }}
+              animate={reduce ? { width: "40%" } : { width: ["0%", "100%"] }}
+              transition={
+                reduce
+                  ? undefined
+                  : { duration: 8, repeat: Infinity, ease: "linear" }
+              }
+            />
           </div>
+        </div>
+        <div className="mt-2 flex items-center justify-between text-[9px] font-medium tabular-nums text-neutral-400">
+          <span>0:00</span>
+          <span className="flex items-center gap-1.5">
+            <span className="rounded-full bg-neutral-50 px-1.5 py-0.5">
+              1.0×
+            </span>
+            <span className="rounded-full bg-neutral-50 px-1.5 py-0.5">
+              Pitch −2
+            </span>
+          </span>
+          <span>0:32</span>
         </div>
       </div>
 
-      {/* Automated render queue */}
-      <div className={`${CARD} p-3`}>
-        <div className="mb-2.5 flex items-center justify-between">
-          <span className="text-[10px] font-semibold text-neutral-500">
-            Render queue
-          </span>
-          <span
-            className="flex items-center gap-1 rounded-full px-2 py-0.5 text-[9px] font-semibold"
-            style={{ color: PURPLE, backgroundColor: "rgba(82,16,248,0.08)" }}
+      {/* Voice library */}
+      <p className="mb-2 mt-4 text-[9px] font-semibold uppercase tracking-wider text-neutral-400">
+        Voice
+      </p>
+      <div className="flex flex-1 flex-col justify-center gap-2">
+        {voices.map((voice, i) => (
+          <motion.div
+            key={voice.name}
+            className={`flex items-center gap-2.5 rounded-xl border px-3 py-2 ${
+              voice.active
+                ? "border-[#5210F8]/30 bg-[#5210F8]/5"
+                : "border-neutral-200/70 bg-white"
+            }`}
+            initial={reduce ? false : { opacity: 0, x: -8 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.4, delay: i * 0.08, ease: EASE_OUT }}
           >
-            <Sparkles size={9} />
-            Automated
-          </span>
-        </div>
-        <div className="space-y-2.5">
-          {renderQueue.map((item, i) => (
-            <div key={item.label} className="flex items-center gap-2.5">
-              <span
-                className="flex h-6 w-6 shrink-0 items-center justify-center rounded-md text-white"
-                style={{ backgroundColor: item.color }}
-              >
-                <Film size={12} />
+            <span
+              className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full ${
+                voice.active
+                  ? "text-white"
+                  : "border border-neutral-200 text-neutral-400"
+              }`}
+              style={voice.active ? { backgroundColor: PURPLE } : undefined}
+            >
+              <Mic size={11} />
+            </span>
+            <span className="min-w-0 flex-1">
+              <span className="block truncate text-[11px] font-semibold text-[#111]">
+                {voice.name}
               </span>
-              <div className="min-w-0 flex-1">
-                <div className="mb-1 flex items-center justify-between">
-                  <span className="truncate text-[11px] font-medium text-neutral-600">
-                    {item.label}
+              <span className="block truncate text-[9px] text-neutral-400">
+                {voice.tag}
+              </span>
+            </span>
+            <span className="hidden items-center gap-[2px] sm:flex">
+              {[6, 11, 5, 13, 8, 10, 6].map((h, bi) => (
+                <span
+                  key={bi}
+                  className="w-[2px] rounded-full"
+                  style={{
+                    height: h,
+                    backgroundColor: voice.active ? PURPLE : "#e5e5e5",
+                  }}
+                />
+              ))}
+            </span>
+            {voice.active && (
+              <Check size={12} strokeWidth={3} style={{ color: PURPLE }} />
+            )}
+          </motion.div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+const videoFormats = [
+  { icon: Smartphone, label: "Vertical", ratio: "9:16", note: "Reels · Shorts", active: true },
+  { icon: Square, label: "Square", ratio: "1:1", note: "Feed", active: false },
+  { icon: Monitor, label: "Wide", ratio: "16:9", note: "Site · YouTube", active: false },
+];
+
+const renderQueue = [
+  { label: "Explainer · 60s", pct: 100, done: true },
+  { label: "Corporate cut · 30s", pct: 64, done: false },
+  { label: "Event recap · 15s", pct: 28, done: false },
+];
+
+function ShortFormPanel() {
+  const reduce = useReducedMotion();
+
+  return (
+    <div className={PANEL_SHELL}>
+      <div className="flex items-center justify-between">
+        <PanelHeader badge="Short-form" />
+        <span className="flex items-center gap-1.5 rounded-full border border-neutral-200 px-2.5 py-1 text-[10px] font-medium text-neutral-500">
+          <Sparkles size={10} style={{ color: PURPLE }} />
+          Auto-captions
+        </span>
+      </div>
+
+      <div className="mt-4 flex flex-1 gap-4">
+        {/* 9:16 master */}
+        <motion.div
+          className="relative w-[84px] shrink-0 overflow-hidden rounded-xl border border-neutral-200/80 bg-neutral-50"
+          initial={reduce ? false : { opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.45, ease: EASE_OUT }}
+        >
+          <div
+            className="absolute inset-0"
+            style={{
+              backgroundImage:
+                "linear-gradient(rgba(7,44,85,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(7,44,85,0.04) 1px, transparent 1px)",
+              backgroundSize: "18px 18px",
+            }}
+          />
+          <span className="absolute left-1.5 top-1.5 rounded-full border border-neutral-200 bg-white px-1.5 py-[1px] text-[7px] font-medium tabular-nums text-neutral-500">
+            0:12 / 0:60
+          </span>
+
+          <span className="absolute left-1/2 top-1/2 flex h-7 w-7 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-neutral-300 bg-white/80 backdrop-blur-sm">
+            <span className="ml-[2px] h-0 w-0 border-y-[4px] border-l-[6px] border-y-transparent border-l-neutral-900" />
+          </span>
+
+          {/* burned-in caption */}
+          <span className="absolute inset-x-1.5 bottom-3 rounded-md border border-neutral-200 bg-white/90 px-1.5 py-1 text-center text-[7px] font-semibold leading-tight text-neutral-600">
+            on-brand, in every format.
+          </span>
+
+          <div className="absolute inset-x-0 bottom-0 h-[2px] bg-neutral-200">
+            <motion.span
+              className="block h-full origin-left"
+              style={{ backgroundColor: PURPLE }}
+              animate={reduce ? { scaleX: 0.35 } : { scaleX: [0, 1] }}
+              transition={
+                reduce
+                  ? undefined
+                  : { duration: 8, repeat: Infinity, ease: "linear" }
+              }
+            />
+          </div>
+        </motion.div>
+
+        <div className="flex min-w-0 flex-1 flex-col">
+          {/* Aspect ratios */}
+          <div className="flex flex-col gap-1.5">
+            {videoFormats.map((format, i) => (
+              <motion.div
+                key={format.ratio}
+                className={`flex items-center gap-2.5 rounded-xl border px-2.5 py-2 ${
+                  format.active
+                    ? "border-[#5210F8]/30 bg-[#5210F8]/5"
+                    : "border-neutral-200/70 bg-white"
+                }`}
+                initial={reduce ? false : { opacity: 0, x: 8 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.4, delay: i * 0.07, ease: EASE_OUT }}
+              >
+                <format.icon
+                  size={13}
+                  style={{ color: format.active ? PURPLE : "#a3a3a3" }}
+                />
+                <span className="min-w-0 flex-1">
+                  <span className="block truncate text-[11px] font-semibold text-[#111]">
+                    {format.label}
                   </span>
-                  <span
-                    className="flex items-center gap-0.5 text-[10px] font-semibold tabular-nums"
-                    style={{ color: item.done ? "#22C55E" : "#a3a3a3" }}
-                  >
-                    {item.done ? (
-                      <>
-                        <Check size={11} /> Done
-                      </>
-                    ) : (
-                      `${item.pct}%`
-                    )}
+                  <span className="block truncate text-[9px] text-neutral-400">
+                    {format.note}
                   </span>
-                </div>
-                <div className="h-1 w-full overflow-hidden rounded-full bg-neutral-100">
-                  <motion.div
-                    className="h-full origin-left rounded-full"
-                    style={{ backgroundColor: item.color }}
-                    initial={reduce ? false : { scaleX: 0 }}
-                    whileInView={{ scaleX: item.pct / 100 }}
-                    viewport={{ once: true }}
-                    transition={{
-                      duration: 1,
-                      delay: 0.15 + i * 0.12,
-                      ease: EASE_OUT,
-                    }}
-                  />
+                </span>
+                <span
+                  className="shrink-0 text-[10px] font-semibold tabular-nums"
+                  style={{ color: format.active ? PURPLE : "#a3a3a3" }}
+                >
+                  {format.ratio}
+                </span>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Render queue */}
+          <p className="mb-2 mt-4 text-[9px] font-semibold uppercase tracking-wider text-neutral-400">
+            Renders
+          </p>
+          <div className="mt-auto space-y-2">
+            {renderQueue.map((item, i) => (
+              <div key={item.label} className="flex items-center gap-2">
+                <Film size={11} className="shrink-0 text-neutral-300" />
+                <div className="min-w-0 flex-1">
+                  <div className="mb-1 flex items-center justify-between text-[10px]">
+                    <span className="truncate font-medium text-neutral-600">
+                      {item.label}
+                    </span>
+                    <span
+                      className="flex shrink-0 items-center gap-0.5 font-semibold tabular-nums"
+                      style={{ color: item.done ? "#22C55E" : "#a3a3a3" }}
+                    >
+                      {item.done ? (
+                        <>
+                          <Check size={10} strokeWidth={3} /> Done
+                        </>
+                      ) : (
+                        `${item.pct}%`
+                      )}
+                    </span>
+                  </div>
+                  <div className="h-1 w-full overflow-hidden rounded-full bg-neutral-100">
+                    <motion.div
+                      className="h-full origin-left rounded-full"
+                      style={{
+                        backgroundColor: item.done ? "#22C55E" : PURPLE,
+                      }}
+                      initial={reduce ? false : { scaleX: 0 }}
+                      animate={{ scaleX: item.pct / 100 }}
+                      transition={{
+                        duration: 0.9,
+                        delay: 0.2 + i * 0.1,
+                        ease: EASE_OUT,
+                      }}
+                    />
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
+      </div>
+    </div>
+  );
+}
+
+const scriptBeats = [
+  {
+    beat: "Hook",
+    time: "0:00 – 0:03",
+    text: "Your competitors ship content weekly. You ship quarterly.",
+    lines: 1,
+  },
+  {
+    beat: "Body",
+    time: "0:03 – 0:45",
+    text: "Here's the system we use to script, voice and render in a day.",
+    lines: 2,
+  },
+  {
+    beat: "Call to action",
+    time: "0:45 – 0:60",
+    text: "Book a call — we'll map your first 30 videos.",
+    lines: 0,
+    caret: true,
+  },
+];
+
+function ScriptsPanel() {
+  const reduce = useReducedMotion();
+
+  return (
+    <div className={PANEL_SHELL}>
+      <div className="flex items-center justify-between">
+        <PanelHeader badge="Scripts" />
+        <span className="rounded-full border border-neutral-200 px-2.5 py-1 text-[10px] font-medium text-neutral-500">
+          AI draft · v3
+        </span>
+      </div>
+
+      {/* Script doc */}
+      <div className="mt-4 flex flex-1 flex-col justify-center gap-3">
+        {scriptBeats.map((beat, i) => (
+          <motion.div
+            key={beat.beat}
+            className="flex gap-3"
+            initial={reduce ? false : { opacity: 0, y: 10, filter: "blur(4px)" }}
+            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+            transition={{ duration: 0.45, delay: i * 0.1, ease: EASE_OUT }}
+          >
+            <span
+              className="mt-0.5 w-[2px] shrink-0 rounded-full"
+              style={{
+                backgroundColor: beat.caret ? PURPLE : "#e5e5e5",
+              }}
+            />
+            <div className="min-w-0 flex-1">
+              <div className="flex items-baseline justify-between gap-2">
+                <span className="text-[10px] font-semibold uppercase tracking-wider text-neutral-500">
+                  {beat.beat}
+                </span>
+                <span className="shrink-0 text-[9px] font-medium tabular-nums text-neutral-300">
+                  {beat.time}
+                </span>
+              </div>
+              <p className="mt-1 text-[12px] leading-relaxed text-neutral-700">
+                {beat.text}
+                {beat.caret && (
+                  <motion.span
+                    className="ml-px inline-block h-[11px] w-[1.5px] translate-y-[2px] bg-[#111]"
+                    animate={reduce ? undefined : { opacity: [1, 0, 1] }}
+                    transition={loop(1.1)}
+                  />
+                )}
+              </p>
+              {beat.lines > 0 && (
+                <div className="mt-1.5 space-y-1.5">
+                  {Array.from({ length: beat.lines }).map((_, li) => (
+                    <Skel key={li} w={li === 0 ? "100%" : "62%"} h={4} />
+                  ))}
+                </div>
+              )}
+            </div>
+          </motion.div>
+        ))}
+      </div>
+
+      {/* Doc footer */}
+      <div className="mt-4 flex items-center justify-between border-t border-neutral-100 pt-3">
+        <span className="text-[10px] font-medium tabular-nums text-neutral-400">
+          148 words · ~60s runtime
+        </span>
+        <motion.span
+          className="flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-semibold"
+          style={{ color: PURPLE, backgroundColor: "rgba(82,16,248,0.08)" }}
+          animate={reduce ? undefined : { opacity: [0.6, 1, 0.6] }}
+          transition={loop(3)}
+        >
+          <Sparkles size={10} />
+          Rewrite hook
+        </motion.span>
       </div>
     </div>
   );
@@ -1813,8 +2194,8 @@ const visualMap: Record<ServiceVisualType, ComponentType> = {
   brand: BrandVisual,
   website: WebsiteVisual,
   seo: SeoVisual,
-  social: LinkedInVisual,
-  "ai-video": AiVideoVisual,
+  social: CalendarPanel,
+  "ai-video": AvatarStudioVisual,
   crm: CrmVisual,
   "lead-gen": LeadGenVisual,
   gtm: GtmVisual,
@@ -2048,13 +2429,13 @@ function StepsPanel({
  * WEBSITE · Next.js — an editor with the page component open.
  * ------------------------------------------------------------------ */
 const CODE_INK = {
-  key: "#C47DFD",
-  tag: "#7DD3FC",
-  attr: "#FCD34D",
-  str: "#86EFAC",
-  fn: "#F0ABFC",
-  punc: "#8A8AA3",
-  plain: "#E7E7EF",
+  key: "#CF222E",
+  tag: "#116329",
+  attr: "#0550AE",
+  str: "#0A3069",
+  fn: "#8250DF",
+  punc: "#8C959F",
+  plain: "#24292F",
 } as const;
 type Ink = keyof typeof CODE_INK;
 
@@ -2120,31 +2501,30 @@ function CodeEditorPanel() {
 
   return (
     <div
-      className={`${FRAME} flex w-full flex-col overflow-hidden rounded-2xl border border-neutral-800 bg-[#0E0E14] shadow-[0_20px_50px_-24px_rgba(7,44,85,0.7)]`}
+      className={`${FRAME} flex w-full flex-col overflow-hidden rounded-2xl border border-neutral-200/70 bg-white shadow-[0_2px_20px_-8px_rgba(7,44,85,0.18)]`}
     >
       {/* File tabs */}
-      <div className="flex shrink-0 items-center border-b border-white/8 bg-[#15151E]">
+      <div className="flex shrink-0 items-center border-b border-neutral-100 bg-neutral-50/70">
         {codeTabs.map((tab) => (
           <span
             key={tab.name}
             className={`relative flex items-center gap-1.5 px-3 py-2.5 text-[10px] font-medium ${
-              tab.active ? "bg-[#0E0E14] text-white" : "text-neutral-500"
+              tab.active
+                ? "bg-white text-[#111]"
+                : "text-neutral-400"
             }`}
           >
             <span
               className="h-1.5 w-1.5 rounded-[2px]"
-              style={{ backgroundColor: tab.active ? LAVENDER : "#3f3f46" }}
+              style={{ backgroundColor: tab.active ? "#111" : "#d4d4d4" }}
             />
             {tab.name}
             {tab.active && (
-              <span
-                className="absolute inset-x-0 top-0 h-[2px]"
-                style={{ backgroundColor: PURPLE }}
-              />
+              <span className="absolute inset-x-0 top-0 h-[2px] bg-[#111]" />
             )}
           </span>
         ))}
-        <span className="ml-auto pr-3 text-[9px] font-medium tracking-wide text-neutral-600">
+        <span className="ml-auto pr-3 text-[9px] font-medium tracking-wide text-neutral-300">
           app / page.tsx
         </span>
       </div>
@@ -2152,7 +2532,7 @@ function CodeEditorPanel() {
       {/* Code */}
       <div className="flex min-h-0 flex-1 overflow-hidden py-3 font-mono text-[11px] leading-[1.75]">
         {/* gutter */}
-        <div className="shrink-0 select-none px-3 text-right text-neutral-700">
+        <div className="shrink-0 select-none px-3 text-right text-neutral-300">
           {codeLines.map((_, i) => (
             <div key={i}>{i + 1}</div>
           ))}
@@ -2173,7 +2553,7 @@ function CodeEditorPanel() {
               ))}
               {i === codeLines.length - 5 && (
                 <motion.span
-                  className="ml-px inline-block h-[11px] w-[1.5px] translate-y-[2px] bg-white"
+                  className="ml-px inline-block h-[11px] w-[1.5px] translate-y-[2px] bg-[#111]"
                   animate={reduce ? undefined : { opacity: [1, 0, 1] }}
                   transition={loop(1.1)}
                 />
@@ -2184,17 +2564,14 @@ function CodeEditorPanel() {
       </div>
 
       {/* Status bar */}
-      <div className="flex shrink-0 items-center gap-3 border-t border-white/8 bg-[#15151E] px-3 py-2 text-[9px] font-medium text-neutral-500">
-        <span
-          className="flex items-center gap-1.5 rounded-full px-2 py-0.5 text-white"
-          style={{ backgroundColor: PURPLE }}
-        >
+      <div className="flex shrink-0 items-center gap-3 border-t border-neutral-100 bg-neutral-50/70 px-3 py-2 text-[9px] font-medium text-neutral-400">
+        <span className="flex items-center gap-1.5 rounded-full bg-[#111] px-2 py-0.5 text-white">
           <Zap size={9} />
           Next.js 15
         </span>
         <motion.span
-          className="flex items-center gap-1 text-emerald-400"
-          animate={reduce ? undefined : { opacity: [0.45, 1, 0.45] }}
+          className="flex items-center gap-1 text-emerald-600"
+          animate={reduce ? undefined : { opacity: [0.5, 1, 0.5] }}
           transition={loop(3)}
         >
           <Check size={10} />
@@ -2239,12 +2616,9 @@ function LandingPagePanel() {
             transition={loop(12)}
           >
             {/* nav */}
-            <div className="flex items-center justify-between rounded-lg bg-white px-2.5 py-2 shadow-sm">
+            <div className="flex items-center justify-between rounded-lg border border-neutral-100 bg-white px-2.5 py-2">
               <div className="flex items-center gap-1.5">
-                <span
-                  className="h-3 w-3 rounded-[3px]"
-                  style={{ backgroundColor: PURPLE }}
-                />
+                <span className="h-3 w-3 rounded-[3px] bg-[#111]" />
                 <span className="text-[9px] font-bold tracking-tight text-[#111]">
                   invisiedge
                 </span>
@@ -2255,50 +2629,49 @@ function LandingPagePanel() {
                     {l}
                   </span>
                 ))}
-                <span
-                  className="rounded-full px-2 py-0.5 text-[8px] font-semibold text-white"
-                  style={{ backgroundColor: PURPLE }}
-                >
+                <span className="rounded-full bg-[#111] px-2 py-0.5 text-[8px] font-semibold text-white">
                   Book a call
                 </span>
               </div>
             </div>
 
             {/* hero */}
-            <div
-              className="relative mt-2 overflow-hidden rounded-xl px-4 py-6 text-center"
-              style={{ background: `linear-gradient(150deg, ${PURPLE}, ${NAVY})` }}
-            >
+            <div className="relative mt-2 overflow-hidden rounded-xl border border-neutral-100 bg-white px-4 py-7 text-center">
+              {/* a slow, barely-there light sweep — depth without colour */}
               <motion.div
                 className="pointer-events-none absolute inset-0"
                 style={{
                   background:
-                    "radial-gradient(90px 90px at 25% 30%, rgba(196,125,253,0.55), transparent)",
+                    "radial-gradient(120px 90px at 30% 20%, rgba(7,44,85,0.06), transparent)",
                 }}
                 animate={reduce ? undefined : { x: ["-18%", "42%", "-18%"] }}
-                transition={loop(9)}
+                transition={loop(11)}
               />
-              <p className="relative text-[15px] font-semibold leading-tight tracking-tight text-white">
+              <span className="relative inline-flex items-center gap-1 rounded-full border border-neutral-200 px-2 py-0.5 text-[7px] font-medium tracking-wide text-neutral-400">
+                <span className="h-1 w-1 rounded-full bg-emerald-500" />
+                Now booking Q4
+              </span>
+              <p className="relative mt-2 text-[15px] font-semibold leading-tight tracking-tight text-[#111]">
                 Built for Growth.
                 <br />
-                Designed for Impact.
+                <span className="text-neutral-400">Designed for Impact.</span>
               </p>
-              <p className="relative mx-auto mt-1.5 max-w-[80%] text-[8px] leading-relaxed text-white/60">
+              <p className="relative mx-auto mt-1.5 max-w-[80%] text-[8px] leading-relaxed text-neutral-400">
                 Brand, website and demand generation — shipped by one team.
               </p>
               <div className="relative mt-3 flex items-center justify-center gap-1.5">
-                <span className="flex items-center gap-0.5 rounded-full bg-white px-2.5 py-1 text-[8px] font-bold text-[#111]">
+                <span className="flex items-center gap-0.5 rounded-full bg-[#111] px-2.5 py-1 text-[8px] font-bold text-white">
                   Get started
                   <ArrowUpRight size={9} strokeWidth={2.5} />
                 </span>
-                <span className="rounded-full border border-white/30 px-2.5 py-1 text-[8px] font-semibold text-white/80">
+                <span className="rounded-full border border-neutral-200 px-2.5 py-1 text-[8px] font-semibold text-neutral-500">
                   See our work
                 </span>
               </div>
             </div>
 
             {/* logo strip */}
-            <div className="mt-2 flex items-center justify-center gap-2.5 rounded-lg bg-white px-3 py-2 shadow-sm">
+            <div className="mt-2 flex items-center justify-center gap-2.5 rounded-lg border border-neutral-100 bg-white px-3 py-2">
               {[0, 1, 2, 3, 4].map((i) => (
                 <span
                   key={i}
@@ -2312,7 +2685,7 @@ function LandingPagePanel() {
               {[Sparkles, TrendingUp, Rocket].map((Icon, i) => (
                 <motion.div
                   key={i}
-                  className="rounded-lg bg-white p-2 shadow-sm"
+                  className="rounded-lg border border-neutral-100 bg-white p-2"
                   initial={reduce ? false : { opacity: 0, y: 8 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{
@@ -2322,8 +2695,11 @@ function LandingPagePanel() {
                   }}
                 >
                   <span
-                    className="flex h-4 w-4 items-center justify-center rounded-[4px] text-white"
-                    style={{ backgroundColor: i === 0 ? PURPLE : i === 1 ? LAVENDER : NAVY }}
+                    className={`flex h-4 w-4 items-center justify-center rounded-[4px] ${
+                      i === 0
+                        ? "bg-[#111] text-white"
+                        : "bg-neutral-50 text-neutral-400"
+                    }`}
                   >
                     <Icon size={9} />
                   </span>
@@ -2343,32 +2719,33 @@ function LandingPagePanel() {
         animate={{ opacity: 1, y: 0, rotate: 0 }}
         transition={{ duration: 0.6, delay: 0.15, ease: EASE_OUT }}
       >
-        <div className="overflow-hidden rounded-xl border border-neutral-200 bg-white p-1.5 shadow-[0_28px_60px_-22px_rgba(7,44,85,0.55)]">
+        <div className="overflow-hidden rounded-xl border border-neutral-200 bg-white p-1.5 shadow-[0_28px_60px_-24px_rgba(7,44,85,0.35)]">
           <div className="mb-1 flex items-center justify-between px-1">
             <span className="text-[8px] font-semibold text-neutral-500">
               Hero · Variant B
             </span>
-            <span
-              className="rounded-full px-1.5 py-0.5 text-[7px] font-bold text-white"
-              style={{ backgroundColor: "#22C55E" }}
-            >
+            <span className="rounded-full bg-emerald-50 px-1.5 py-0.5 text-[7px] font-bold text-emerald-600">
               +38% CVR
             </span>
           </div>
-          <div
-            className="relative overflow-hidden rounded-lg px-3 py-4"
-            style={{ background: `linear-gradient(140deg, ${LAVENDER}, ${PURPLE})` }}
-          >
-            <p className="text-[10px] font-semibold leading-tight text-white">
+          <div className="relative overflow-hidden rounded-lg bg-[#111] px-3 py-4">
+            <div
+              className="pointer-events-none absolute inset-0"
+              style={{
+                background:
+                  "radial-gradient(80px 60px at 20% 15%, rgba(255,255,255,0.10), transparent)",
+              }}
+            />
+            <p className="relative text-[10px] font-semibold leading-tight text-white">
               Turn traffic into
               <br />
-              booked calls.
+              <span className="text-white/45">booked calls.</span>
             </p>
-            <div className="mt-2 flex items-center gap-1">
+            <div className="relative mt-2 flex items-center gap-1">
               <span className="rounded-full bg-white px-2 py-0.5 text-[7px] font-bold text-[#111]">
                 Start free
               </span>
-              <span className="h-1 w-8 rounded-full bg-white/40" />
+              <span className="h-1 w-8 rounded-full bg-white/20" />
             </div>
           </div>
         </div>
@@ -3029,44 +3406,14 @@ const EXTRA_PANELS: Record<ServiceVisualType, [Panel, Panel, Panel]> = {
     { kind: "custom", component: ReportingPanel },
   ],
   social: [
+    { kind: "custom", component: LinkedInVisual },
     { kind: "custom", component: InstagramPanel },
     { kind: "custom", component: ReelsPanel },
-    { kind: "custom", component: CalendarPanel },
   ],
   "ai-video": [
-    {
-      kind: "list",
-      badge: "Voiceovers",
-      title: "Studio-grade AI voice",
-      items: [
-        "Natural, human-like delivery",
-        "30+ languages & accents",
-        "Emotion & pacing control",
-        "Pronunciation tuning",
-        "Cloned brand voice",
-      ],
-    },
-    {
-      kind: "ring",
-      badge: "Short-form",
-      title: "Output format mix",
-      center: "9:16",
-      segments: [
-        { label: "Vertical 9:16", pct: 55, color: PURPLE },
-        { label: "Square 1:1", pct: 25, color: LAVENDER },
-        { label: "Wide 16:9", pct: 20, color: NAVY },
-      ],
-    },
-    {
-      kind: "steps",
-      badge: "Scripts",
-      title: "From brief to final cut",
-      steps: [
-        { title: "Brief", desc: "Goal, audience and key message." },
-        { title: "AI draft", desc: "Hook → body → call to action." },
-        { title: "Human polish", desc: "On-brand tone and final edit." },
-      ],
-    },
+    { kind: "custom", component: VoiceoverPanel },
+    { kind: "custom", component: ShortFormPanel },
+    { kind: "custom", component: ScriptsPanel },
   ],
   crm: [
     {
