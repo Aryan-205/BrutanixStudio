@@ -59,6 +59,7 @@ import {
   Ticket,
   TrendingUp,
   Users,
+  X,
   Zap,
 } from "lucide-react";
 import BrandLogo from "@/components/BrandLogo";
@@ -85,8 +86,9 @@ function loop(duration: number, delay = 0): Transition {
 }
 
 /* ================================================================== *
- * 1. BRAND — a clean brand guidelines sheet: lockup, type specimen,
- *    colour palette and brand voice.
+ * 1. BRAND — one surface per tab: the positioning map, the identity
+ *    sheet, the messaging house and the guidelines book. Flat, light,
+ *    hairline-ruled; the only saturated colour is the brand's own.
  * ================================================================== */
 const paletteColors = [
   { hex: "#FFFFFF", label: "Paper" },
@@ -98,35 +100,154 @@ const paletteColors = [
 
 const brandVoice = ["Confident", "Human", "Clear", "Modern"];
 
-function BrandVisual() {
+/** Where everyone sits on the map. `you` gets the brand colour and a pulse. */
+const positioningDots = [
+  { name: "Freelancers", x: 22, y: 74 },
+  { name: "Agencies", x: 40, y: 34 },
+  { name: "In-house", x: 66, y: 66 },
+  { name: "InvisiEdge", x: 76, y: 24, you: true },
+];
+
+function PositioningVisual() {
   const reduce = useReducedMotion();
 
   return (
-    <div className={`${CARD} ${FRAME} flex w-full flex-col overflow-hidden p-6`}>
-      {/* Lockup */}
+    <div className={PANEL_SHELL}>
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2.5">
-          <div className="h-8 w-8 shrink-0 [&_svg]:h-full [&_svg]:w-full">
-            <BrandLogo />
-          </div>
-          <span className="text-xl font-semibold tracking-tight text-[#111]">
-            InvisiEdge
-          </span>
-        </div>
-        <span className="rounded-full bg-[#5210F8]/8 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-[#5210F8]">
-          Brand Guidelines
+        <PanelHeader badge="Positioning" />
+        <span className="rounded-full border border-neutral-200 px-2.5 py-1 text-[10px] font-medium text-neutral-500">
+          Category · Growth studio
         </span>
       </div>
 
-      {/* Typography specimen */}
+      {/* Perceptual map */}
+      <div className="mt-4 flex flex-1 gap-2">
+        {/* y-axis label */}
+        <span className="flex w-3 shrink-0 items-center justify-center">
+          <span className="rotate-180 text-[8px] font-medium uppercase tracking-wider text-neutral-300 [writing-mode:vertical-rl]">
+            Execution → Strategy
+          </span>
+        </span>
+
+        <div className="flex min-w-0 flex-1 flex-col">
+          <div className="relative flex-1 overflow-hidden rounded-xl border border-neutral-200/80 bg-neutral-50">
+            {/* quadrant rules */}
+            <span className="absolute inset-x-0 top-1/2 h-px bg-neutral-200" />
+            <span className="absolute inset-y-0 left-1/2 w-px bg-neutral-200" />
+
+            {positioningDots.map((dot, i) => (
+              <motion.span
+                key={dot.name}
+                className="absolute flex -translate-x-1/2 -translate-y-1/2 items-center gap-1.5"
+                style={{ left: `${dot.x}%`, top: `${dot.y}%` }}
+                initial={reduce ? false : { opacity: 0, scale: 0.6 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{
+                  duration: 0.4,
+                  delay: 0.15 + i * 0.09,
+                  ease: EASE_OUT,
+                }}
+              >
+                <span className="relative flex items-center justify-center">
+                  {dot.you && !reduce && (
+                    <motion.span
+                      className="absolute h-2.5 w-2.5 rounded-full"
+                      style={{ border: `1.5px solid ${PURPLE}` }}
+                      animate={{ scale: [1, 2.6], opacity: [0.55, 0] }}
+                      transition={{
+                        duration: 2.4,
+                        repeat: Infinity,
+                        ease: EASE_OUT,
+                      }}
+                    />
+                  )}
+                  <span
+                    className="relative h-2.5 w-2.5 rounded-full"
+                    style={{
+                      backgroundColor: dot.you ? PURPLE : "#d4d4d4",
+                    }}
+                  />
+                </span>
+                <span
+                  className={`whitespace-nowrap text-[9px] ${
+                    dot.you
+                      ? "font-semibold text-[#111]"
+                      : "font-medium text-neutral-400"
+                  }`}
+                >
+                  {dot.name}
+                </span>
+              </motion.span>
+            ))}
+          </div>
+
+          {/* x-axis label */}
+          <span className="mt-1.5 text-center text-[8px] font-medium uppercase tracking-wider text-neutral-300">
+            Generalist → Specialist
+          </span>
+        </div>
+      </div>
+
+      {/* Positioning statement */}
       <motion.div
-        className="mt-6 flex items-end justify-between border-b border-neutral-100 pb-5"
+        className="mt-3 rounded-xl border border-neutral-200/70 bg-white p-3"
+        initial={reduce ? false : { opacity: 0, y: 8 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.45, delay: 0.3, ease: EASE_OUT }}
+      >
+        <p className="text-[9px] font-semibold uppercase tracking-wider text-neutral-400">
+          Positioning statement
+        </p>
+        <p className="mt-1.5 text-[11px] leading-relaxed text-neutral-600">
+          For{" "}
+          <span className="font-semibold text-[#111]">B2B SaaS teams</span>{" "}
+          who need pipeline, InvisiEdge is the{" "}
+          <span
+            className="rounded-[3px] px-1 py-[1px] font-semibold"
+            style={{ color: PURPLE, backgroundColor: "rgba(82,16,248,0.08)" }}
+          >
+            growth studio
+          </span>{" "}
+          that ships brand, site and demand as one motion.
+        </p>
+      </motion.div>
+    </div>
+  );
+}
+
+function IdentityPanel() {
+  const reduce = useReducedMotion();
+
+  return (
+    <div className={PANEL_SHELL}>
+      <div className="flex items-center justify-between">
+        <PanelHeader badge="Identity" />
+        <span className="rounded-full border border-neutral-200 px-2.5 py-1 text-[10px] font-medium text-neutral-500">
+          Logo · Type · Colour
+        </span>
+      </div>
+
+      {/* Lockup */}
+      <div className="mt-4 flex items-center gap-2.5 rounded-xl border border-neutral-200/70 bg-white p-3">
+        <div className="h-7 w-7 shrink-0 [&_svg]:h-full [&_svg]:w-full">
+          <BrandLogo />
+        </div>
+        <span className="text-lg font-semibold tracking-tight text-[#111]">
+          InvisiEdge
+        </span>
+        <span className="ml-auto text-[9px] font-medium text-neutral-300">
+          Primary lockup
+        </span>
+      </div>
+
+      {/* Type specimen */}
+      <motion.div
+        className="mt-3 flex items-end justify-between border-b border-neutral-100 pb-4"
         initial={reduce ? false : { opacity: 0, y: 10 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
+        animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, ease: EASE_OUT }}
       >
-        <span className="text-6xl font-semibold leading-none tracking-tight text-[#111]">
+        <span className="text-5xl font-semibold leading-none tracking-tight text-[#111]">
           Aa
         </span>
         <div className="text-right">
@@ -134,15 +255,15 @@ function BrandVisual() {
             Typeface
           </p>
           <p className="text-sm font-semibold text-[#111]">Geist Sans</p>
-          <p className="mt-0.5 text-[11px] text-neutral-400">
+          <p className="mt-0.5 text-[10px] text-neutral-400">
             Regular · Medium · Semibold
           </p>
         </div>
       </motion.div>
 
       {/* Palette */}
-      <div className="mt-5">
-        <p className="mb-2 text-[9px] font-medium uppercase tracking-wider text-neutral-400">
+      <div className="mt-auto pt-4">
+        <p className="mb-2 text-[9px] font-semibold uppercase tracking-wider text-neutral-400">
           Palette
         </p>
         <div className="grid grid-cols-5 gap-2">
@@ -150,12 +271,11 @@ function BrandVisual() {
             <motion.div
               key={color.hex}
               initial={reduce ? false : { opacity: 0, y: 8 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: i * 0.06, ease: EASE_OUT }}
             >
               <div
-                className="h-12 w-full rounded-lg border border-black/5"
+                className="h-11 w-full rounded-lg border border-black/5"
                 style={{ backgroundColor: color.hex }}
               />
               <p className="mt-1.5 text-[9px] font-semibold text-neutral-600">
@@ -168,25 +288,217 @@ function BrandVisual() {
           ))}
         </div>
       </div>
+    </div>
+  );
+}
 
-      {/* Brand voice */}
-      <div className="mt-auto pt-5">
-        <p className="mb-2 text-[9px] font-medium uppercase tracking-wider text-neutral-400">
-          Brand voice
+const messagePillars = [
+  { title: "One team", line: "Brand, site and demand under one roof." },
+  { title: "Ship weekly", line: "Momentum beats big-bang launches." },
+  { title: "Proof, not promises", line: "Every claim backed by a number." },
+];
+
+function MessagingPanel() {
+  const reduce = useReducedMotion();
+
+  return (
+    <div className={PANEL_SHELL}>
+      <div className="flex items-center justify-between">
+        <PanelHeader badge="Messaging" />
+        <span className="rounded-full border border-neutral-200 px-2.5 py-1 text-[10px] font-medium text-neutral-500">
+          v2 · Approved
+        </span>
+      </div>
+
+      {/* Tagline — the roof of the message house */}
+      <motion.div
+        className="mt-4 rounded-xl border border-neutral-200/70 bg-white p-3.5 text-center"
+        initial={reduce ? false : { opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, ease: EASE_OUT }}
+      >
+        <p className="text-[9px] font-semibold uppercase tracking-wider text-neutral-400">
+          Tagline
         </p>
-        <div className="flex flex-wrap gap-2">
+        <p className="mt-1.5 text-[15px] font-semibold leading-tight tracking-tight text-[#111]">
+          Built for Growth.{" "}
+          <span className="text-neutral-400">Designed for Impact.</span>
+        </p>
+      </motion.div>
+
+      {/* Pillars */}
+      <div className="mt-3 grid flex-1 grid-cols-3 gap-2">
+        {messagePillars.map((pillar, i) => (
+          <motion.div
+            key={pillar.title}
+            className="flex flex-col rounded-xl border border-neutral-200/70 bg-white p-2.5"
+            initial={reduce ? false : { opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, delay: 0.1 + i * 0.08, ease: EASE_OUT }}
+          >
+            <span
+              className="mb-2 h-[2px] w-6 rounded-full"
+              style={{ backgroundColor: PURPLE }}
+            />
+            <p className="text-[11px] font-semibold leading-tight text-[#111]">
+              {pillar.title}
+            </p>
+            <p className="mt-1 text-[9px] leading-relaxed text-neutral-400">
+              {pillar.line}
+            </p>
+          </motion.div>
+        ))}
+      </div>
+
+      {/* Tone of voice */}
+      <div className="mt-auto pt-4">
+        <p className="mb-2 text-[9px] font-semibold uppercase tracking-wider text-neutral-400">
+          Tone of voice
+        </p>
+        <div className="flex flex-wrap gap-1.5">
           {brandVoice.map((word, i) => (
             <motion.span
               key={word}
-              className="rounded-full border border-neutral-200 px-3 py-1 text-[11px] font-medium text-neutral-600"
+              className="rounded-full border border-neutral-200 px-2.5 py-1 text-[10px] font-medium text-neutral-600"
               initial={reduce ? false : { opacity: 0, scale: 0.92 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.35, delay: i * 0.06, ease: EASE_OUT }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.35, delay: 0.2 + i * 0.06, ease: EASE_OUT }}
             >
               {word}
             </motion.span>
           ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+const guidelineContents = [
+  { no: "01", label: "Logo & lockups", active: true },
+  { no: "02", label: "Colour" },
+  { no: "03", label: "Typography" },
+  { no: "04", label: "Imagery" },
+  { no: "05", label: "Tone of voice" },
+];
+
+function GuidelinesPanel() {
+  const reduce = useReducedMotion();
+
+  return (
+    <div className={PANEL_SHELL}>
+      <div className="flex items-center justify-between">
+        <PanelHeader badge="Guidelines" />
+        <span className="rounded-full border border-neutral-200 px-2.5 py-1 text-[10px] font-medium text-neutral-500">
+          24 pages
+        </span>
+      </div>
+
+      <div className="mt-4 flex flex-1 gap-4">
+        {/* Contents */}
+        <div className="hidden w-28 shrink-0 flex-col gap-1 sm:flex">
+          <p className="mb-1 text-[8px] font-semibold uppercase tracking-wider text-neutral-400">
+            Contents
+          </p>
+          {guidelineContents.map((row, i) => (
+            <motion.span
+              key={row.no}
+              className={`flex items-center gap-1.5 rounded-md px-1.5 py-1 text-[10px] ${
+                row.active
+                  ? "bg-[#5210F8]/5 font-medium text-[#5210F8]"
+                  : "text-neutral-500"
+              }`}
+              initial={reduce ? false : { opacity: 0, x: -6 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.3, delay: i * 0.05, ease: EASE_OUT }}
+            >
+              <span
+                className={
+                  row.active ? "font-semibold" : "text-neutral-300"
+                }
+              >
+                {row.no}
+              </span>
+              <span className="truncate">{row.label}</span>
+            </motion.span>
+          ))}
+        </div>
+
+        {/* Page spread */}
+        <div className="flex min-w-0 flex-1 flex-col gap-2.5">
+          {/* clear space */}
+          <motion.div
+            className="relative flex flex-1 items-center justify-center rounded-xl border border-neutral-200/80 bg-neutral-50"
+            initial={reduce ? false : { opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.45, ease: EASE_OUT }}
+          >
+            <span className="absolute left-2.5 top-2 text-[8px] font-semibold uppercase tracking-wider text-neutral-400">
+              Clear space
+            </span>
+            <span className="relative flex items-center gap-2 rounded-md border border-dashed border-[#5210F8]/35 bg-white px-5 py-3">
+              <span className="h-5 w-5 [&_svg]:h-full [&_svg]:w-full">
+                <BrandLogo />
+              </span>
+              <span className="text-[11px] font-semibold tracking-tight text-[#111]">
+                InvisiEdge
+              </span>
+              {/* the x-height markers that define the margin */}
+              <span
+                className="absolute -left-3 top-1/2 -translate-y-1/2 text-[8px] font-semibold"
+                style={{ color: PURPLE }}
+              >
+                x
+              </span>
+              <span
+                className="absolute -right-3 top-1/2 -translate-y-1/2 text-[8px] font-semibold"
+                style={{ color: PURPLE }}
+              >
+                x
+              </span>
+            </span>
+          </motion.div>
+
+          {/* do / don't */}
+          <div className="grid grid-cols-2 gap-2.5">
+            {[
+              { ok: true, label: "Correct lockup", scale: "" },
+              { ok: false, label: "Never stretch", scale: "scale-x-125" },
+            ].map((tile, i) => (
+              <motion.div
+                key={tile.label}
+                className="flex items-center gap-2 rounded-xl border border-neutral-200/70 bg-white p-2"
+                initial={reduce ? false : { opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{
+                  duration: 0.4,
+                  delay: 0.15 + i * 0.08,
+                  ease: EASE_OUT,
+                }}
+              >
+                <span
+                  className={`flex h-4 w-4 shrink-0 items-center justify-center rounded-full text-white ${
+                    tile.ok ? "bg-emerald-500" : "bg-[#E5484D]"
+                  }`}
+                >
+                  {tile.ok ? (
+                    <Check size={9} strokeWidth={3} />
+                  ) : (
+                    <X size={9} strokeWidth={3} />
+                  )}
+                </span>
+                <span className="min-w-0 flex-1">
+                  <span
+                    className={`block h-4 w-4 origin-left [&_svg]:h-full [&_svg]:w-full ${tile.scale}`}
+                  >
+                    <BrandLogo />
+                  </span>
+                  <span className="mt-1 block truncate text-[9px] font-medium text-neutral-400">
+                    {tile.label}
+                  </span>
+                </span>
+              </motion.div>
+            ))}
+          </div>
         </div>
       </div>
     </div>
@@ -2905,7 +3217,7 @@ function CampaignsPanel() {
 }
 
 const visualMap: Record<ServiceVisualType, ComponentType> = {
-  brand: BrandVisual,
+  brand: PositioningVisual,
   website: WebsiteVisual,
   seo: SeoVisual,
   social: CalendarPanel,
@@ -4073,41 +4385,9 @@ function renderPanel(p: Panel) {
 /** Panels for tabs 1..3 of each service (tab 0 renders the rich scene). */
 const EXTRA_PANELS: Record<ServiceVisualType, [Panel, Panel, Panel]> = {
   brand: [
-    {
-      kind: "list",
-      badge: "Identity",
-      title: "A cohesive identity system",
-      items: [
-        "Logo system & lockups",
-        "Colour palette & tokens",
-        "Typography scale",
-        "Iconography & imagery",
-        "Visual direction",
-      ],
-    },
-    {
-      kind: "steps",
-      badge: "Messaging",
-      title: "Messaging framework",
-      steps: [
-        { title: "Tagline", desc: "Built for Growth. Designed for Impact." },
-        { title: "Value proposition", desc: "The one thing you own in the market." },
-        { title: "Tone of voice", desc: "Confident · Human · Clear · Modern" },
-      ],
-    },
-    {
-      kind: "bars",
-      badge: "Guidelines",
-      title: "On-brand consistency across touchpoints",
-      stat: "91%",
-      statLabel: "Brand consistency",
-      bars: [
-        { label: "Website", pct: 96 },
-        { label: "Social", pct: 88 },
-        { label: "Sales deck", pct: 92 },
-        { label: "Email", pct: 84 },
-      ],
-    },
+    { kind: "custom", component: IdentityPanel },
+    { kind: "custom", component: MessagingPanel },
+    { kind: "custom", component: GuidelinesPanel },
   ],
   website: [
     { kind: "custom", component: CodeEditorPanel },

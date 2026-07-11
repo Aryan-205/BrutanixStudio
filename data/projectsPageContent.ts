@@ -3,14 +3,35 @@ export type ProjectApproachStep = {
   description: string;
 };
 
+export type ProjectStat = {
+  value: string;
+  label: string;
+};
+
+export type ProjectShot = {
+  src: string;
+  alt: string;
+  /** Frame the shot is presented in. MacBook shots run full width. */
+  device: "macbook" | "browser";
+  caption?: string;
+};
+
 export type ProjectCaseStudy = {
   id: string;
   name: string;
+  /** One-liner under the project name in the hero. */
+  tagline: string;
   headline: string;
   highlight: string;
   description: string;
   services: string[];
   image: string;
+  /** Short phrase in the hero spotlight ring. */
+  spotlight: string;
+  /** Outcome numbers shown beside the hero mockup. */
+  stats: ProjectStat[];
+  /** Additional screens of the work. */
+  gallery: ProjectShot[];
   /** Short paragraph introducing how we helped the brand. */
   contributionIntro: string;
   /** The concrete work we delivered, broken into steps. */
@@ -27,6 +48,7 @@ export const projectCaseStudies: ProjectCaseStudy[] = [
   {
     id: "smoteo",
     name: "Smoteo",
+    tagline: "Fitness workout app",
     headline: "Our design helped Smoteo's user base",
     highlight: "soared 150%",
     description:
@@ -40,6 +62,32 @@ export const projectCaseStudies: ProjectCaseStudy[] = [
     ],
     image:
       "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=80",
+    spotlight: "Track how you progress",
+    stats: [
+      { value: "4 months", label: "Average app usage lifecycle" },
+      { value: "24 minutes", label: "Average daily session length" },
+      { value: "31%", label: "Average trial-to-paid transition" },
+    ],
+    gallery: [
+      {
+        src: "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&w=1600&q=80",
+        alt: "Smoteo workout dashboard on desktop",
+        device: "macbook",
+        caption: "The workout dashboard — programs, streaks and progress in one view.",
+      },
+      {
+        src: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&w=1200&q=80",
+        alt: "Smoteo exercise library",
+        device: "browser",
+        caption: "Exercise library with filters by muscle group.",
+      },
+      {
+        src: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=1200&q=80",
+        alt: "Smoteo marketing site",
+        device: "browser",
+        caption: "Campaign landing page built for acquisition.",
+      },
+    ],
     contributionIntro:
       "Smoteo came to us with a strong training methodology but a product that struggled to convert first-time users into committed members. We rebuilt the brand and the experience around one goal: make progress feel effortless and rewarding from the very first session.",
     approach: [
@@ -68,6 +116,7 @@ export const projectCaseStudies: ProjectCaseStudy[] = [
   {
     id: "niir",
     name: "Niir",
+    tagline: "Energy communications hub",
     headline: "Our design accelerated Niir's",
     highlight: "time-to-market by 40%",
     description:
@@ -80,6 +129,32 @@ export const projectCaseStudies: ProjectCaseStudy[] = [
     ],
     image:
       "https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&w=1200&q=80",
+    spotlight: "Built to scale globally",
+    stats: [
+      { value: "40%", label: "Faster time-to-market" },
+      { value: "6 markets", label: "Launched in the first year" },
+      { value: "3x", label: "Faster content production" },
+    ],
+    gallery: [
+      {
+        src: "https://images.unsplash.com/photo-1497440001374-f26997328c1b?auto=format&fit=crop&w=1600&q=80",
+        alt: "Niir content hub on desktop",
+        device: "macbook",
+        caption: "The content hub — modular templates any market can publish to.",
+      },
+      {
+        src: "https://images.unsplash.com/photo-1466611653911-95081537e5b7?auto=format&fit=crop&w=1200&q=80",
+        alt: "Niir brand system",
+        device: "browser",
+        caption: "Brand guidelines built for regional teams.",
+      },
+      {
+        src: "https://images.unsplash.com/photo-1497435334941-8c899ee9e8e9?auto=format&fit=crop&w=1200&q=80",
+        alt: "Niir campaign assets",
+        device: "browser",
+        caption: "Art-directed campaign asset kit.",
+      },
+    ],
     contributionIntro:
       "Niir needed to launch across global markets quickly without sacrificing the polish expected of a forward-thinking energy brand. We built a flexible brand system and content hub that let their team move at speed.",
     approach: [
@@ -103,6 +178,7 @@ export const projectCaseStudies: ProjectCaseStudy[] = [
   {
     id: "sacre-armand",
     name: "Sacré Armand",
+    tagline: "Premium gourmet dining",
     headline: "Our design boosted Sacré Armand's",
     highlight: "user engagement by 50%",
     description:
@@ -115,6 +191,32 @@ export const projectCaseStudies: ProjectCaseStudy[] = [
     ],
     image:
       "https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&w=1200&q=80",
+    spotlight: "An experience worth the table",
+    stats: [
+      { value: "50%", label: "Lift in user engagement" },
+      { value: "2.4x", label: "More reservation requests" },
+      { value: "68%", label: "Returning visitors" },
+    ],
+    gallery: [
+      {
+        src: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1600&q=80",
+        alt: "Sacré Armand website on desktop",
+        device: "macbook",
+        caption: "The homepage — art direction that sets the table before you arrive.",
+      },
+      {
+        src: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=1200&q=80",
+        alt: "Sacré Armand menu experience",
+        device: "browser",
+        caption: "Seasonal menu, told as a story.",
+      },
+      {
+        src: "https://images.unsplash.com/photo-1424847651672-bf20a4b0982b?auto=format&fit=crop&w=1200&q=80",
+        alt: "Sacré Armand reservation flow",
+        device: "browser",
+        caption: "Reservation flow reduced to three steps.",
+      },
+    ],
     contributionIntro:
       "Sacré Armand wanted a digital experience worthy of its high-end clientele. We shaped a refined brand story and an elegant online presence that turned casual visitors into loyal guests.",
     approach: [
@@ -138,6 +240,7 @@ export const projectCaseStudies: ProjectCaseStudy[] = [
   {
     id: "houston-exponential",
     name: "Houston Exponential",
+    tagline: "Startup ecosystem hub",
     headline: "Our design decreased Houston Exponential's",
     highlight: "registration friction by 70%",
     description:
@@ -150,6 +253,32 @@ export const projectCaseStudies: ProjectCaseStudy[] = [
     ],
     image:
       "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=1200&q=80",
+    spotlight: "Joining takes one minute",
+    stats: [
+      { value: "70%", label: "Less registration friction" },
+      { value: "1 minute", label: "Average time to sign up" },
+      { value: "5,000+", label: "Founders onboarded" },
+    ],
+    gallery: [
+      {
+        src: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1600&q=80",
+        alt: "Houston Exponential hub on desktop",
+        device: "macbook",
+        caption: "The ecosystem hub — resources, events and members in one place.",
+      },
+      {
+        src: "https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=1200&q=80",
+        alt: "Houston Exponential registration flow",
+        device: "browser",
+        caption: "The rebuilt registration flow.",
+      },
+      {
+        src: "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1200&q=80",
+        alt: "Houston Exponential resource library",
+        device: "browser",
+        caption: "Resource library organised by startup stage.",
+      },
+    ],
     contributionIntro:
       "Houston Exponential set out to become the central hub for the city's tech and startup ecosystem, but a clunky sign-up process was holding growth back. We reworked the experience to make joining effortless.",
     approach: [
@@ -173,6 +302,7 @@ export const projectCaseStudies: ProjectCaseStudy[] = [
   {
     id: "nami-ml",
     name: "Nami ML",
+    tagline: "Subscription intelligence suite",
     headline: "Our design boosted Nami ML's",
     highlight: "onboarding rates by 24%",
     description:
@@ -185,6 +315,32 @@ export const projectCaseStudies: ProjectCaseStudy[] = [
     ],
     image:
       "https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?auto=format&fit=crop&w=1200&q=80",
+    spotlight: "First win in under 5 minutes",
+    stats: [
+      { value: "24%", label: "Higher onboarding completion" },
+      { value: "5 minutes", label: "Time to first insight" },
+      { value: "120+", label: "Components in the design system" },
+    ],
+    gallery: [
+      {
+        src: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1600&q=80",
+        alt: "Nami ML analytics dashboard on desktop",
+        device: "macbook",
+        caption: "The analytics dashboard — subscription health at a glance.",
+      },
+      {
+        src: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=80",
+        alt: "Nami ML paywall builder",
+        device: "browser",
+        caption: "Paywall builder with live preview.",
+      },
+      {
+        src: "https://images.unsplash.com/photo-1553877522-43269d4ea984?auto=format&fit=crop&w=1200&q=80",
+        alt: "Nami ML design system",
+        device: "browser",
+        caption: "The design system handed to their frontend team.",
+      },
+    ],
     contributionIntro:
       "Nami ML had a powerful product but a visual identity that no longer matched its market-leading ambitions. We refreshed the brand and integrated a polished frontend that made the product feel as intelligent as it is.",
     approach: [
