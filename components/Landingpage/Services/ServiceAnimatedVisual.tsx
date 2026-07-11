@@ -19,6 +19,7 @@ import {
   Bell,
   Bookmark,
   Briefcase,
+  Building2,
   Calendar,
   Check,
   Clock,
@@ -42,6 +43,7 @@ import {
   MousePointerClick,
   Play,
   Plus,
+  QrCode,
   Repeat2,
   Rocket,
   Search,
@@ -52,6 +54,7 @@ import {
   Sparkles,
   Square,
   Tablet,
+  Target,
   ThumbsUp,
   Ticket,
   TrendingUp,
@@ -1955,91 +1958,687 @@ function CrmVisual() {
 }
 
 /* ================================================================== *
- * 7. LEAD-GEN — metric cards w/ sparklines + outreach sequence
+ * 7. LEAD-GEN — one surface per tab: the LinkedIn outreach desk, the
+ *    cold-email composer, the ICP filter and the multi-touch cadence.
+ *    LinkedIn blue where it's genuinely LinkedIn; brand purple only on
+ *    the active state.
  * ================================================================== */
-const metrics = [
-  { label: "Leads", value: "360", change: "+24%", up: true },
-  { label: "Reply rate", value: "18%", change: "+6%", up: true },
+const prospects = [
+  { initials: "SR", name: "Sara Raines", role: "CMO · Northwind", status: "Replied" },
+  { initials: "DK", name: "Dev Kapoor", role: "Founder · Acme Cloud", status: "Connected" },
+  { initials: "ML", name: "Mara Liu", role: "VP Growth · Lumen", status: "Pending" },
 ];
-const spark = "0,18 14,10 28,14 42,5 56,12 70,3 84,8 100,2";
 
-function LeadGenVisual() {
+const statusInk: Record<string, string> = {
+  Replied: "#22C55E",
+  Connected: LINKEDIN_BLUE,
+  Pending: "#a3a3a3",
+};
+
+/** The LinkedIn "in" mark — small, blue, and only used on LinkedIn surfaces. */
+function InMark({ size = 16 }: { size?: number }) {
+  return (
+    <span
+      className="flex shrink-0 items-center justify-center rounded-[4px] font-bold lowercase text-white"
+      style={{
+        backgroundColor: LINKEDIN_BLUE,
+        height: size,
+        width: size,
+        fontSize: size * 0.55,
+      }}
+    >
+      in
+    </span>
+  );
+}
+
+function LinkedInOutreachVisual() {
   const reduce = useReducedMotion();
 
   return (
-    <div className={`grid ${FRAME} grid-cols-2 gap-3`}>
-      {metrics.map((m, i) => (
-        <motion.div
-          key={m.label}
-          className={`${CARD} p-4`}
-          initial={reduce ? false : { opacity: 0, y: 12 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: i * 0.1, ease: EASE_OUT }}
-        >
-          <p className="text-[10px] uppercase tracking-wider text-neutral-400">
-            {m.label}
-          </p>
-          <p className="mt-1.5 text-2xl font-bold text-[#111]">{m.value}</p>
-          <div className="mt-2 flex items-center justify-between">
-            <span
-              className="rounded-full px-1.5 py-0.5 text-[9px] font-semibold"
-              style={{ color: PURPLE, backgroundColor: "rgba(82,16,248,0.08)" }}
-            >
-              {m.change}
-            </span>
-            <svg viewBox="0 0 100 22" className="h-5 w-14" preserveAspectRatio="none">
-              <motion.polyline
-                points={spark}
-                fill="none"
-                stroke={PURPLE}
-                strokeWidth="2.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                initial={reduce ? false : { pathLength: 0 }}
-                whileInView={{ pathLength: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 1.1, delay: 0.2 + i * 0.1, ease: EASE_OUT }}
-              />
-            </svg>
-          </div>
-        </motion.div>
-      ))}
+    <div className={PANEL_SHELL}>
+      <div className="flex items-center justify-between">
+        <PanelHeader badge="LinkedIn" />
+        <span className="flex items-center gap-1.5 rounded-full border border-neutral-200 px-2.5 py-1 text-[10px] font-medium text-neutral-500">
+          <InMark size={12} />
+          Sales Navigator
+        </span>
+      </div>
 
-      {/* outreach sequence */}
-      <div className={`${CARD} col-span-2 p-4`}>
-        <div className="mb-3 flex items-center justify-between">
-          <p className="text-[10px] font-medium text-neutral-400">
-            Outreach sequence
-          </p>
-          <span className="text-[9px] font-semibold text-[#5210F8]">
-            3 steps
-          </span>
-        </div>
-        <div className="space-y-2">
-          {[
-            "Hi {{name}}, saw your post on…",
-            "Following up on our conversation…",
-            "Sharing a quick case study →",
-          ].map((msg, i) => (
-            <motion.div
-              key={msg}
-              className="flex items-center gap-2.5"
-              initial={reduce ? false : { opacity: 0, x: -8 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: i * 0.14, ease: EASE_OUT }}
+      {/* Outreach numbers */}
+      <div className="mt-4 grid grid-cols-3 gap-2">
+        {[
+          { label: "Invites", value: "420" },
+          { label: "Connect rate", value: "48%" },
+          { label: "Replies", value: "22%" },
+        ].map((stat, i) => (
+          <motion.div
+            key={stat.label}
+            className="rounded-xl border border-neutral-200/70 bg-white px-2.5 py-2"
+            initial={reduce ? false : { opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, delay: i * 0.07, ease: EASE_OUT }}
+          >
+            <p className="text-[9px] font-medium uppercase tracking-wide text-neutral-400">
+              {stat.label}
+            </p>
+            <p className="mt-0.5 text-base font-semibold leading-none tracking-tight text-[#111]">
+              {stat.value}
+            </p>
+          </motion.div>
+        ))}
+      </div>
+
+      {/* Prospects */}
+      <p className="mb-2 mt-4 text-[9px] font-semibold uppercase tracking-wider text-neutral-400">
+        Prospects
+      </p>
+      <div className="space-y-1.5">
+        {prospects.map((person, i) => (
+          <motion.div
+            key={person.name}
+            className="flex items-center gap-2.5 rounded-xl border border-neutral-200/70 bg-white px-2.5 py-2"
+            initial={reduce ? false : { opacity: 0, x: -8 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.4, delay: 0.1 + i * 0.07, ease: EASE_OUT }}
+          >
+            <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-neutral-200 text-[9px] font-semibold text-neutral-500">
+              {person.initials}
+            </span>
+            <span className="min-w-0 flex-1">
+              <span className="block truncate text-[11px] font-semibold text-[#111]">
+                {person.name}
+              </span>
+              <span className="block truncate text-[9px] text-neutral-400">
+                {person.role}
+              </span>
+            </span>
+            <span
+              className="flex shrink-0 items-center gap-1 text-[9px] font-semibold"
+              style={{ color: statusInk[person.status] }}
             >
               <span
-                className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-[9px] font-bold text-white"
-                style={{ backgroundColor: PURPLE }}
-              >
-                {i + 1}
+                className="h-1.5 w-1.5 rounded-full"
+                style={{ backgroundColor: statusInk[person.status] }}
+              />
+              {person.status}
+            </span>
+          </motion.div>
+        ))}
+      </div>
+
+      {/* Thread */}
+      <div className="mt-auto space-y-1.5 border-t border-neutral-100 pt-3">
+        <div className="flex justify-end">
+          <span className="max-w-[80%] rounded-xl rounded-br-sm bg-neutral-50 px-2.5 py-1.5 text-[10px] leading-relaxed text-neutral-600">
+            Saw Northwind is hiring 4 AEs — worth a quick chat?
+          </span>
+        </div>
+        <motion.div
+          className="flex items-center gap-2"
+          initial={reduce ? false : { opacity: 0, y: 6 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, delay: 0.4, ease: EASE_OUT }}
+        >
+          <span
+            className="max-w-[80%] rounded-xl rounded-bl-sm px-2.5 py-1.5 text-[10px] leading-relaxed"
+            style={{
+              color: LINKEDIN_BLUE,
+              backgroundColor: "rgba(10,102,194,0.07)",
+            }}
+          >
+            Yes — send over a time. Thursday works.
+          </span>
+          <span className="text-[9px] font-medium text-neutral-300">2h</span>
+        </motion.div>
+      </div>
+    </div>
+  );
+}
+
+const emailFunnel = [
+  { label: "Delivered", pct: 98 },
+  { label: "Opened", pct: 61 },
+  { label: "Replied", pct: 18 },
+  { label: "Booked", pct: 9 },
+];
+
+/** Merge tag — the bit that makes cold email read as personalised. */
+function MergeTag({ children }: { children: ReactNode }) {
+  return (
+    <span
+      className="rounded-[3px] px-1 py-[1px] text-[10px] font-semibold"
+      style={{ color: PURPLE, backgroundColor: "rgba(82,16,248,0.08)" }}
+    >
+      {children}
+    </span>
+  );
+}
+
+function EmailOutreachPanel() {
+  const reduce = useReducedMotion();
+
+  return (
+    <div className={PANEL_SHELL}>
+      <div className="flex items-center justify-between">
+        <PanelHeader badge="Email" />
+        <span className="rounded-full border border-neutral-200 px-2.5 py-1 text-[10px] font-medium text-neutral-500">
+          4 variables
+        </span>
+      </div>
+
+      {/* Composer */}
+      <motion.div
+        className="mt-4 rounded-xl border border-neutral-200/80 bg-white"
+        initial={reduce ? false : { opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.45, ease: EASE_OUT }}
+      >
+        <div className="flex items-center gap-2 border-b border-neutral-100 px-3 py-2">
+          <Mail size={12} className="shrink-0 text-neutral-300" />
+          <span className="text-[10px] text-neutral-400">To</span>
+          <MergeTag>{"{{first_name}}"}</MergeTag>
+          <span className="text-[10px] text-neutral-400">at</span>
+          <MergeTag>{"{{company}}"}</MergeTag>
+        </div>
+        <div className="px-3 py-2.5">
+          <p className="text-[11px] font-semibold text-[#111]">
+            Quick idea for <MergeTag>{"{{company}}"}</MergeTag>
+          </p>
+          <p className="mt-1.5 text-[10px] leading-relaxed text-neutral-500">
+            Noticed you&apos;re hiring AEs — we help teams like yours book 30+
+            qualified calls a month.
+          </p>
+          <div className="mt-2 space-y-1.5">
+            <Skel w="100%" h={4} />
+            <Skel w="58%" h={4} />
+          </div>
+        </div>
+        <div className="flex items-center justify-between border-t border-neutral-100 px-3 py-2">
+          <span className="flex items-center gap-1 text-[9px] font-medium text-neutral-400">
+            <Clock size={10} />
+            Sends 9:00 AM local
+          </span>
+          <span className="flex items-center gap-1 rounded-full bg-[#111] px-2 py-0.5 text-[9px] font-semibold text-white">
+            <Send size={9} />
+            Send
+          </span>
+        </div>
+      </motion.div>
+
+      {/* Funnel */}
+      <div className="mt-auto flex flex-col justify-end gap-2 pt-4">
+        {emailFunnel.map((step, i) => (
+          <div key={step.label} className="flex items-center gap-2.5">
+            <span className="w-14 shrink-0 text-[10px] font-medium text-neutral-500">
+              {step.label}
+            </span>
+            <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-neutral-100">
+              <motion.div
+                className="h-full origin-left rounded-full"
+                style={{
+                  background: `linear-gradient(to right, ${PURPLE}, ${LAVENDER})`,
+                }}
+                initial={reduce ? false : { scaleX: 0 }}
+                animate={{ scaleX: step.pct / 100 }}
+                transition={{
+                  duration: 0.85,
+                  delay: 0.15 + i * 0.08,
+                  ease: EASE_OUT,
+                }}
+              />
+            </div>
+            <span className="w-8 shrink-0 text-right text-[10px] font-semibold tabular-nums text-[#111]">
+              {step.pct}%
+            </span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+const icpCriteria = [
+  { label: "Industry", value: "B2B SaaS" },
+  { label: "Company size", value: "50–500" },
+  { label: "Role", value: "Founder / CMO" },
+  { label: "Region", value: "Global" },
+  { label: "Buying signal", value: "Hiring" },
+];
+
+const icpAccounts = [
+  { name: "Northwind", meta: "SaaS · 240 staff", score: 94 },
+  { name: "Acme Cloud", meta: "SaaS · 120 staff", score: 88 },
+  { name: "Lumen Labs", meta: "SaaS · 80 staff", score: 81 },
+];
+
+function IcpPanel() {
+  const reduce = useReducedMotion();
+
+  return (
+    <div className={PANEL_SHELL}>
+      <div className="flex items-center justify-between">
+        <PanelHeader badge="ICP" />
+        <span className="flex items-center gap-1.5 rounded-full border border-neutral-200 px-2.5 py-1 text-[10px] font-medium text-neutral-500">
+          <Target size={11} style={{ color: PURPLE }} />
+          1,240 matched
+        </span>
+      </div>
+
+      {/* Filters */}
+      <div className="mt-4 space-y-1.5">
+        {icpCriteria.map((row, i) => (
+          <motion.div
+            key={row.label}
+            className="flex items-center gap-2.5 rounded-lg border border-neutral-200/70 bg-white px-2.5 py-1.5"
+            initial={reduce ? false : { opacity: 0, x: -8 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.35, delay: i * 0.05, ease: EASE_OUT }}
+          >
+            <span className="flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-[#5210F8]/10">
+              <Check size={9} strokeWidth={3} style={{ color: PURPLE }} />
+            </span>
+            <span className="flex-1 text-[10px] text-neutral-400">
+              {row.label}
+            </span>
+            <span className="text-[10px] font-semibold text-[#111]">
+              {row.value}
+            </span>
+          </motion.div>
+        ))}
+      </div>
+
+      {/* Matched accounts */}
+      <p className="mb-2 mt-auto pt-4 text-[9px] font-semibold uppercase tracking-wider text-neutral-400">
+        Best-fit accounts
+      </p>
+      <div className="space-y-2">
+        {icpAccounts.map((account, i) => (
+          <motion.div
+            key={account.name}
+            className="flex items-center gap-2.5"
+            initial={reduce ? false : { opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, delay: 0.25 + i * 0.08, ease: EASE_OUT }}
+          >
+            <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-md border border-neutral-200 text-neutral-400">
+              <Building2 size={11} />
+            </span>
+            <span className="min-w-0 flex-1">
+              <span className="block truncate text-[11px] font-semibold text-[#111]">
+                {account.name}
               </span>
-              <div className="flex-1 rounded-lg bg-neutral-50 px-3 py-2 text-[11px] text-neutral-600">
-                {msg}
+              <span className="block truncate text-[9px] text-neutral-400">
+                {account.meta}
+              </span>
+            </span>
+            <span className="hidden h-1 w-16 overflow-hidden rounded-full bg-neutral-100 sm:block">
+              <motion.span
+                className="block h-full origin-left rounded-full"
+                style={{ backgroundColor: PURPLE }}
+                initial={reduce ? false : { scaleX: 0 }}
+                animate={{ scaleX: account.score / 100 }}
+                transition={{
+                  duration: 0.8,
+                  delay: 0.35 + i * 0.08,
+                  ease: EASE_OUT,
+                }}
+              />
+            </span>
+            <span
+              className="w-8 shrink-0 text-right text-[11px] font-semibold tabular-nums"
+              style={{ color: PURPLE }}
+            >
+              {account.score}
+            </span>
+          </motion.div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+const cadence = [
+  {
+    day: "Day 1",
+    title: "Connection request",
+    channel: "LinkedIn",
+    status: "Sent",
+    linkedin: true,
+  },
+  {
+    day: "Day 2",
+    title: "Intro email",
+    channel: "Email",
+    status: "Sent",
+    linkedin: false,
+  },
+  {
+    day: "Day 4",
+    title: "Value-led follow-up",
+    channel: "LinkedIn",
+    status: "Scheduled",
+    linkedin: true,
+  },
+  {
+    day: "Day 6",
+    title: "Case study + soft CTA",
+    channel: "Email",
+    status: "Scheduled",
+    linkedin: false,
+  },
+];
+
+function SequencesPanel() {
+  const reduce = useReducedMotion();
+
+  return (
+    <div className={PANEL_SHELL}>
+      <div className="flex items-center justify-between">
+        <PanelHeader badge="Sequences" />
+        <span className="rounded-full border border-neutral-200 px-2.5 py-1 text-[10px] font-medium text-neutral-500">
+          4 touches · 6 days
+        </span>
+      </div>
+
+      {/* Cadence */}
+      <div className="mt-4 flex flex-1 flex-col justify-center">
+        {cadence.map((step, i) => {
+          const sent = step.status === "Sent";
+          return (
+            <motion.div
+              key={step.day}
+              className="flex gap-3"
+              initial={reduce ? false : { opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: i * 0.08, ease: EASE_OUT }}
+            >
+              {/* rail */}
+              <div className="flex flex-col items-center">
+                <span
+                  className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full border ${
+                    sent ? "border-transparent" : "border-dashed border-neutral-300"
+                  }`}
+                  style={sent ? { backgroundColor: "rgba(82,16,248,0.08)" } : undefined}
+                >
+                  {step.linkedin ? (
+                    <InMark size={12} />
+                  ) : (
+                    <Mail
+                      size={12}
+                      style={{ color: sent ? PURPLE : "#a3a3a3" }}
+                    />
+                  )}
+                </span>
+                {i < cadence.length - 1 && (
+                  <span
+                    className="my-1 w-px flex-1"
+                    style={{
+                      backgroundImage:
+                        "linear-gradient(to bottom, #e5e5e5 60%, transparent 0)",
+                      backgroundSize: "1px 5px",
+                    }}
+                  />
+                )}
+              </div>
+
+              <div className="min-w-0 flex-1 pb-3">
+                <div className="flex items-center justify-between gap-2">
+                  <span className="truncate text-[12px] font-semibold text-[#111]">
+                    {step.title}
+                  </span>
+                  <span
+                    className="shrink-0 text-[9px] font-semibold"
+                    style={{ color: sent ? "#22C55E" : "#a3a3a3" }}
+                  >
+                    {step.status}
+                  </span>
+                </div>
+                <p className="text-[10px] text-neutral-400">
+                  {step.day} · {step.channel}
+                </p>
               </div>
             </motion.div>
+          );
+        })}
+      </div>
+
+      {/* Footer */}
+      <div className="flex items-center justify-between border-t border-neutral-100 pt-3">
+        <span className="text-[10px] font-medium text-neutral-400">
+          360 prospects enrolled
+        </span>
+        <span
+          className="flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-semibold"
+          style={{ color: PURPLE, backgroundColor: "rgba(82,16,248,0.08)" }}
+        >
+          <TrendingUp size={10} />
+          18% reply rate
+        </span>
+      </div>
+    </div>
+  );
+}
+
+/* ================================================================== *
+ * 8. GROWTH — one surface per tab: the launch plan, the event motion,
+ *    the paid-media manager and the live campaign dashboard.
+ * ================================================================== */
+const gtmMilestones = [
+  { label: "Positioning", done: true },
+  { label: "Offer", done: true },
+  { label: "Sales deck", done: false, active: true },
+  { label: "Launch", done: false },
+];
+
+const gtmTargets = [
+  { label: "Reach", value: "2.4M" },
+  { label: "Pipeline", value: "$1.2M" },
+  { label: "ROI", value: "312%" },
+];
+
+const gtmChecklist = [
+  { task: "Positioning & messaging locked", done: true },
+  { task: "Pricing and offer structured", done: true },
+  { task: "Sales deck + demo script", done: false },
+];
+
+function GtmPlanVisual() {
+  const reduce = useReducedMotion();
+
+  return (
+    <div className={PANEL_SHELL}>
+      <div className="flex items-center justify-between">
+        <PanelHeader badge="GTM" />
+        <span className="rounded-full border border-neutral-200 px-2.5 py-1 text-[10px] font-medium text-neutral-500">
+          Week 5 of 8
+        </span>
+      </div>
+
+      {/* Launch timeline */}
+      <div className="mt-6 px-1">
+        <div className="relative flex items-start justify-between">
+          {/* track */}
+          <span className="absolute left-0 right-0 top-[5px] h-px bg-neutral-200" />
+          <motion.span
+            className="absolute left-0 top-[5px] h-px origin-left"
+            style={{ backgroundColor: PURPLE }}
+            initial={reduce ? false : { scaleX: 0 }}
+            animate={{ scaleX: 0.62 }}
+            transition={{ duration: 1, ease: EASE_OUT }}
+          />
+          {gtmMilestones.map((milestone, i) => (
+            <motion.span
+              key={milestone.label}
+              className="relative z-10 flex w-1/4 flex-col items-center gap-1.5"
+              initial={reduce ? false : { opacity: 0, y: 6 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.35, delay: 0.2 + i * 0.08, ease: EASE_OUT }}
+            >
+              <span
+                className={`h-2.5 w-2.5 rounded-full border-2 ${
+                  milestone.done || milestone.active
+                    ? "border-white"
+                    : "border-white bg-neutral-200"
+                }`}
+                style={
+                  milestone.done
+                    ? { backgroundColor: PURPLE }
+                    : milestone.active
+                      ? { backgroundColor: LAVENDER }
+                      : undefined
+                }
+              />
+              <span
+                className={`text-center text-[9px] font-medium ${
+                  milestone.done || milestone.active
+                    ? "text-[#111]"
+                    : "text-neutral-400"
+                }`}
+              >
+                {milestone.label}
+              </span>
+            </motion.span>
+          ))}
+        </div>
+      </div>
+
+      {/* Targets */}
+      <div className="mt-6 grid grid-cols-3 gap-2">
+        {gtmTargets.map((target, i) => (
+          <motion.div
+            key={target.label}
+            className="rounded-xl border border-neutral-200/70 bg-white px-2.5 py-2"
+            initial={reduce ? false : { opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, delay: 0.3 + i * 0.07, ease: EASE_OUT }}
+          >
+            <p className="text-[9px] font-medium uppercase tracking-wide text-neutral-400">
+              {target.label}
+            </p>
+            <p className="mt-0.5 text-base font-semibold leading-none tracking-tight text-[#111]">
+              {target.value}
+            </p>
+          </motion.div>
+        ))}
+      </div>
+
+      {/* Checklist */}
+      <p className="mb-2 mt-auto pt-5 text-[9px] font-semibold uppercase tracking-wider text-neutral-400">
+        Launch checklist
+      </p>
+      <div className="space-y-1.5">
+        {gtmChecklist.map((item) => (
+          <div key={item.task} className="flex items-center gap-2.5">
+            <span
+              className={`flex h-4 w-4 shrink-0 items-center justify-center rounded-[5px] border ${
+                item.done ? "border-transparent" : "border-neutral-300"
+              }`}
+              style={item.done ? { backgroundColor: PURPLE } : undefined}
+            >
+              {item.done && (
+                <Check size={9} strokeWidth={3} className="text-white" />
+              )}
+            </span>
+            <span
+              className={`text-[11px] ${
+                item.done ? "text-neutral-400 line-through" : "text-neutral-700"
+              }`}
+            >
+              {item.task}
+            </span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+const eventFunnel = [
+  { label: "Registrations", value: "1,240", pct: 100 },
+  { label: "Booth scans", value: "380", pct: 62 },
+  { label: "Meetings booked", value: "64", pct: 34 },
+  { label: "Deals opened", value: "12", pct: 16 },
+];
+
+function EventsPanel() {
+  const reduce = useReducedMotion();
+
+  return (
+    <div className={PANEL_SHELL}>
+      <div className="flex items-center justify-between">
+        <PanelHeader badge="Events" />
+        <span className="flex items-center gap-1.5 rounded-full border border-neutral-200 px-2.5 py-1 text-[10px] font-medium text-neutral-500">
+          <Ticket size={11} style={{ color: PURPLE }} />
+          Booth 214
+        </span>
+      </div>
+
+      <div className="mt-4 flex flex-1 gap-4">
+        {/* Event badge */}
+        <motion.div
+          className="flex w-[96px] shrink-0 flex-col overflow-hidden rounded-xl border border-neutral-200/80 bg-white"
+          initial={reduce ? false : { opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.45, ease: EASE_OUT }}
+        >
+          <div className="border-b border-neutral-100 px-2.5 py-2 text-center">
+            <p className="text-[10px] font-semibold leading-tight text-[#111]">
+              SaaS Summit
+            </p>
+            <p className="text-[8px] text-neutral-400">Oct 14–16 · Berlin</p>
+          </div>
+          {/* perforation */}
+          <div className="flex items-center justify-between px-1.5">
+            <span className="-ml-3 h-2.5 w-2.5 rounded-full bg-neutral-100" />
+            <span className="mx-1 h-px flex-1 border-t border-dashed border-neutral-200" />
+            <span className="-mr-3 h-2.5 w-2.5 rounded-full bg-neutral-100" />
+          </div>
+          <div className="flex flex-1 flex-col items-center justify-center gap-2 px-2.5 py-3">
+            <span className="flex h-10 w-10 items-center justify-center rounded-md border border-neutral-200 text-neutral-300">
+              <QrCode size={22} />
+            </span>
+            <span className="w-full space-y-1">
+              <Skel w="100%" h={3} dark />
+              <Skel w="70%" h={3} />
+            </span>
+            <span
+              className="rounded-full px-2 py-0.5 text-[8px] font-semibold"
+              style={{ color: PURPLE, backgroundColor: "rgba(82,16,248,0.08)" }}
+            >
+              Exhibitor
+            </span>
+          </div>
+        </motion.div>
+
+        {/* Event funnel */}
+        <div className="flex min-w-0 flex-1 flex-col justify-center gap-3">
+          {eventFunnel.map((step, i) => (
+            <div key={step.label}>
+              <div className="mb-1 flex items-center justify-between">
+                <span className="text-[10px] font-medium text-neutral-500">
+                  {step.label}
+                </span>
+                <span className="text-[11px] font-semibold tabular-nums text-[#111]">
+                  {step.value}
+                </span>
+              </div>
+              <div className="h-1.5 w-full overflow-hidden rounded-full bg-neutral-100">
+                <motion.div
+                  className="h-full origin-left rounded-full"
+                  style={{
+                    background: `linear-gradient(to right, ${PURPLE}, ${LAVENDER})`,
+                  }}
+                  initial={reduce ? false : { scaleX: 0 }}
+                  animate={{ scaleX: step.pct / 100 }}
+                  transition={{
+                    duration: 0.85,
+                    delay: 0.15 + i * 0.08,
+                    ease: EASE_OUT,
+                  }}
+                />
+              </div>
+            </div>
           ))}
         </div>
       </div>
@@ -2047,10 +2646,142 @@ function LeadGenVisual() {
   );
 }
 
-/* ================================================================== *
- * 8. GROWTH — a live campaign dashboard: gradient hero with KPIs, a
- *    weekly-reach growth chart, and the paid/events/organic channel mix.
- * ================================================================== */
+const adStats = [
+  { label: "Spend", value: "$24k" },
+  { label: "CPC", value: "$1.80" },
+  { label: "ROAS", value: "4.2×" },
+];
+
+const adChannels = [
+  { label: "LinkedIn", pct: 45, ink: LINKEDIN_BLUE },
+  { label: "Meta", pct: 30, ink: "#0866FF" },
+  { label: "Google", pct: 25, ink: "#4285F4" },
+];
+
+function PaidMediaPanel() {
+  const reduce = useReducedMotion();
+
+  return (
+    <div className={PANEL_SHELL}>
+      <div className="flex items-center justify-between">
+        <PanelHeader badge="Paid Media" />
+        <span className="flex items-center gap-1.5 rounded-full border border-neutral-200 px-2.5 py-1 text-[10px] font-medium text-neutral-500">
+          <Megaphone size={11} style={{ color: PURPLE }} />3 channels live
+        </span>
+      </div>
+
+      <div className="mt-4 flex flex-1 gap-4">
+        {/* Ad preview */}
+        <motion.div
+          className="flex w-[116px] shrink-0 flex-col overflow-hidden rounded-xl border border-neutral-200/80 bg-white"
+          initial={reduce ? false : { opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.45, ease: EASE_OUT }}
+        >
+          <div className="flex items-center gap-1.5 px-2 py-1.5">
+            <span className="h-4 w-4 shrink-0 rounded-[4px] bg-[#111]" />
+            <span className="min-w-0 flex-1">
+              <span className="block truncate text-[8px] font-semibold text-[#111]">
+                invisiedge
+              </span>
+              <span className="block text-[7px] text-neutral-400">
+                Sponsored
+              </span>
+            </span>
+          </div>
+          <div
+            className="relative flex-1"
+            style={{
+              minHeight: 64,
+              backgroundImage:
+                "linear-gradient(rgba(7,44,85,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(7,44,85,0.04) 1px, transparent 1px)",
+              backgroundSize: "16px 16px",
+            }}
+          >
+            <motion.span
+              className="pointer-events-none absolute inset-y-0 w-1/2 -skew-x-12"
+              style={{
+                background:
+                  "linear-gradient(90deg, transparent, rgba(82,16,248,0.06), transparent)",
+              }}
+              animate={reduce ? undefined : { x: ["-70%", "190%"] }}
+              transition={loop(7)}
+            />
+          </div>
+          <div className="border-t border-neutral-100 px-2 py-1.5">
+            <p className="text-[9px] font-semibold leading-tight text-[#111]">
+              Built for growth.
+            </p>
+            <span className="mt-1 flex items-center justify-between">
+              <span className="text-[7px] text-neutral-400">invisiedge.com</span>
+              <span className="rounded-[4px] bg-neutral-100 px-1.5 py-0.5 text-[7px] font-semibold text-neutral-600">
+                Learn more
+              </span>
+            </span>
+          </div>
+        </motion.div>
+
+        {/* Numbers */}
+        <div className="flex min-w-0 flex-1 flex-col">
+          <div className="grid grid-cols-3 gap-2">
+            {adStats.map((stat, i) => (
+              <motion.div
+                key={stat.label}
+                className="rounded-xl border border-neutral-200/70 bg-white px-2 py-1.5"
+                initial={reduce ? false : { opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, delay: i * 0.07, ease: EASE_OUT }}
+              >
+                <p className="text-[8px] font-medium uppercase tracking-wide text-neutral-400">
+                  {stat.label}
+                </p>
+                <p className="mt-0.5 text-[13px] font-semibold leading-none tracking-tight text-[#111]">
+                  {stat.value}
+                </p>
+              </motion.div>
+            ))}
+          </div>
+
+          <p className="mb-2 mt-4 text-[9px] font-semibold uppercase tracking-wider text-neutral-400">
+            Spend by channel
+          </p>
+          <div className="mt-auto space-y-2.5">
+            {adChannels.map((channel, i) => (
+              <div key={channel.label}>
+                <div className="mb-1 flex items-center gap-1.5 text-[10px]">
+                  <span
+                    className="h-1.5 w-1.5 rounded-full"
+                    style={{ backgroundColor: channel.ink }}
+                  />
+                  <span className="font-medium text-neutral-600">
+                    {channel.label}
+                  </span>
+                  <span className="ml-auto font-semibold tabular-nums text-neutral-400">
+                    {channel.pct}%
+                  </span>
+                </div>
+                <div className="h-1 w-full overflow-hidden rounded-full bg-neutral-100">
+                  <motion.div
+                    className="h-full origin-left rounded-full"
+                    style={{ backgroundColor: channel.ink }}
+                    initial={reduce ? false : { scaleX: 0 }}
+                    animate={{ scaleX: channel.pct / 100 }}
+                    transition={{
+                      duration: 0.85,
+                      delay: 0.2 + i * 0.08,
+                      ease: EASE_OUT,
+                    }}
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 const gtmKpis = [
   { label: "Reach", value: "2.4M" },
   { label: "Leads", value: "840" },
@@ -2060,131 +2791,114 @@ const gtmKpis = [
 const gtmBars = [40, 52, 46, 63, 58, 74, 82, 96];
 
 const gtmChannels = [
-  { icon: Megaphone, label: "Paid media", pct: 48, color: PURPLE },
-  { icon: Ticket, label: "Events", pct: 32, color: LAVENDER },
-  { icon: Globe, label: "Organic", pct: 20, color: NAVY },
+  { icon: Megaphone, label: "Paid media", pct: 48 },
+  { icon: Ticket, label: "Events", pct: 32 },
+  { icon: Globe, label: "Organic", pct: 20 },
 ];
 
-function GtmVisual() {
+function CampaignsPanel() {
   const reduce = useReducedMotion();
 
   return (
-    <div className={`${CARD} ${FRAME} flex w-full flex-col overflow-hidden`}>
-      {/* Gradient hero */}
-      <div
-        className="relative overflow-hidden p-5"
-        style={{ background: `linear-gradient(150deg, ${PURPLE}, ${NAVY})` }}
-      >
-        <motion.div
-          className="pointer-events-none absolute -right-8 -top-8 h-28 w-28 rounded-full"
-          style={{ background: "rgba(196,125,253,0.35)", filter: "blur(24px)" }}
-          animate={reduce ? undefined : { scale: [1, 1.2, 1], opacity: [0.6, 1, 0.6] }}
-          transition={loop(5)}
-        />
+    <div className={PANEL_SHELL}>
+      <div className="flex items-center justify-between">
+        <PanelHeader badge="Campaigns" />
+        <span className="flex items-center gap-1.5 rounded-full border border-neutral-200 px-2.5 py-1 text-[10px] font-bold tracking-wide text-neutral-500">
+          <motion.span
+            className="h-1.5 w-1.5 rounded-full bg-emerald-500"
+            animate={reduce ? undefined : { opacity: [1, 0.3, 1] }}
+            transition={loop(1.6)}
+          />
+          LIVE
+        </span>
+      </div>
 
-        <div className="relative flex items-center justify-between">
-          <span className="flex items-center gap-1.5 rounded-full bg-white/12 px-2.5 py-1 text-[10px] font-semibold text-white backdrop-blur-sm">
-            <Rocket size={12} />
-            Growth Campaign
+      {/* KPIs */}
+      <div className="mt-4 grid grid-cols-3 gap-2">
+        {gtmKpis.map((kpi, i) => (
+          <motion.div
+            key={kpi.label}
+            className="rounded-xl border border-neutral-200/70 bg-white px-2.5 py-2"
+            initial={reduce ? false : { opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, delay: i * 0.07, ease: EASE_OUT }}
+          >
+            <p className="text-[9px] font-medium uppercase tracking-wide text-neutral-400">
+              {kpi.label}
+            </p>
+            <p className="mt-0.5 text-base font-semibold leading-none tracking-tight text-[#111]">
+              {kpi.value}
+            </p>
+          </motion.div>
+        ))}
+      </div>
+
+      {/* Weekly reach */}
+      <div className="mt-4">
+        <div className="mb-2 flex items-center justify-between">
+          <span className="text-[9px] font-semibold uppercase tracking-wider text-neutral-400">
+            Weekly reach
           </span>
-          <span className="flex items-center gap-1.5 rounded-full bg-white/12 px-2 py-1 text-[10px] font-bold tracking-wide text-white backdrop-blur-sm">
-            <motion.span
-              className="h-1.5 w-1.5 rounded-full bg-emerald-400"
-              animate={reduce ? undefined : { opacity: [1, 0.3, 1] }}
-              transition={loop(1.6)}
-            />
-            LIVE
+          <span
+            className="flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-semibold"
+            style={{ color: PURPLE, backgroundColor: "rgba(82,16,248,0.08)" }}
+          >
+            <TrendingUp size={10} />
+            +312%
           </span>
         </div>
-
-        <p className="relative mt-3 text-lg font-semibold text-white">
-          Q4 Growth Sprint
-        </p>
-        <p className="relative text-[10px] text-white/55">
-          Go-to-market · Paid + Events
-        </p>
-
-        <div className="relative mt-4 grid grid-cols-3 gap-3">
-          {gtmKpis.map((s, i) => (
+        <div className="flex h-16 items-end gap-1.5">
+          {gtmBars.map((bar, i) => (
             <motion.div
-              key={s.label}
-              initial={reduce ? false : { opacity: 0, y: 10 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.45, delay: 0.1 + i * 0.1, ease: EASE_OUT }}
-            >
-              <p className="text-lg font-bold text-white">{s.value}</p>
-              <p className="text-[10px] text-white/55">{s.label}</p>
-            </motion.div>
+              key={i}
+              className="flex-1 origin-bottom rounded-t-sm"
+              style={{
+                height: `${bar}%`,
+                // the last three weeks are the ones that matter — pick them out
+                backgroundColor: i >= gtmBars.length - 3 ? PURPLE : "#ededf2",
+              }}
+              initial={reduce ? false : { scaleY: 0 }}
+              animate={{ scaleY: 1 }}
+              transition={{ duration: 0.55, delay: i * 0.05, ease: EASE_OUT }}
+            />
           ))}
         </div>
       </div>
 
-      {/* Body */}
-      <div className="flex flex-1 flex-col gap-4 p-5">
-        {/* Weekly reach chart */}
-        <div>
-          <div className="mb-2 flex items-center justify-between">
-            <span className="text-[10px] font-semibold text-neutral-500">
-              Weekly reach
+      {/* Channel mix */}
+      <div className="mt-auto space-y-2.5 pt-4">
+        {gtmChannels.map((channel, i) => (
+          <div key={channel.label} className="flex items-center gap-2.5">
+            <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-md border border-neutral-200 text-neutral-400">
+              <channel.icon size={11} />
             </span>
-            <span
-              className="flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-semibold"
-              style={{ color: PURPLE, backgroundColor: "rgba(82,16,248,0.08)" }}
-            >
-              <TrendingUp size={11} />
-              +312%
-            </span>
-          </div>
-          <div className="flex h-20 items-end gap-1.5">
-            {gtmBars.map((b, i) => (
-              <motion.div
-                key={i}
-                className="flex-1 origin-bottom rounded-t-sm"
-                style={{
-                  height: `${b}%`,
-                  background: `linear-gradient(to top, ${PURPLE}, ${LAVENDER})`,
-                }}
-                initial={reduce ? false : { scaleY: 0 }}
-                whileInView={{ scaleY: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: i * 0.06, ease: EASE_OUT }}
-              />
-            ))}
-          </div>
-        </div>
-
-        {/* Channel mix */}
-        <div className="mt-auto space-y-2.5">
-          {gtmChannels.map((ch) => (
-            <div key={ch.label} className="flex items-center gap-2.5">
-              <span
-                className="flex h-6 w-6 shrink-0 items-center justify-center rounded-md text-white"
-                style={{ backgroundColor: ch.color }}
-              >
-                <ch.icon size={12} />
-              </span>
-              <div className="min-w-0 flex-1">
-                <div className="mb-1 flex items-center justify-between text-[10px]">
-                  <span className="font-medium text-neutral-600">{ch.label}</span>
-                  <span className="font-semibold tabular-nums text-neutral-400">
-                    {ch.pct}%
-                  </span>
-                </div>
-                <div className="h-1 w-full overflow-hidden rounded-full bg-neutral-100">
-                  <motion.div
-                    className="h-full origin-left rounded-full"
-                    style={{ backgroundColor: ch.color }}
-                    initial={reduce ? false : { scaleX: 0 }}
-                    whileInView={{ scaleX: ch.pct / 100 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 1, ease: EASE_OUT }}
-                  />
-                </div>
+            <div className="min-w-0 flex-1">
+              <div className="mb-1 flex items-center justify-between text-[10px]">
+                <span className="font-medium text-neutral-600">
+                  {channel.label}
+                </span>
+                <span className="font-semibold tabular-nums text-neutral-400">
+                  {channel.pct}%
+                </span>
+              </div>
+              <div className="h-1 w-full overflow-hidden rounded-full bg-neutral-100">
+                <motion.div
+                  className="h-full origin-left rounded-full"
+                  style={{
+                    background: `linear-gradient(to right, ${PURPLE}, ${LAVENDER})`,
+                  }}
+                  initial={reduce ? false : { scaleX: 0 }}
+                  animate={{ scaleX: channel.pct / 100 }}
+                  transition={{
+                    duration: 0.85,
+                    delay: 0.2 + i * 0.08,
+                    ease: EASE_OUT,
+                  }}
+                />
               </div>
             </div>
-          ))}
-        </div>
+          </div>
+        ))}
       </div>
     </div>
   );
@@ -2197,8 +2911,8 @@ const visualMap: Record<ServiceVisualType, ComponentType> = {
   social: CalendarPanel,
   "ai-video": AvatarStudioVisual,
   crm: CrmVisual,
-  "lead-gen": LeadGenVisual,
-  gtm: GtmVisual,
+  "lead-gen": LinkedInOutreachVisual,
+  gtm: GtmPlanVisual,
 };
 
 /* ================================================================== *
@@ -3452,77 +4166,14 @@ const EXTRA_PANELS: Record<ServiceVisualType, [Panel, Panel, Panel]> = {
     },
   ],
   "lead-gen": [
-    {
-      kind: "bars",
-      badge: "Email",
-      title: "Cold email performance",
-      stat: "18%",
-      statLabel: "Reply rate",
-      bars: [
-        { label: "Delivered", pct: 98 },
-        { label: "Opened", pct: 61 },
-        { label: "Replied", pct: 18 },
-        { label: "Booked", pct: 9 },
-      ],
-    },
-    {
-      kind: "list",
-      badge: "ICP",
-      title: "Ideal customer profile",
-      items: [
-        "Industry: B2B SaaS",
-        "Company size: 50–500",
-        "Role: Founder / CMO",
-        "Region: Global",
-        "Buying signal: hiring",
-      ],
-    },
-    {
-      kind: "steps",
-      badge: "Sequences",
-      title: "Multi-touch outreach cadence",
-      steps: [
-        { title: "Day 1", desc: "Connection request with a personal note." },
-        { title: "Day 3", desc: "Value-led follow-up message." },
-        { title: "Day 6", desc: "Relevant case study + soft CTA." },
-      ],
-    },
+    { kind: "custom", component: EmailOutreachPanel },
+    { kind: "custom", component: IcpPanel },
+    { kind: "custom", component: SequencesPanel },
   ],
   gtm: [
-    {
-      kind: "steps",
-      badge: "Events",
-      title: "End-to-end event motion",
-      steps: [
-        { title: "Pre-event", desc: "Invites, landing page and sign-ups." },
-        { title: "Live", desc: "Booth, demos and lead capture." },
-        { title: "Follow-up", desc: "Nurture and route leads to sales." },
-      ],
-    },
-    {
-      kind: "ring",
-      badge: "Paid Media",
-      title: "Ad spend by channel",
-      center: "312%",
-      segments: [
-        { label: "LinkedIn", pct: 45, color: PURPLE },
-        { label: "Meta", pct: 30, color: LAVENDER },
-        { label: "Google", pct: 25, color: NAVY },
-      ],
-    },
-    {
-      kind: "bars",
-      badge: "Campaigns",
-      title: "Reach by channel",
-      stat: "2.4M",
-      statLabel: "Total reach",
-      bars: [
-        { label: "Paid media", pct: 82 },
-        { label: "Events", pct: 64 },
-        { label: "Email", pct: 58 },
-        { label: "Organic", pct: 46 },
-      ],
-    },
+    { kind: "custom", component: EventsPanel },
+    { kind: "custom", component: PaidMediaPanel },
+    { kind: "custom", component: CampaignsPanel },
   ],
 };
 
