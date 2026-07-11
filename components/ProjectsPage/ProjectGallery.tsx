@@ -1,10 +1,7 @@
 "use client";
 
 import { Reveal } from "@/components/motion/Reveal";
-import {
-  BrowserMockup,
-  MacBookMockup,
-} from "@/components/ProjectsPage/DeviceMockups";
+import { BrowserMockup } from "@/components/ProjectsPage/DeviceMockups";
 import type { ProjectCaseStudy } from "@/data/projectsPageContent";
 
 type ProjectGalleryProps = {
@@ -21,35 +18,29 @@ export default function ProjectGallery({ project }: ProjectGalleryProps) {
       </Reveal>
 
       <div className="mt-10 grid grid-cols-1 gap-10 md:grid-cols-2">
-        {project.gallery.map((shot, index) => {
-          const isMacBook = shot.device === "macbook";
+        {project.gallery.map((shot, index) => (
+          <Reveal
+            key={shot.src}
+            delay={0.08 + index * 0.06}
+            className={shot.wide ? "md:col-span-2" : undefined}
+          >
+            <BrowserMockup
+              src={shot.src}
+              alt={shot.alt}
+              sizes={
+                shot.wide
+                  ? "(min-width: 1024px) 64rem, 92vw"
+                  : "(min-width: 768px) 32rem, 92vw"
+              }
+            />
 
-          return (
-            <Reveal
-              key={shot.src}
-              delay={0.08 + index * 0.06}
-              className={isMacBook ? "md:col-span-2" : undefined}
-            >
-              {isMacBook ? (
-                <div className="rounded-3xl bg-gradient-to-br from-[#EEE7FF] via-[#F5F3FF] to-[#E4EEFF] p-6 sm:p-10 md:p-14">
-                  <MacBookMockup
-                    src={shot.src}
-                    alt={shot.alt}
-                    sizes="(min-width: 1024px) 44rem, 88vw"
-                  />
-                </div>
-              ) : (
-                <BrowserMockup src={shot.src} alt={shot.alt} />
-              )}
-
-              {shot.caption ? (
-                <p className="mt-5 text-sm leading-relaxed text-neutral-500">
-                  {shot.caption}
-                </p>
-              ) : null}
-            </Reveal>
-          );
-        })}
+            {shot.caption ? (
+              <p className="mt-5 text-sm leading-relaxed text-neutral-500">
+                {shot.caption}
+              </p>
+            ) : null}
+          </Reveal>
+        ))}
       </div>
     </div>
   );

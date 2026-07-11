@@ -11,8 +11,8 @@ export type ProjectStat = {
 export type ProjectShot = {
   src: string;
   alt: string;
-  /** Frame the shot is presented in. MacBook shots run full width. */
-  device: "macbook" | "browser";
+  /** Lead shots run the full width of the gallery. */
+  wide?: boolean;
   caption?: string;
 };
 
@@ -72,19 +72,17 @@ export const projectCaseStudies: ProjectCaseStudy[] = [
       {
         src: "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&w=1600&q=80",
         alt: "Smoteo workout dashboard on desktop",
-        device: "macbook",
+        wide: true,
         caption: "The workout dashboard — programs, streaks and progress in one view.",
       },
       {
         src: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&w=1200&q=80",
         alt: "Smoteo exercise library",
-        device: "browser",
         caption: "Exercise library with filters by muscle group.",
       },
       {
         src: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=1200&q=80",
         alt: "Smoteo marketing site",
-        device: "browser",
         caption: "Campaign landing page built for acquisition.",
       },
     ],
@@ -139,19 +137,17 @@ export const projectCaseStudies: ProjectCaseStudy[] = [
       {
         src: "https://images.unsplash.com/photo-1497440001374-f26997328c1b?auto=format&fit=crop&w=1600&q=80",
         alt: "Niir content hub on desktop",
-        device: "macbook",
+        wide: true,
         caption: "The content hub — modular templates any market can publish to.",
       },
       {
         src: "https://images.unsplash.com/photo-1466611653911-95081537e5b7?auto=format&fit=crop&w=1200&q=80",
         alt: "Niir brand system",
-        device: "browser",
         caption: "Brand guidelines built for regional teams.",
       },
       {
         src: "https://images.unsplash.com/photo-1497435334941-8c899ee9e8e9?auto=format&fit=crop&w=1200&q=80",
         alt: "Niir campaign assets",
-        device: "browser",
         caption: "Art-directed campaign asset kit.",
       },
     ],
@@ -201,19 +197,17 @@ export const projectCaseStudies: ProjectCaseStudy[] = [
       {
         src: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1600&q=80",
         alt: "Sacré Armand website on desktop",
-        device: "macbook",
+        wide: true,
         caption: "The homepage — art direction that sets the table before you arrive.",
       },
       {
         src: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=1200&q=80",
         alt: "Sacré Armand menu experience",
-        device: "browser",
         caption: "Seasonal menu, told as a story.",
       },
       {
         src: "https://images.unsplash.com/photo-1424847651672-bf20a4b0982b?auto=format&fit=crop&w=1200&q=80",
         alt: "Sacré Armand reservation flow",
-        device: "browser",
         caption: "Reservation flow reduced to three steps.",
       },
     ],
@@ -263,19 +257,17 @@ export const projectCaseStudies: ProjectCaseStudy[] = [
       {
         src: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1600&q=80",
         alt: "Houston Exponential hub on desktop",
-        device: "macbook",
+        wide: true,
         caption: "The ecosystem hub — resources, events and members in one place.",
       },
       {
         src: "https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=1200&q=80",
         alt: "Houston Exponential registration flow",
-        device: "browser",
         caption: "The rebuilt registration flow.",
       },
       {
         src: "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1200&q=80",
         alt: "Houston Exponential resource library",
-        device: "browser",
         caption: "Resource library organised by startup stage.",
       },
     ],
@@ -325,19 +317,17 @@ export const projectCaseStudies: ProjectCaseStudy[] = [
       {
         src: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1600&q=80",
         alt: "Nami ML analytics dashboard on desktop",
-        device: "macbook",
+        wide: true,
         caption: "The analytics dashboard — subscription health at a glance.",
       },
       {
         src: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=80",
         alt: "Nami ML paywall builder",
-        device: "browser",
         caption: "Paywall builder with live preview.",
       },
       {
         src: "https://images.unsplash.com/photo-1553877522-43269d4ea984?auto=format&fit=crop&w=1200&q=80",
         alt: "Nami ML design system",
-        device: "browser",
         caption: "The design system handed to their frontend team.",
       },
     ],

@@ -1,10 +1,10 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { motion, useReducedMotion } from "motion/react";
 import { easePremium } from "@/components/motion/presets";
 import { Reveal } from "@/components/motion/Reveal";
-import { MacBookMockup } from "@/components/ProjectsPage/DeviceMockups";
 import type { ProjectCaseStudy } from "@/data/projectsPageContent";
 
 type ProjectHeroProps = {
@@ -61,13 +61,17 @@ export default function ProjectHero({ project }: ProjectHeroProps) {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9, delay: 0.15, ease: easePremium }}
           >
-            <div className="rounded-3xl bg-gradient-to-br from-[#EEE7FF] via-[#F4F1FF] to-[#E4EEFF] p-6 sm:p-10 md:p-14">
-              <MacBookMockup
-                src={project.image}
-                alt={`${project.name} product screen`}
-                priority
-                sizes="(min-width: 1024px) 40rem, 88vw"
-              />
+            <div className="rounded-3xl bg-black p-2 sm:p-2 md:p-2 border border-black">
+              <div className="relative aspect-16/10 w-full overflow-hidden rounded-2xl border border-neutral-200">
+                <Image
+                  src={project.image}
+                  alt={`${project.name} product screen`}
+                  fill
+                  sizes="(min-width: 1024px) 40rem, 88vw"
+                  priority
+                  className="object-cover"
+                />
+              </div>
             </div>
           </motion.div>
 

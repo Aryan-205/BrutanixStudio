@@ -52,6 +52,8 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
           </div>
         </div>
 
+        <ProjectGallery project={project} />
+
         {/* How we helped — what we did for the brand */}
         <div className="mx-auto mt-16 grid max-w-5xl grid-cols-1 gap-12 border-t border-neutral-100 pt-14 md:grid-cols-3 md:gap-8">
           <Reveal delay={0.05}>
@@ -88,8 +90,6 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
             </div>
           </div>
         </div>
-
-        <ProjectGallery project={project} />
       </section>
     </>
   );
