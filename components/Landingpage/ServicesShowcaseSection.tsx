@@ -1,27 +1,50 @@
 "use client";
 
+import { useState } from "react";
 import { motion, useReducedMotion } from "motion/react";
 import { Reveal } from "@/components/motion/Reveal";
 import { easePremium } from "@/components/motion/presets";
 import { serviceDetails } from "@/data/servicesPageContent";
 import ServiceAnimatedVisual from "@/components/Landingpage/Services/ServiceAnimatedVisual";
 
-function ServiceTags({ tags }: { tags: string[] }) {
+function ServiceTabs({
+  tags,
+  active,
+  onSelect,
+  groupId,
+}: {
+  tags: string[];
+  active: number;
+  onSelect: (index: number) => void;
+  groupId: string;
+}) {
   return (
-    <div className="mt-8 flex flex-wrap justify-center gap-2 md:justify-center">
-      {tags.map((tag, i) => (
-        <motion.span
-          key={tag}
-          className={`rounded-full border px-3 py-1 text-[11px] font-medium tracking-wide ${
-            i === 0
-              ? "border-[#5210F8]/25 bg-[#5210F8]/5 text-[#5210F8]"
-              : "border-neutral-200 text-neutral-500"
-          }`}
-          whileHover={{ borderColor: "rgba(82,16,248,0.35)", color: "#5210F8" }}
-        >
-          {tag}
-        </motion.span>
-      ))}
+    <div className="mt-8 flex flex-wrap justify-center gap-2">
+      {tags.map((tag, i) => {
+        const isActive = i === active;
+        return (
+          <button
+            key={tag}
+            type="button"
+            onClick={() => onSelect(i)}
+            aria-pressed={isActive}
+            className={`relative rounded-full border px-3.5 py-1.5 text-[11px] font-medium tracking-wide transition-[color,border-color,transform] duration-200 ease-out active:scale-[0.96] cursor-pointer ${
+              isActive
+                ? "border-transparent bg-[#5210F8] text-white"
+                : "border-neutral-200 text-neutral-500 hover:border-[#5210F8]/35 hover:text-[#5210F8]"
+            }`}
+          >
+            {isActive && (
+              <motion.span
+                layoutId={`service-tab-${groupId}`}
+                className="absolute inset-0 -z-10 rounded-full bg-[#5210F8]"
+                transition={{ type: "spring", stiffness: 380, damping: 32 }}
+              />
+            )}
+            {tag}
+          </button>
+        );
+      })}
     </div>
   );
 }
@@ -76,6 +99,7 @@ function ServiceShowcaseBlock({
 }) {
   const reduce = useReducedMotion();
   const isReversed = index % 2 === 1;
+  const [active, setActive] = useState(0);
 
   return (
     <section className="border-t border-neutral-100 bg-white px-6 py-24 md:px-12 md:py-32">
@@ -88,7 +112,12 @@ function ServiceShowcaseBlock({
             <p className="mx-auto mt-6 max-w-xl text-sm leading-relaxed text-neutral-500 md:text-base">
               {service.overview}
             </p>
-            <ServiceTags tags={service.tags} />
+            <ServiceTabs
+              tags={service.tags}
+              active={active}
+              onSelect={setActive}
+              groupId={service.visualType}
+            />
           </div>
         </Reveal>
 
@@ -103,7 +132,7 @@ function ServiceShowcaseBlock({
             viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: 0.7, ease: easePremium }}
           >
-            <ServiceAnimatedVisual type={service.visualType} />
+            <ServiceAnimatedVisual type={service.visualType} active={active} />
           </motion.div>
 
           <motion.div
