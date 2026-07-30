@@ -25,7 +25,7 @@ export function Process() {
       <Shell>
         <div className="grid gap-6 lg:grid-cols-[auto_minmax(0,1fr)] lg:items-start lg:gap-12">
           <Eyebrow className="text-black/45">(Process)</Eyebrow>
-          <Statement className="max-w-[24ch] lg:justify-self-end lg:text-right">
+          <Statement className="max-w-[24ch] font-bold lg:justify-self-end lg:text-right">
             Four steps, <span className="text-black/35">no mystery</span> about
             where the work is.
           </Statement>

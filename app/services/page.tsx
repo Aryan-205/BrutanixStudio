@@ -1,14 +1,17 @@
 import type { Metadata } from "next";
 import { PageHero } from "@/components/site/page-hero";
-import { Services } from "@/components/site/services";
+import {
+  EngagementModels,
+  ServiceFaq,
+  ServiceMenu,
+} from "@/components/site/service-sections";
 import { Process } from "@/components/site/process";
-import { Milestones } from "@/components/site/milestones";
 import { SiteFooter } from "@/components/site/site-footer";
 
 export const metadata: Metadata = {
   title: "Services — Brutanix Studio",
   description:
-    "Brand identity, UI/UX design and production development — delivered as one system rather than three handoffs.",
+    "Brand identity, UI/UX, development and design systems — scoped, priced and delivered by the four people who do the work.",
 };
 
 export default function ServicesPage() {
@@ -17,13 +20,20 @@ export default function ServicesPage() {
       <main>
         <PageHero
           eyebrow="(Service — 02)"
-          title="Our Services"
-          intro="Identity, interface and engineering under one roof. You brief once, and the same team carries it from positioning through to production code."
+          title="The Menu"
+          intro="Four disciplines, three ways to engage, and the figures to plan against. You brief once and the same team carries it to production."
           cta="Start Your Project"
+          meta={[
+            { label: "Disciplines", value: "4" },
+            { label: "Typical span", value: "6–16 weeks" },
+            { label: "Starting from", value: "€24k" },
+            { label: "Team on your work", value: "4 senior" },
+          ]}
         />
-        <Services />
+        <ServiceMenu />
+        <EngagementModels />
         <Process />
-        <Milestones />
+        <ServiceFaq />
       </main>
       <SiteFooter />
     </>

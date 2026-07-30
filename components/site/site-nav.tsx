@@ -31,14 +31,16 @@ function NavLink({ label, href }: { label: string; href: string }) {
   return (
     <Link
       href={href}
-      className="group relative block overflow-hidden py-0.5 leading-tight"
+      className="group relative block overflow-hidden leading-normal"
     >
       <span className="block transition-transform duration-300 ease-out group-hover:-translate-y-full motion-reduce:transition-none">
         {label}
       </span>
+      {/* Sits exactly one line box below the clip, so nothing shows at rest
+          and both copies travel the same distance on hover. */}
       <span
         aria-hidden="true"
-        className="absolute inset-x-0 top-0.5 block translate-y-full text-volt transition-transform duration-300 ease-out group-hover:translate-y-0 motion-reduce:hidden"
+        className="absolute inset-x-0 top-full block text-volt transition-transform duration-300 ease-out group-hover:-translate-y-full motion-reduce:hidden"
       >
         {label}
       </span>

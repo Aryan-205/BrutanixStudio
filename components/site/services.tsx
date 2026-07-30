@@ -65,7 +65,7 @@ export function Services() {
 
         <div className="mt-8 grid gap-5 sm:mt-10 lg:grid-cols-[auto_minmax(0,1fr)] lg:items-start lg:gap-12">
           <Eyebrow className="text-black/45">(Service &mdash; 02)</Eyebrow>
-          <Statement className="max-w-[22ch] lg:justify-self-end lg:text-right">
+          <Statement className="max-w-[22ch] font-bold lg:justify-self-end lg:text-right">
             An agency that brings{" "}
             <span className="text-black/35">passion</span> into every project.
           </Statement>

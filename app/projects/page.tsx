@@ -1,13 +1,15 @@
 import type { Metadata } from "next";
 import { PageHero } from "@/components/site/page-hero";
-import { ProjectIndex } from "@/components/site/project-index";
-import { Milestones } from "@/components/site/milestones";
+import {
+  FeaturedCase,
+  ProjectLedger,
+} from "@/components/site/project-sections";
 import { SiteFooter } from "@/components/site/site-footer";
 
 export const metadata: Metadata = {
   title: "Projects — Brutanix Studio",
   description:
-    "Selected brand identity, product design and development work from Brutanix Studio.",
+    "One case study opened up, then every engagement Brutanix Studio has shipped since 2021.",
 };
 
 export default function ProjectsPage() {
@@ -16,12 +18,18 @@ export default function ProjectsPage() {
       <main>
         <PageHero
           eyebrow="(Project — 03)"
-          title="Our Work"
-          intro="Brand systems, products and campaigns for teams that would rather stand out than blend in. A selection, not an archive."
+          title="The Ledger"
+          intro="Brand systems, products and campaigns for teams that would rather stand out than blend in. One opened up, the rest listed."
           cta="Book a Call"
+          meta={[
+            { label: "Shipped", value: "50+" },
+            { label: "Longest engagement", value: "4 years" },
+            { label: "Repeat clients", value: "62%" },
+            { label: "Industries", value: "11" },
+          ]}
         />
-        <ProjectIndex />
-        <Milestones />
+        <FeaturedCase />
+        <ProjectLedger />
       </main>
       <SiteFooter />
     </>

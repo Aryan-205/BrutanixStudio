@@ -1,14 +1,16 @@
 import type { Metadata } from "next";
 import { PageHero } from "@/components/site/page-hero";
-import { ValueProp } from "@/components/site/value-prop";
-import { Milestones } from "@/components/site/milestones";
-import { Process } from "@/components/site/process";
+import {
+  StudioPrinciples,
+  StudioStory,
+  StudioTimeline,
+} from "@/components/site/about-sections";
 import { SiteFooter } from "@/components/site/site-footer";
 
 export const metadata: Metadata = {
   title: "About — Brutanix Studio",
   description:
-    "Brutanix Studio is a design and development agency built around one mission: create work that doesn't blend in.",
+    "Four senior people, fifteen years, eight to ten engagements a year. The record of how Brutanix Studio works and why it stays small.",
 };
 
 export default function AboutPage() {
@@ -17,12 +19,19 @@ export default function AboutPage() {
       <main>
         <PageHero
           eyebrow="(About — 01)"
-          title="About Us"
-          intro="We born in a shared studio loft with one mission: create work that doesn't blend in. Fifteen years later, that's still the whole brief."
+          title="The Record"
+          intro="Founded 2010 in a shared loft. Still four people, on purpose. Here is what we've built and what we hold to."
+          cta="Book a Call"
+          meta={[
+            { label: "Founded", value: "2010" },
+            { label: "Studio size", value: "4 people" },
+            { label: "Projects shipped", value: "50+" },
+            { label: "Engagements a year", value: "8–10" },
+          ]}
         />
-        <ValueProp />
-        <Milestones />
-        <Process />
+        <StudioStory />
+        <StudioTimeline />
+        <StudioPrinciples />
       </main>
       <SiteFooter />
     </>

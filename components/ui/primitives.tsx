@@ -77,7 +77,9 @@ export function SectionTitle({
 
 /**
  * The statement type that carries each section: large, tight, and set against
- * a muted continuation clause.
+ * a muted continuation clause. Weight is deliberately left to the caller —
+ * baking one in here would collide with the override rather than lose to it,
+ * since utility precedence follows stylesheet order, not class order.
  */
 export function Statement({
   children,
@@ -90,7 +92,7 @@ export function Statement({
 }) {
   return (
     <Tag
-      className={`font-display text-3xl leading-tight font-bold tracking-tight sm:text-4xl lg:text-5xl ${className}`}
+      className={`font-display text-3xl leading-tight tracking-tight sm:text-4xl lg:text-5xl ${className}`}
     >
       {children}
     </Tag>

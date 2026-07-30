@@ -24,7 +24,6 @@
      rather than with per-element arbitrary values. */
   --text-10xl: 10rem;
   --text-11xl: 13rem;
-  --text-12xl: 17rem;
 }
 
 @layer base {
