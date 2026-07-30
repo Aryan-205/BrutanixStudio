@@ -1,26 +1,135 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* ---------------------------------------------------------------------------
+   Design tokens — Boulevard Studio
+   Consumed as Tailwind utilities: bg-ink, text-paper, bg-volt, font-display, …
+--------------------------------------------------------------------------- */
+@theme {
+  --color-ink: #0b0c10;
+  --color-ink-deep: #0d0e12;
+  --color-ink-soft: #1a1c24;
+  --color-paper: #f4f5f7;
+  --color-volt: #ccff00;
+  --color-brand-blue: #4a62f6;
+  --color-brand-indigo: #6366f1;
+  --color-brand-violet: #a855f7;
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display:
+    var(--font-inter-tight), var(--font-inter), ui-sans-serif, system-ui,
+    sans-serif;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  body {
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+  }
+
+  ::selection {
+    background-color: var(--color-volt);
+    color: var(--color-ink);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-brand-blue);
+    outline-offset: 3px;
+    border-radius: 4px;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* ---------------------------------------------------------------------------
+   Background art.
+
+   These live in the `components` layer so every Tailwind utility (which sits
+   in the `utilities` layer) always wins over them. Nothing here sets spacing —
+   layout stays entirely in utility classes.
+--------------------------------------------------------------------------- */
+@layer components {
+  /* Hero atmosphere: electric blue mesh burning out of the top-right corner
+     and falling away to near-black behind the wordmark. */
+  .hero-mesh {
+    background-color: #0b0c10;
+    background-image:
+      radial-gradient(
+        52% 42% at 86% 2%,
+        #b3b9ff 0%,
+        rgba(179, 185, 255, 0) 62%
+      ),
+      radial-gradient(58% 46% at 74% 0%, #5b6bff 0%, rgba(91, 107, 255, 0) 66%),
+      radial-gradient(72% 56% at 52% -8%, #2f3ff0 0%, rgba(47, 63, 240, 0) 68%),
+      radial-gradient(94% 70% at 26% -14%, #1a24c4 0%, rgba(26, 36, 196, 0) 70%),
+      radial-gradient(
+        130% 96% at 50% -26%,
+        #0f1670 0%,
+        rgba(15, 22, 112, 0) 72%
+      );
+  }
+
+  /* Saturated card gradient — "Made for the bold" and "Global recognition". */
+  .mesh-blue {
+    background-color: #2233e0;
+    background-image:
+      radial-gradient(
+        70% 60% at 12% 8%,
+        #7f8bff 0%,
+        rgba(127, 139, 255, 0) 62%
+      ),
+      radial-gradient(80% 70% at 92% 96%, #101a9e 0%, rgba(16, 26, 158, 0) 66%),
+      linear-gradient(150deg, #3b4bf5 0%, #1c26cf 52%, #141c9c 100%);
+  }
+
+  /* Analogue film grain. Host element needs `relative overflow-hidden`. */
+  .grain::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.2;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23g)'/%3E%3C/svg%3E");
+  }
+
+  /* "Field Type" project still: a vertical slit-scan smear of a figure. */
+  .slit-scan {
+    background-color: #dde4ff;
+    background-image:
+      radial-gradient(
+        22% 26% at 57% 33%,
+        rgba(214, 165, 133, 0.95) 0%,
+        rgba(214, 165, 133, 0) 74%
+      ),
+      radial-gradient(
+        34% 48% at 50% 52%,
+        rgba(16, 18, 34, 0.8) 0%,
+        rgba(16, 18, 34, 0) 72%
+      ),
+      radial-gradient(66% 92% at 12% 50%, #2436ef 0%, rgba(36, 54, 239, 0) 72%),
+      radial-gradient(
+        70% 96% at 94% 50%,
+        #9aabff 0%,
+        rgba(154, 171, 255, 0) 74%
+      ),
+      linear-gradient(90deg, #8698ff 0%, #eef1ff 46%, #b4c1ff 100%);
+  }
+
+  .slit-scan::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    mix-blend-mode: overlay;
+    background-image: repeating-linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.62) 0 1px,
+      rgba(255, 255, 255, 0) 1px 2px,
+      rgba(0, 0, 0, 0.3) 2px 3px,
+      rgba(255, 255, 255, 0) 3px 5px
+    );
+  }
 }
