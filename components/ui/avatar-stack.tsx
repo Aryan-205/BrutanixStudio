@@ -1,7 +1,14 @@
+import Image from "next/image";
+
+/**
+ * Team faces. Photography is from Unsplash (free to use, no attribution
+ * required) and is served locally from /public/images so the page makes no
+ * third-party requests.
+ */
 const FACES = [
-  { initials: "AR", tone: "from-[#ffd9a3] to-[#e39a5f]" },
-  { initials: "MK", tone: "from-[#c4d0ff] to-[#7b8cf0]" },
-  { initials: "JS", tone: "from-[#ffc9c2] to-[#d97a68]" },
+  { src: "/images/person-4.jpg", alt: "" },
+  { src: "/images/person-2.jpg", alt: "" },
+  { src: "/images/person-3.jpg", alt: "" },
 ] as const;
 
 /**
@@ -19,12 +26,18 @@ export function AvatarStack({
     <div className={`flex items-center ${className}`} aria-hidden="true">
       {FACES.map((face, i) => (
         <span
-          key={face.initials}
-          className={`grid size-7 place-items-center rounded-full bg-gradient-to-br text-[8.5px] font-bold text-ink/70 ring-2 ${face.tone} ${ringClass} ${
-            i > 0 ? "-ml-2.5" : ""
+          key={face.src}
+          className={`relative size-9 overflow-hidden rounded-full bg-volt ring-2 ${ringClass} ${
+            i > 0 ? "-ml-3" : ""
           }`}
         >
-          {face.initials}
+          <Image
+            src={face.src}
+            alt=""
+            fill
+            sizes="36px"
+            className="object-cover"
+          />
         </span>
       ))}
     </div>
@@ -33,18 +46,18 @@ export function AvatarStack({
 
 /** Single testimonial author avatar. */
 export function Avatar({
-  initials,
+  src,
   className = "",
 }: {
-  initials: string;
+  src: string;
   className?: string;
 }) {
   return (
     <span
       aria-hidden="true"
-      className={`grid size-9 shrink-0 place-items-center rounded-full bg-gradient-to-br from-[#ffd9a3] to-[#d98a52] text-[11px] font-bold text-ink/70 ${className}`}
+      className={`relative size-11 shrink-0 overflow-hidden rounded-full bg-volt ${className}`}
     >
-      {initials}
+      <Image src={src} alt="" fill sizes="44px" className="object-cover" />
     </span>
   );
 }

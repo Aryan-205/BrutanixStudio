@@ -16,9 +16,9 @@ const interTight = Inter_Tight({
 });
 
 export const metadata: Metadata = {
-  title: "Boulevard™ — Design studio that creates products and experiences",
+  title: "Brutanix™ — Design studio that creates products and experiences",
   description:
-    "Boulevard is a design studio shaping brand identity, UI/UX and development for teams that would rather stand out than blend in.",
+    "Brutanix Studio is a design and development agency shaping brand identity, UI/UX and development for teams that would rather stand out than blend in.",
 };
 
 export default function RootLayout({

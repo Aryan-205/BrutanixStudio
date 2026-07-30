@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { IconSvgElement } from "@hugeicons/react";
 import { HugeiconsIcon } from "@hugeicons/react";
 import {
@@ -15,11 +16,12 @@ import {
 import { Wordmark } from "@/components/site/site-nav";
 
 const NAVIGATE = [
-  { label: "Home", href: "#top" },
-  { label: "Projects", href: "#project" },
-  { label: "Service", href: "#service" },
-  { label: "About", href: "#about" },
-  { label: "Contact", href: "#contact" },
+  { label: "Home", href: "/" },
+  { label: "Projects", href: "/projects" },
+  { label: "Service", href: "/services" },
+  { label: "About", href: "/about" },
+  { label: "Team", href: "/team" },
+  { label: "Reviews", href: "/reviews" },
 ];
 
 const SOCIAL: { label: string; href: string; icon: IconSvgElement }[] = [
@@ -39,14 +41,14 @@ export function SiteFooter() {
               Have any project in mind?
             </Eyebrow>
             <a
-              href="mailto:hello@boulevard.com"
-              className="font-display mt-5 block text-[clamp(1.55rem,7.4vw,6.25rem)] leading-[0.92] font-bold tracking-[-0.045em]"
+              href="mailto:hello@brutanix.studio"
+              className="font-display mt-6 block text-4xl leading-none font-bold tracking-tighter sm:text-6xl lg:text-8xl"
             >
-              <GradientText>hello@boulevard.com</GradientText>
+              <GradientText>hello@brutanix.studio</GradientText>
             </a>
           </div>
           <PillButton
-            href="mailto:hello@boulevard.com"
+            href="mailto:hello@brutanix.studio"
             tone="white"
             className="sm:mt-9"
           >
@@ -56,10 +58,10 @@ export function SiteFooter() {
 
         <div className="mt-14 grid gap-10 border-t border-white/10 pt-9 sm:grid-cols-2 sm:mt-16 lg:grid-cols-[1.5fr_1fr_1fr] lg:gap-12">
           <div>
-            <p className="text-[11.5px] text-white/45">
-              &copy; 2025 Boulevard Creative.
+            <p className="text-sm text-white/45">
+              &copy; 2025 Brutanix Studio.
             </p>
-            <p className="mt-3.5 max-w-[34ch] text-[12.5px] leading-[1.5] text-white/70">
+            <p className="mt-4 max-w-[34ch] text-base leading-relaxed text-white/70">
               Work with our strategists, designers, and developers who deliver
               high-quality work with passion.
             </p>
@@ -70,12 +72,12 @@ export function SiteFooter() {
             <ul className="mt-4 space-y-2.5">
               {NAVIGATE.map((item) => (
                 <li key={item.label}>
-                  <a
+                  <Link
                     href={item.href}
-                    className="text-[12.5px] text-white/70 transition-colors duration-200 hover:text-volt"
+                    className="text-base text-white/70 transition-colors duration-200 hover:text-volt"
                   >
                     {item.label}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -88,11 +90,11 @@ export function SiteFooter() {
                 <li key={item.label}>
                   <a
                     href={item.href}
-                    className="group inline-flex items-center gap-2 text-[12.5px] text-white/70 transition-colors duration-200 hover:text-volt"
+                    className="group inline-flex items-center gap-2 text-base text-white/70 transition-colors duration-200 hover:text-volt"
                   >
                     <HugeiconsIcon
                       icon={item.icon}
-                      size={14}
+                      size={16}
                       strokeWidth={1.8}
                       className="text-white/35 transition-colors duration-200 group-hover:text-volt"
                     />
@@ -105,7 +107,7 @@ export function SiteFooter() {
         </div>
 
         <div className="mt-16 sm:mt-20">
-          <Wordmark className="block text-[clamp(1.9rem,6.4vw,5rem)] leading-[0.9] tracking-[-0.045em]" />
+          <Wordmark className="block text-5xl leading-none tracking-tighter sm:text-7xl lg:text-8xl" />
         </div>
       </Shell>
     </footer>

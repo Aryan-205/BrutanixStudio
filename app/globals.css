@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 /* ---------------------------------------------------------------------------
-   Design tokens — Boulevard Studio
+   Design tokens — Brutanix Studio
    Consumed as Tailwind utilities: bg-ink, text-paper, bg-volt, font-display, …
 --------------------------------------------------------------------------- */
 @theme {
@@ -18,6 +18,13 @@
   --font-display:
     var(--font-inter-tight), var(--font-inter), ui-sans-serif, system-ui,
     sans-serif;
+
+  /* Tailwind's default scale stops at 8rem (text-9xl). The section titles and
+     the hero wordmark need to run past that, so the ladder is extended here
+     rather than with per-element arbitrary values. */
+  --text-10xl: 10rem;
+  --text-11xl: 13rem;
+  --text-12xl: 17rem;
 }
 
 @layer base {
@@ -41,6 +48,60 @@
     outline: 2px solid var(--color-brand-blue);
     outline-offset: 3px;
     border-radius: 4px;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Scroll reveal.
+
+   Pure CSS, driven by a view() timeline — no observer, no client component,
+   nothing to hydrate. Browsers without scroll-driven animation support simply
+   render the content in its final state, so the page never depends on the
+   animation running.
+--------------------------------------------------------------------------- */
+@keyframes reveal-rise {
+  from {
+    opacity: 0;
+    transform: translateY(2.25rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes reveal-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    /* Blocks that rise into place as they enter the viewport. */
+    .reveal {
+      animation: reveal-rise linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 26%;
+    }
+
+    /* Each child owns its own timeline, so a grid staggers itself as the row
+       crosses the fold instead of needing hand-tuned delays. */
+    .reveal-children > * {
+      animation: reveal-rise linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 30%;
+    }
+
+    /* For type large enough that translation reads as jitter. */
+    .reveal-fade {
+      animation: reveal-fade linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 22%;
+    }
   }
 }
 

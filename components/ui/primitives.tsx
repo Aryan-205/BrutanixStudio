@@ -32,7 +32,7 @@ export function Eyebrow({
 }) {
   return (
     <span
-      className={`block text-[10px] leading-[1.4] font-semibold tracking-[0.15em] uppercase sm:text-[11px] ${className}`}
+      className={`block text-xs leading-snug font-semibold tracking-[0.15em] uppercase ${className}`}
     >
       {children}
     </span>
@@ -68,7 +68,29 @@ export function SectionTitle({
 }) {
   return (
     <Tag
-      className={`font-display text-[clamp(2.6rem,15.2vw,13rem)] leading-[0.86] font-extrabold tracking-[-0.045em] ${GRADIENT_TEXT} ${className}`}
+      className={`font-display reveal-fade text-6xl leading-none font-extrabold tracking-tighter sm:text-8xl lg:text-10xl ${GRADIENT_TEXT} ${className}`}
+    >
+      {children}
+    </Tag>
+  );
+}
+
+/**
+ * The statement type that carries each section: large, tight, and set against
+ * a muted continuation clause.
+ */
+export function Statement({
+  children,
+  as: Tag = "p",
+  className = "",
+}: {
+  children: ReactNode;
+  as?: "h2" | "h3" | "p";
+  className?: string;
+}) {
+  return (
+    <Tag
+      className={`font-display text-3xl leading-tight font-bold tracking-tight sm:text-4xl lg:text-5xl ${className}`}
     >
       {children}
     </Tag>
@@ -95,12 +117,12 @@ export function PillButton({
   return (
     <a
       href={href}
-      className={`group inline-flex shrink-0 items-center gap-2 rounded-full px-5 py-2.5 text-[13px] font-semibold tracking-[-0.01em] transition-colors duration-200 ${PILL_TONES[tone]} ${className}`}
+      className={`group inline-flex shrink-0 items-center gap-2 rounded-full px-6 py-3 text-base font-semibold tracking-tight transition-colors duration-200 ${PILL_TONES[tone]} ${className}`}
     >
       {children}
       <HugeiconsIcon
         icon={ArrowRight01Icon}
-        size={15}
+        size={17}
         strokeWidth={2.4}
         className="transition-transform duration-300 group-hover:translate-x-1 motion-reduce:transition-none"
       />
@@ -127,10 +149,23 @@ export function UnderlineLink({
   );
 }
 
-/** Small chip used for service capabilities. */
-export function Chip({ children }: { children: ReactNode }) {
+/** Small chip used for service capabilities and project tags. */
+export function Chip({
+  children,
+  tone = "solid",
+}: {
+  children: ReactNode;
+  tone?: "solid" | "outline";
+}) {
+  const tones = {
+    solid: "bg-white text-black/70 ring-black/[0.06]",
+    outline: "bg-transparent text-black/60 ring-black/15",
+  } as const;
+
   return (
-    <span className="rounded-lg bg-white px-2.5 py-1.5 text-[10.5px] font-medium tracking-[-0.005em] text-black/70 ring-1 ring-black/[0.06]">
+    <span
+      className={`rounded-full px-3 py-1.5 text-sm font-medium ring-1 ${tones[tone]}`}
+    >
       {children}
     </span>
   );
