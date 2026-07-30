@@ -1,7 +1,13 @@
 import Image from "next/image";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { ArrowUpRight01Icon } from "@hugeicons/core-free-icons";
-import { Eyebrow, Shell, Statement } from "@/components/ui/primitives";
+import {
+  Eyebrow,
+  PillButton,
+  Shell,
+  Statement,
+} from "@/components/ui/primitives";
+import { HeroFrame, HeroTitle } from "@/components/site/hero-frame";
 
 /**
  * Team pages usually list people and stop. This one also answers the question
@@ -9,9 +15,62 @@ import { Eyebrow, Shell, Statement } from "@/components/ui/primitives";
  * like to join.
  */
 
+/**
+ * Header led by the people rather than the type: all four faces sit on the
+ * bottom edge of the mesh, so the page's claim — there are only four of us —
+ * is the first thing you see rather than a line of copy.
+ */
+export function TeamHero() {
+  return (
+    <HeroFrame tone="light" className="bg-paper text-ink">
+      <div className="pt-32 sm:pt-40 lg:pt-48">
+        <div className="flex flex-wrap items-end justify-between gap-8">
+          <div>
+            <Eyebrow className="text-black/45">(Team &mdash; 04)</Eyebrow>
+            <HeroTitle>Four People</HeroTitle>
+          </div>
+          <div className="max-w-[34ch] lg:pb-3">
+            <p className="text-lg leading-relaxed text-black/55">
+              No account layer, no junior bench, nothing subcontracted. You
+              brief the person who does the work, every time.
+            </p>
+            <PillButton tone="ink" className="mt-6">
+              Work With Us
+            </PillButton>
+          </div>
+        </div>
+
+        <ul className="mt-14 grid grid-cols-2 gap-3 sm:grid-cols-4 lg:mt-16 lg:gap-4">
+          {ROSTER.map((person) => (
+            <li key={person.name} className="group">
+              <div className="relative aspect-[3/4] overflow-hidden rounded-t-3xl bg-ink-soft">
+                <Image
+                  src={person.photo}
+                  alt={`${person.name}, ${person.role}`}
+                  fill
+                  sizes="(min-width: 640px) 25vw, 50vw"
+                  className="object-cover grayscale transition duration-500 ease-out group-hover:grayscale-0 motion-reduce:transition-none"
+                  priority
+                />
+                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink/85 to-transparent p-4 pt-10 text-white">
+                  <p className="font-display text-base font-semibold tracking-tight sm:text-lg">
+                    {person.name}
+                  </p>
+                  <p className="mt-1 text-sm text-white/60">{person.short}</p>
+                </div>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </HeroFrame>
+  );
+}
+
 const ROSTER = [
   {
     name: "Marc Delacroix",
+    short: "Creative Director",
     role: "Founder, Creative Director",
     since: "2010",
     photo: "/images/person-2.jpg",
@@ -19,6 +78,7 @@ const ROSTER = [
   },
   {
     name: "Ava Lindqvist",
+    short: "Design Lead",
     role: "Design Lead",
     since: "2015",
     photo: "/images/person-4.jpg",
@@ -26,6 +86,7 @@ const ROSTER = [
   },
   {
     name: "Noor Haddad",
+    short: "Brand Strategist",
     role: "Brand Strategist",
     since: "2019",
     photo: "/images/person-3.jpg",
@@ -33,6 +94,7 @@ const ROSTER = [
   },
   {
     name: "Elias Moreau",
+    short: "Design Engineer",
     role: "Design Engineer",
     since: "2021",
     photo: "/images/person-1.jpg",

@@ -11,6 +11,29 @@ export const NAV_LINKS = [
   { label: "Reviews", href: "/reviews" },
 ];
 
+/**
+ * Page headers don't share a surface, so the nav carries both tones: `dark`
+ * for the ink and mesh surfaces, `light` for paper, white and volt.
+ */
+export type NavTone = "dark" | "light";
+
+const TONES = {
+  dark: {
+    text: "text-white",
+    link: "text-white/85",
+    accent: "text-volt",
+    panel: "bg-ink-deep/95 text-white/85 ring-white/10",
+    panelItem: "hover:bg-white/10",
+  },
+  light: {
+    text: "text-ink",
+    link: "text-ink/70",
+    accent: "text-brand-blue",
+    panel: "bg-white text-ink/80 ring-black/10",
+    panelItem: "hover:bg-black/5",
+  },
+} as const;
+
 export function Wordmark({ className = "" }: { className?: string }) {
   return (
     <span className={`font-display font-bold tracking-tight ${className}`}>
@@ -27,7 +50,15 @@ export function Wordmark({ className = "" }: { className?: string }) {
  * while its duplicate rises into the same slot from below. The clip lives on
  * the wrapper, so both copies are masked to a single line box.
  */
-function NavLink({ label, href }: { label: string; href: string }) {
+function NavLink({
+  label,
+  href,
+  accent,
+}: {
+  label: string;
+  href: string;
+  accent: string;
+}) {
   return (
     <Link
       href={href}
@@ -40,7 +71,7 @@ function NavLink({ label, href }: { label: string; href: string }) {
           and both copies travel the same distance on hover. */}
       <span
         aria-hidden="true"
-        className="absolute inset-x-0 top-full block text-volt transition-transform duration-300 ease-out group-hover:-translate-y-full motion-reduce:hidden"
+        className={`absolute inset-x-0 top-full block transition-transform duration-300 ease-out group-hover:-translate-y-full motion-reduce:hidden ${accent}`}
       >
         {label}
       </span>
@@ -48,11 +79,13 @@ function NavLink({ label, href }: { label: string; href: string }) {
   );
 }
 
-export function SiteNav() {
+export function SiteNav({ tone = "dark" }: { tone?: NavTone }) {
+  const t = TONES[tone];
+
   return (
     <header className="absolute inset-x-0 top-0 z-20 pt-5 sm:pt-7">
       <Shell>
-        <div className="flex items-center justify-between gap-5 text-white">
+        <div className={`flex items-center justify-between gap-5 ${t.text}`}>
           <div className="flex items-baseline gap-4 lg:gap-6">
             <Link href="/" className="shrink-0">
               <Wordmark className="text-lg" />
@@ -62,17 +95,24 @@ export function SiteNav() {
 
           <nav
             aria-label="Sections"
-            className="hidden items-center gap-6 text-sm font-medium text-white/85 lg:flex"
+            className={`hidden items-center gap-6 text-sm font-medium lg:flex ${t.link}`}
           >
             {NAV_LINKS.map((link) => (
-              <NavLink key={link.label} label={link.label} href={link.href} />
+              <NavLink
+                key={link.label}
+                label={link.label}
+                href={link.href}
+                accent={t.accent}
+              />
             ))}
           </nav>
 
           <div className="flex items-center gap-4">
             {/* Zero-JS disclosure keeps the sections reachable on small screens */}
             <details className="relative lg:hidden">
-              <summary className="flex cursor-pointer list-none items-center gap-1 text-sm text-white/85 [&::-webkit-details-marker]:hidden">
+              <summary
+                className={`flex cursor-pointer list-none items-center gap-1 text-sm [&::-webkit-details-marker]:hidden ${t.link}`}
+              >
                 Menu
                 <HugeiconsIcon
                   icon={ArrowDown01Icon}
@@ -80,12 +120,14 @@ export function SiteNav() {
                   strokeWidth={2.2}
                 />
               </summary>
-              <div className="absolute right-0 z-30 mt-3 flex w-44 flex-col gap-1 rounded-2xl bg-ink-deep/95 p-3 text-sm ring-1 ring-white/10 backdrop-blur">
+              <div
+                className={`absolute right-0 z-30 mt-3 flex w-44 flex-col gap-1 rounded-2xl p-3 text-sm ring-1 backdrop-blur ${t.panel}`}
+              >
                 {NAV_LINKS.map((link) => (
                   <Link
                     key={link.label}
                     href={link.href}
-                    className="rounded-lg px-2 py-2 text-white/85 hover:bg-white/10"
+                    className={`rounded-lg px-2 py-2 ${t.panelItem}`}
                   >
                     {link.label}
                   </Link>

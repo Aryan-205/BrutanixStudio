@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import { PageHero } from "@/components/site/page-hero";
 import {
   FeaturedCase,
   ProjectLedger,
+  ProjectsHero,
 } from "@/components/site/project-sections";
 import { SiteFooter } from "@/components/site/site-footer";
 
@@ -16,18 +16,7 @@ export default function ProjectsPage() {
   return (
     <>
       <main>
-        <PageHero
-          eyebrow="(Project — 03)"
-          title="The Ledger"
-          intro="Brand systems, products and campaigns for teams that would rather stand out than blend in. One opened up, the rest listed."
-          cta="Book a Call"
-          meta={[
-            { label: "Shipped", value: "50+" },
-            { label: "Longest engagement", value: "4 years" },
-            { label: "Repeat clients", value: "62%" },
-            { label: "Industries", value: "11" },
-          ]}
-        />
+        <ProjectsHero />
         <FeaturedCase />
         <ProjectLedger />
       </main>

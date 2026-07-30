@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import { PageHero } from "@/components/site/page-hero";
 import {
   QuoteWall,
   RatingBreakdown,
+  ReviewsHero,
 } from "@/components/site/review-sections";
 import { SiteFooter } from "@/components/site/site-footer";
 
@@ -16,18 +16,7 @@ export default function ReviewsPage() {
   return (
     <>
       <main>
-        <PageHero
-          eyebrow="(Reviews — 05)"
-          title="The Receipts"
-          intro="Words from the ones who know us best — the teams who shipped alongside us and then lived with the result."
-          cta="Become a Client"
-          meta={[
-            { label: "Average rating", value: "4.9/5" },
-            { label: "Verified reviews", value: "148" },
-            { label: "Would work again", value: "96%" },
-            { label: "Since", value: "2019" },
-          ]}
-        />
+        <ReviewsHero />
         <RatingBreakdown />
         <QuoteWall />
       </main>

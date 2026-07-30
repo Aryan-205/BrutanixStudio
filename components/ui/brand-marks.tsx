@@ -74,7 +74,12 @@ export function WebflowMark({ className = "" }: { className?: string }) {
   );
 }
 
-export function TrustpilotMark() {
+export function TrustpilotMark({
+  tone = "light",
+}: {
+  /** `dark` sets the wordmark for placement on the ink/mesh surfaces. */
+  tone?: "light" | "dark";
+}) {
   return (
     <span className="flex items-center gap-1.5">
       <svg viewBox="0 0 24 24" className="size-4 text-[#00b67a]">
@@ -83,7 +88,11 @@ export function TrustpilotMark() {
           d="M12 2.4 15.1 9l7.1.8-5.3 4.8 1.5 7L12 18l-6.4 3.6 1.5-7L1.8 9.8 8.9 9 12 2.4Z"
         />
       </svg>
-      <span className="font-display text-sm font-semibold tracking-tight text-ink">
+      <span
+        className={`font-display text-sm font-semibold tracking-tight ${
+          tone === "dark" ? "text-white" : "text-ink"
+        }`}
+      >
         Trustpilot
       </span>
     </span>

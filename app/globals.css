@@ -145,6 +145,17 @@
       linear-gradient(150deg, #3b4bf5 0%, #1c26cf 52%, #141c9c 100%);
   }
 
+  /* Ledger paper for the About header — hairlines on the same rhythm as the
+     timeline rows below it. */
+  .ruled {
+    background-color: var(--color-paper);
+    background-image: repeating-linear-gradient(
+      to bottom,
+      rgba(11, 12, 16, 0.06) 0 1px,
+      transparent 1px 2.5rem
+    );
+  }
+
   /* Analogue film grain. Host element needs `relative overflow-hidden`. */
   .grain::after {
     content: "";

@@ -1,12 +1,82 @@
 import Image from "next/image";
-import { Eyebrow, Shell, Statement } from "@/components/ui/primitives";
+import {
+  Eyebrow,
+  PillButton,
+  Shell,
+  Statement,
+} from "@/components/ui/primitives";
 import { TrustpilotMark } from "@/components/ui/brand-marks";
+import { HeroFrame, HeroTitle } from "@/components/site/hero-frame";
 
 /**
  * Reviews is evidence rather than a carousel: the distribution behind the
  * headline score, then every quote at once so nothing is hidden behind an
  * arrow.
  */
+
+/**
+ * Header led by the evidence itself — one client sentence at display size,
+ * with the score beside it. The page argues by quotation, so it opens on a
+ * quote rather than a claim about quotes.
+ */
+export function ReviewsHero() {
+  return (
+    <HeroFrame tone="light" className="bg-volt text-ink">
+      <div className="pt-32 pb-12 sm:pt-40 lg:pt-48 lg:pb-16">
+        <div className="flex flex-wrap items-end justify-between gap-8">
+          <div>
+            <Eyebrow className="text-ink/70">(Reviews &mdash; 05)</Eyebrow>
+            <HeroTitle>The Receipts</HeroTitle>
+          </div>
+          <PillButton tone="ink" className="lg:mb-3">
+            Become a Client
+          </PillButton>
+        </div>
+
+        <figure className="mt-14 grid gap-10 border-t border-ink/20 pt-10 lg:grid-cols-[minmax(0,1fr)_16rem] lg:gap-16 lg:pt-12">
+          <div>
+            <blockquote className="font-display text-3xl leading-tight font-medium tracking-tight text-balance sm:text-4xl lg:text-5xl">
+              <span className="text-ink/35">&ldquo;</span>Four people
+              out-delivered the thirty-person agency we used before. I
+              don&rsquo;t fully understand how.
+              <span className="text-ink/35">&rdquo;</span>
+            </blockquote>
+            <figcaption className="mt-8 flex items-center gap-4">
+              <span className="relative size-11 shrink-0 overflow-hidden rounded-full bg-ink/10">
+                <Image
+                  src="/images/person-1.jpg"
+                  alt=""
+                  fill
+                  sizes="44px"
+                  className="object-cover"
+                />
+              </span>
+              <div>
+                <p className="text-lg font-semibold tracking-tight">
+                  Tomás Ferreira
+                </p>
+                <p className="mt-1 text-base text-ink/70">CMO, Halogen</p>
+              </div>
+            </figcaption>
+          </div>
+
+          <div className="flex flex-col justify-between gap-6 rounded-3xl bg-white p-6 ring-1 ring-ink/10">
+            <div>
+              <Eyebrow className="text-black/40">Average rating</Eyebrow>
+              <p className="font-display mt-4 text-6xl leading-none font-medium tracking-tighter">
+                4.9<span className="text-black/30">/5</span>
+              </p>
+              <p className="mt-4 text-base leading-relaxed text-black/55">
+                Across 148 verified engagement reviews since 2019.
+              </p>
+            </div>
+            <TrustpilotMark />
+          </div>
+        </figure>
+      </div>
+    </HeroFrame>
+  );
+}
 
 const DISTRIBUTION = [
   { stars: 5, share: 92 },

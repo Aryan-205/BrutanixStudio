@@ -1,4 +1,10 @@
-import { Eyebrow, Shell, Statement } from "@/components/ui/primitives";
+import {
+  Eyebrow,
+  PillButton,
+  Shell,
+  Statement,
+} from "@/components/ui/primitives";
+import { HeroFrame, HeroTitle } from "@/components/site/hero-frame";
 
 /**
  * The About page is built as a record rather than a pitch: a lede, a dated
@@ -6,9 +12,81 @@ import { Eyebrow, Shell, Statement } from "@/components/ui/primitives";
  * sparingly here — the landing page already owns that texture.
  */
 
+const FILE = [
+  { label: "Founded", value: "2010" },
+  { label: "Base", value: "Amsterdam" },
+  { label: "Size", value: "4 people" },
+  { label: "Output", value: "8–10 a year" },
+];
+
+const INDEX = [
+  { n: "01", label: "The short version", href: "#story" },
+  { n: "02", label: "How we got here", href: "#timeline" },
+  { n: "03", label: "What we hold to", href: "#principles" },
+];
+
+/**
+ * Header as an archive card: the studio's own file on the right, and an index
+ * of the page below it — this page is a record, so it opens like one.
+ */
+export function AboutHero() {
+  return (
+    <HeroFrame tone="light" className="ruled text-ink">
+      <div className="grid gap-12 pt-32 sm:pt-40 lg:grid-cols-[minmax(0,1fr)_20rem] lg:items-end lg:gap-16 lg:pt-48">
+        <div>
+          <Eyebrow className="text-black/45">(About &mdash; 01)</Eyebrow>
+          <HeroTitle>The Record</HeroTitle>
+          <p className="mt-8 max-w-[44ch] text-lg leading-relaxed text-black/55">
+            Founded 2010 in a shared loft. Still four people, on purpose. Here
+            is what we&rsquo;ve built, in the order it happened.
+          </p>
+          <PillButton tone="ink" className="mt-8">
+            Book a Call
+          </PillButton>
+        </div>
+
+        <dl className="rounded-3xl bg-white p-6 ring-1 ring-black/[0.06]">
+          <Eyebrow className="text-black/40">Studio file</Eyebrow>
+          <div className="mt-5">
+            {FILE.map((row) => (
+              <div
+                key={row.label}
+                className="flex items-baseline justify-between gap-4 border-t border-black/10 py-3.5"
+              >
+                <dt className="text-base text-black/45">{row.label}</dt>
+                <dd className="font-display text-lg font-semibold tracking-tight">
+                  {row.value}
+                </dd>
+              </div>
+            ))}
+          </div>
+        </dl>
+      </div>
+
+      <ol className="mt-14 grid gap-px border-t border-black/15 pt-6 pb-10 sm:grid-cols-3 sm:gap-8 lg:pb-14">
+        {INDEX.map((item) => (
+          <li key={item.n}>
+            <a
+              href={item.href}
+              className="group flex items-baseline gap-3 py-1.5"
+            >
+              <span className="font-display text-base text-black/35 tabular-nums transition-colors duration-200 group-hover:text-brand-blue">
+                {item.n}
+              </span>
+              <span className="text-base text-black/65 transition-colors duration-200 group-hover:text-brand-blue">
+                {item.label}
+              </span>
+            </a>
+          </li>
+        ))}
+      </ol>
+    </HeroFrame>
+  );
+}
+
 export function StudioStory() {
   return (
-    <section className="pt-16 sm:pt-24 lg:pt-32">
+    <section id="story" className="scroll-mt-24 pt-16 sm:pt-24 lg:pt-32">
       <Shell>
         <div className="reveal grid gap-10 lg:grid-cols-[minmax(0,0.4fr)_minmax(0,1fr)] lg:gap-16">
           <Eyebrow className="text-black/45">(The short version)</Eyebrow>
@@ -76,7 +154,7 @@ const TIMELINE = [
 
 export function StudioTimeline() {
   return (
-    <section className="pt-16 sm:pt-24 lg:pt-32">
+    <section id="timeline" className="scroll-mt-24 pt-16 sm:pt-24 lg:pt-32">
       <Shell>
         <div className="flex items-end justify-between gap-6">
           <Statement as="h2" className="font-bold">
@@ -131,7 +209,7 @@ const PRINCIPLES = [
 
 export function StudioPrinciples() {
   return (
-    <section className="pt-16 sm:pt-24 lg:pt-32">
+    <section id="principles" className="scroll-mt-24 pt-16 sm:pt-24 lg:pt-32">
       <Shell>
         <div className="grid gap-10 lg:grid-cols-[minmax(0,0.4fr)_minmax(0,1fr)] lg:gap-16">
           <div>

@@ -1,4 +1,10 @@
-import { Eyebrow, PillButton, Shell, Statement } from "@/components/ui/primitives";
+import {
+  Eyebrow,
+  PillButton,
+  Shell,
+  Statement,
+} from "@/components/ui/primitives";
+import { HeroFrame, HeroTitle } from "@/components/site/hero-frame";
 
 /**
  * Services is laid out as a menu you can price and plan against — rows with
@@ -32,6 +38,58 @@ const MENU = [
     from: "€40k",
   },
 ];
+
+/**
+ * Header as the menu itself: the four disciplines and their starting figures
+ * are the first thing on the page, so nobody has to scroll to learn the two
+ * facts they came for.
+ */
+export function ServicesHero() {
+  return (
+    <HeroFrame tone="dark" className="grain bg-ink text-white">
+      <div className="grid gap-12 pt-32 sm:pt-40 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:items-end lg:gap-16 lg:pt-48">
+        <div>
+          <Eyebrow className="text-white/60">(Service &mdash; 02)</Eyebrow>
+          <HeroTitle>The Menu</HeroTitle>
+          <p className="mt-8 max-w-[40ch] text-lg leading-relaxed text-white/60">
+            Four disciplines, three ways to engage, and the figures to plan
+            against. Fixed scope, fixed price, no discovery invoice.
+          </p>
+          <PillButton className="mt-8">Start Your Project</PillButton>
+        </div>
+
+        <dl className="lg:pb-2">
+          <Eyebrow className="text-white/45">Starting from</Eyebrow>
+          <div className="mt-5 border-t border-white/15">
+            {MENU.map((item) => (
+              <div
+                key={item.name}
+                className="flex items-baseline justify-between gap-6 border-b border-white/10 py-4"
+              >
+                <dt className="font-display text-xl font-semibold tracking-tight sm:text-2xl">
+                  {item.name}
+                </dt>
+                <dd className="flex shrink-0 items-baseline gap-4">
+                  <span className="hidden text-base text-white/40 sm:inline">
+                    {item.span}
+                  </span>
+                  <span className="font-display text-xl font-semibold tracking-tight text-volt">
+                    {item.from}
+                  </span>
+                </dd>
+              </div>
+            ))}
+          </div>
+        </dl>
+      </div>
+
+      <p className="pt-8 pb-10 text-base text-white/40 lg:pb-14">
+        Figures are starting points for a full engagement, not an estimate for
+        your project.
+      </p>
+    </HeroFrame>
+  );
+}
 
 export function ServiceMenu() {
   return (

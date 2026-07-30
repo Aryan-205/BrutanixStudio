@@ -4,14 +4,76 @@ import {
   Chip,
   Eyebrow,
   GradientText,
+  PillButton,
   Shell,
   Statement,
 } from "@/components/ui/primitives";
+import { HeroFrame, HeroTitle } from "@/components/site/hero-frame";
 import {
   ChatGeniusMockup,
   FieldTypeMockup,
   RockBottomMockup,
 } from "@/components/ui/mockups";
+
+const COUNTS = [
+  { label: "Shipped", value: "50+" },
+  { label: "Repeat clients", value: "62%" },
+  { label: "Industries", value: "11" },
+];
+
+/**
+ * Header as a fanned stack of stills — the work leads, the type sits under
+ * it. The fan is decorative and hidden from assistive tech; the ledger below
+ * names every project properly.
+ */
+export function ProjectsHero() {
+  return (
+    <HeroFrame tone="light" className="bg-paper text-ink">
+      <div className="grid gap-12 pt-32 sm:pt-40 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.95fr)] lg:items-center lg:gap-16 lg:pt-48">
+        <div>
+          <Eyebrow className="text-black/45">(Project &mdash; 03)</Eyebrow>
+          <HeroTitle>
+            <GradientText>The Ledger</GradientText>
+          </HeroTitle>
+          <p className="mt-8 max-w-[40ch] text-lg leading-relaxed text-black/55">
+            Brand systems, products and campaigns for teams that would rather
+            stand out than blend in. One opened up, the rest listed.
+          </p>
+          <PillButton tone="ink" className="mt-8">
+            Book a Call
+          </PillButton>
+        </div>
+
+        {/* Decorative fan — every project it shows is named in the ledger. */}
+        <div
+          aria-hidden="true"
+          className="relative hidden h-80 sm:block lg:h-96"
+        >
+          <span className="absolute top-6 left-0 w-[58%] -rotate-6 overflow-hidden rounded-2xl shadow-[0_28px_60px_-28px_rgba(11,12,16,0.35)] ring-1 ring-black/[0.06]">
+            <RockBottomMockup />
+          </span>
+          <span className="absolute top-0 left-[22%] w-[58%] rotate-3 overflow-hidden rounded-2xl shadow-[0_28px_60px_-28px_rgba(11,12,16,0.35)] ring-1 ring-black/[0.06]">
+            <FieldTypeMockup />
+          </span>
+          <span className="absolute top-16 right-0 w-[56%] -rotate-2 overflow-hidden rounded-2xl shadow-[0_28px_60px_-28px_rgba(11,12,16,0.35)] ring-1 ring-black/[0.06]">
+            <ChatGeniusMockup />
+          </span>
+        </div>
+      </div>
+
+      <dl className="grid grid-cols-3 gap-6 border-t border-black/15 py-8 lg:py-10">
+        {COUNTS.map((item) => (
+          <div key={item.label}>
+            <dt className="text-sm text-black/45">{item.label}</dt>
+            <dd className="font-display mt-2 text-2xl font-semibold tracking-tight sm:text-3xl">
+              {item.value}
+            </dd>
+          </div>
+        ))}
+      </dl>
+    </HeroFrame>
+  );
+}
 
 /**
  * The work index reads as a ledger: one case study opened up, then every
