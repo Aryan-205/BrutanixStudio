@@ -7,6 +7,7 @@ import {
 import { AvatarStack } from "@/components/ui/avatar-stack";
 import { TrustpilotMark } from "@/components/ui/brand-marks";
 import { FounderPortrait, PetalMark } from "@/components/ui/mockups";
+import { SignalMark } from "@/components/ui/decor";
 
 export function Founder() {
   return (
@@ -53,17 +54,22 @@ export function Founder() {
             </div>
           </article>
 
-          {/* Rating */}
-          <article className="flex min-h-[340px] flex-col justify-between rounded-3xl bg-white p-6">
-            <Eyebrow className="text-black/40">(Rating)</Eyebrow>
-            <div>
+          {/* Rating. Score and client count removed — the mark stands in for
+              both.
               <p className="font-display text-6xl leading-none font-medium tracking-tighter lg:text-7xl">
                 4.9<span className="text-black/30">/5</span>
               </p>
+              <p className="max-w-[14ch] text-base leading-snug text-black/50">
+                by <span className="font-semibold text-ink">200K+</span>{" "}
+                clients world-wide
+              </p> */}
+          <article className="flex min-h-[340px] flex-col justify-between rounded-3xl bg-white p-6">
+            <Eyebrow className="text-black/40">(Rating)</Eyebrow>
+            <div>
+              <SignalMark className="size-24 text-brand-indigo" />
               <div className="mt-8 flex items-end justify-between gap-4 border-t border-black/10 pt-5">
-                <p className="max-w-[14ch] text-base leading-snug text-black/50">
-                  by <span className="font-semibold text-ink">200K+</span>{" "}
-                  clients world-wide
+                <p className="max-w-[16ch] text-base leading-snug text-black/50">
+                  Rated by the people we actually shipped with
                 </p>
                 <TrustpilotMark />
               </div>

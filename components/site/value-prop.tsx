@@ -1,12 +1,8 @@
 import Image from "next/image";
-import {
-  Eyebrow,
-  GradientText,
-  Shell,
-  UnderlineLink,
-} from "@/components/ui/primitives";
+import { Eyebrow, Shell, UnderlineLink } from "@/components/ui/primitives";
 import { AvatarStack } from "@/components/ui/avatar-stack";
 import { PetalMark } from "@/components/ui/mockups";
+import { ArcBloom } from "@/components/ui/decor";
 
 export function ValueProp() {
   return (
@@ -52,13 +48,15 @@ export function ValueProp() {
             </span>
           </article>
 
-          {/* 3 — outcome */}
+          {/* 3 — outcome. The growth figure that used to headline this card is
+              gone; the arc carries the same idea without claiming a number.
+              <p className="font-display text-6xl leading-none font-bold tracking-tighter lg:text-7xl">
+                <GradientText>+32%</GradientText>
+              </p> */}
           <article className="flex min-h-[320px] flex-col justify-between rounded-3xl bg-white p-6">
             <Eyebrow className="text-black/40">(Growth)</Eyebrow>
             <div>
-              <p className="font-display text-6xl leading-none font-bold tracking-tighter lg:text-7xl">
-                <GradientText>+32%</GradientText>
-              </p>
+              <ArcBloom className="h-24 w-32" />
               <div className="mt-8 flex items-end justify-between gap-4 border-t border-black/10 pt-5">
                 <p className="max-w-[18ch] text-base leading-snug text-black/55">
                   Design experiences, not just screens.

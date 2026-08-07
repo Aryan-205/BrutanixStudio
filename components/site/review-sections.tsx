@@ -6,6 +6,7 @@ import {
   Statement,
 } from "@/components/ui/primitives";
 import { TrustpilotMark } from "@/components/ui/brand-marks";
+import { ArcBloom, SignalMark } from "@/components/ui/decor";
 import { HeroFrame, HeroTitle } from "@/components/site/hero-frame";
 
 /**
@@ -60,14 +61,20 @@ export function ReviewsHero() {
             </figcaption>
           </div>
 
-          <div className="flex flex-col justify-between gap-6 rounded-3xl bg-white p-6 ring-1 ring-ink/10">
-            <div>
-              <Eyebrow className="text-black/40">Average rating</Eyebrow>
+          {/* Score and review count removed:
               <p className="font-display mt-4 text-6xl leading-none font-medium tracking-tighter">
                 4.9<span className="text-black/30">/5</span>
               </p>
               <p className="mt-4 text-base leading-relaxed text-black/55">
                 Across 148 verified engagement reviews since 2019.
+              </p> */}
+          <div className="flex flex-col justify-between gap-6 rounded-3xl bg-white p-6 ring-1 ring-ink/10">
+            <div>
+              <Eyebrow className="text-black/40">Client verdict</Eyebrow>
+              <SignalMark className="mt-5 size-20 text-brand-indigo" />
+              <p className="mt-5 text-base leading-relaxed text-black/55">
+                Verified, and left by clients who finished an engagement with
+                us.
               </p>
             </div>
             <TrustpilotMark />
@@ -78,12 +85,37 @@ export function ReviewsHero() {
   );
 }
 
-const DISTRIBUTION = [
-  { stars: 5, share: 92 },
-  { stars: 4, share: 6 },
-  { stars: 3, share: 1 },
-  { stars: 2, share: 0 },
-  { stars: 1, share: 1 },
+/**
+ * This panel used to be the star distribution — a score and five percentage
+ * bars. Both are gone. What is left is the part that was actually useful: the
+ * things clients keep saying, stated in words.
+ *
+ * const DISTRIBUTION = [
+ *   { stars: 5, share: 92 },
+ *   { stars: 4, share: 6 },
+ *   { stars: 3, share: 1 },
+ *   { stars: 2, share: 0 },
+ *   { stars: 1, share: 1 },
+ * ];
+ */
+
+const THEMES = [
+  {
+    term: "Senior hands only",
+    def: "The people in the pitch are the people on the file.",
+  },
+  {
+    term: "Held the deadline",
+    def: "Scope moved before dates did, and only with a conversation.",
+  },
+  {
+    term: "Survived handover",
+    def: "The system kept working once the studio stepped away.",
+  },
+  {
+    term: "Argued well",
+    def: "Every recommendation arrived with its reasoning attached.",
+  },
 ];
 
 export function RatingBreakdown() {
@@ -93,33 +125,27 @@ export function RatingBreakdown() {
         <div className="reveal grid gap-10 rounded-3xl bg-white p-6 sm:p-10 lg:grid-cols-[minmax(0,0.5fr)_minmax(0,1fr)] lg:gap-16">
           <div className="flex flex-col justify-between gap-8">
             <div>
-              <Eyebrow className="text-black/40">(Rating)</Eyebrow>
-              <p className="font-display mt-6 text-7xl leading-none font-medium tracking-tighter lg:text-8xl">
-                4.9<span className="text-black/30">/5</span>
-              </p>
-              <p className="mt-5 max-w-[26ch] text-base leading-relaxed text-black/55">
-                Averaged across 148 verified engagement reviews since 2019.
+              <Eyebrow className="text-black/40">(What they say)</Eyebrow>
+              <SignalMark className="mt-6 size-28 text-brand-indigo lg:size-32" />
+              <p className="mt-6 max-w-[26ch] text-base leading-relaxed text-black/55">
+                We stopped publishing a score. The quotes below are the whole
+                record, unedited.
               </p>
             </div>
             <TrustpilotMark />
           </div>
 
-          <dl className="grid content-center gap-3">
-            {DISTRIBUTION.map((row) => (
-              <div key={row.stars} className="flex items-center gap-4">
-                <dt className="w-16 shrink-0 text-base text-black/45 tabular-nums">
-                  {row.stars} star
+          <dl className="grid content-center gap-5">
+            {THEMES.map((theme) => (
+              <div
+                key={theme.term}
+                className="grid gap-1.5 border-t border-black/10 pt-5 sm:grid-cols-[14rem_minmax(0,1fr)] sm:gap-8"
+              >
+                <dt className="font-display text-lg font-semibold tracking-tight">
+                  {theme.term}
                 </dt>
-                <dd className="flex flex-1 items-center gap-4">
-                  <span className="h-2 flex-1 overflow-hidden rounded-full bg-black/[0.06]">
-                    <span
-                      className="block h-full rounded-full bg-ink"
-                      style={{ width: `${row.share}%` }}
-                    />
-                  </span>
-                  <span className="w-12 shrink-0 text-right text-base text-black/45 tabular-nums">
-                    {row.share}%
-                  </span>
+                <dd className="text-base leading-relaxed text-black/55">
+                  {theme.def}
                 </dd>
               </div>
             ))}
@@ -137,8 +163,8 @@ const WALL = [
     name: "Guy Hawkins",
     role: "Head of Product, Webflow",
     photo: "/images/person-2.jpg",
-    stat: "+80%",
-    statLabel: "Conversion rate",
+    // stat: "+80%",
+    // statLabel: "Conversion rate",
     tone: "feature",
   },
   {
@@ -198,13 +224,15 @@ function QuoteCard({ item }: { item: (typeof WALL)[number] }) {
       </blockquote>
 
       <figcaption className="relative z-10">
+        {/* The feature card used to headline a conversion figure here:
+            <p className="font-display mb-6 text-5xl leading-none font-bold tracking-tighter text-volt">
+              {item.stat}{" "}
+              <span className="text-lg font-medium tracking-tight text-white/60">
+                {item.statLabel}
+              </span>
+            </p> */}
         {feature && (
-          <p className="font-display mb-6 text-5xl leading-none font-bold tracking-tighter text-volt">
-            {item.stat}{" "}
-            <span className="text-lg font-medium tracking-tight text-white/60">
-              {item.statLabel}
-            </span>
-          </p>
+          <ArcBloom tone="current" className="mb-6 h-16 w-24 text-volt" />
         )}
         <div className="flex items-center gap-4">
           <span className="relative size-11 shrink-0 overflow-hidden rounded-full bg-volt">

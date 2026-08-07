@@ -14,11 +14,37 @@ import {
   FieldTypeMockup,
   RockBottomMockup,
 } from "@/components/ui/mockups";
+import {
+  ArcBloom,
+  MonolithStack,
+  NodeWeb,
+  StripeField,
+} from "@/components/ui/decor";
+
+// Header counts removed — the band below is a set of marks and plain claims
+// rather than figures.
+// const COUNTS = [
+//   { label: "Shipped", value: "50+" },
+//   { label: "Repeat clients", value: "62%" },
+//   { label: "Industries", value: "11" },
+// ];
 
 const COUNTS = [
-  { label: "Shipped", value: "50+" },
-  { label: "Repeat clients", value: "62%" },
-  { label: "Industries", value: "11" },
+  {
+    label: "Shipped",
+    line: "Live work, not concepts",
+    mark: <MonolithStack className="h-10 w-14" />,
+  },
+  {
+    label: "Repeat clients",
+    line: "Most come back for the next one",
+    mark: <ArcBloom tone="current" className="h-10 w-12" />,
+  },
+  {
+    label: "Industries",
+    line: "Fintech to furniture",
+    mark: <NodeWeb className="size-10" />,
+  },
 ];
 
 /**
@@ -61,13 +87,14 @@ export function ProjectsHero() {
         </div>
       </div>
 
-      <dl className="grid grid-cols-3 gap-6 border-t border-black/15 py-8 lg:py-10">
+      <dl className="grid gap-6 border-t border-black/15 py-8 sm:grid-cols-3 lg:py-10">
         {COUNTS.map((item) => (
           <div key={item.label}>
-            <dt className="text-sm text-black/45">{item.label}</dt>
-            <dd className="font-display mt-2 text-2xl font-semibold tracking-tight sm:text-3xl">
-              {item.value}
-            </dd>
+            <span className="block text-brand-indigo">{item.mark}</span>
+            <dt className="font-display mt-4 text-xl font-semibold tracking-tight">
+              {item.label}
+            </dt>
+            <dd className="mt-1.5 text-base text-black/45">{item.line}</dd>
           </div>
         ))}
       </dl>
@@ -81,10 +108,18 @@ export function ProjectsHero() {
  * desktop widths, so the page stays scannable without becoming a card grid.
  */
 
+// Outcome figures removed. The case study now states what changed rather than
+// by how much.
+// const RESULTS = [
+//   { value: "+32%", label: "Trial-to-paid conversion" },
+//   { value: "6 wks", label: "Concept to launch" },
+//   { value: "9", label: "Products on one system" },
+// ];
+
 const RESULTS = [
-  { value: "+32%", label: "Trial-to-paid conversion" },
-  { value: "6 wks", label: "Concept to launch" },
-  { value: "9", label: "Products on one system" },
+  { title: "Conversion", label: "Trials turn into paying accounts" },
+  { title: "Pace", label: "Concept to launch inside one quarter" },
+  { title: "Coverage", label: "Every product on one system" },
 ];
 
 export function FeaturedCase() {
@@ -120,17 +155,27 @@ export function FeaturedCase() {
             </p>
           </div>
 
-          <dl className="grid grid-cols-3 gap-6 self-start border-t border-black/10 pt-8 lg:gap-4">
-            {RESULTS.map((result) => (
-              <div key={result.label}>
-                <dd className="font-display text-3xl leading-none font-bold tracking-tighter lg:text-4xl">
-                  <GradientText>{result.value}</GradientText>
-                </dd>
-                <dt className="mt-3 text-sm leading-snug text-black/50">
-                  {result.label}
-                </dt>
-              </div>
-            ))}
+          {/* Each row used to lead with a figure:
+              <dd className="font-display text-3xl leading-none font-bold tracking-tighter lg:text-4xl">
+                <GradientText>{result.value}</GradientText>
+              </dd> */}
+          <dl className="self-start border-t border-black/10 pt-8">
+            <StripeField className="h-6 w-full" />
+            <div className="mt-6 grid gap-5">
+              {RESULTS.map((result) => (
+                <div
+                  key={result.title}
+                  className="flex items-baseline gap-4 border-b border-black/10 pb-5 last:border-b-0 last:pb-0"
+                >
+                  <dt className="font-display w-28 shrink-0 text-lg font-bold tracking-tight">
+                    <GradientText>{result.title}</GradientText>
+                  </dt>
+                  <dd className="text-base leading-snug text-black/55">
+                    {result.label}
+                  </dd>
+                </div>
+              ))}
+            </div>
           </dl>
         </div>
       </Shell>

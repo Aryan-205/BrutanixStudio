@@ -11,14 +11,19 @@ import {
   SpotifyMark,
   WebflowMark,
 } from "@/components/ui/brand-marks";
+import { ArcBloom } from "@/components/ui/decor";
 
+// Each quote used to carry a headline metric (`stat` / `statSuffix` /
+// `statLabel`). Those are commented out with the rest of the site's figures;
+// the slot they occupied now holds the mark and the slide indicator.
 const TESTIMONIALS = [
   {
     quote:
       "Working with Brutanix Studio felt less like building with a creative partner. Every visual, every word—just hit right.",
-    stat: "+80",
-    statSuffix: "%",
-    statLabel: "Conversion Rate",
+    // stat: "+80",
+    // statSuffix: "%",
+    // statLabel: "Conversion Rate",
+    theme: "Conversion",
     name: "Guy Hawkins",
     role: "Head of Product of Webflow",
     photo: "/images/person-2.jpg",
@@ -26,9 +31,10 @@ const TESTIMONIALS = [
   {
     quote:
       "They rebuilt our identity in six weeks and it still holds up three launches later. The system does the arguing for us now.",
-    stat: "+41",
-    statSuffix: "%",
-    statLabel: "Qualified Signups",
+    // stat: "+41",
+    // statSuffix: "%",
+    // statLabel: "Qualified Signups",
+    theme: "Identity",
     name: "Amara Osei",
     role: "Brand Director at Coinbase",
     photo: "/images/person-3.jpg",
@@ -36,9 +42,10 @@ const TESTIMONIALS = [
   {
     quote:
       "Most studios hand over files. Brutanix handed over a product our engineers could ship on the same day.",
-    stat: "2.4",
-    statSuffix: "×",
-    statLabel: "Faster Time to Ship",
+    // stat: "2.4",
+    // statSuffix: "×",
+    // statLabel: "Faster Time to Ship",
+    theme: "Handover",
     name: "Dev Raman",
     role: "VP Design at Spotify",
     photo: "/images/person-1.jpg",
@@ -60,8 +67,7 @@ export function Testimonials() {
 
   const move = (step: number) =>
     setIndex(
-      (current) =>
-        (current + step + TESTIMONIALS.length) % TESTIMONIALS.length,
+      (current) => (current + step + TESTIMONIALS.length) % TESTIMONIALS.length,
     );
 
   return (
@@ -110,12 +116,28 @@ export function Testimonials() {
             &ldquo;{active.quote}&rdquo;
           </blockquote>
 
+          {/* Where the headline metric used to sit:
+              <p className="font-display text-6xl leading-none font-medium tracking-tighter lg:text-7xl">
+                {active.stat}
+                <span className="text-black/30">{active.statSuffix}</span>
+              </p>
+              <p className="mt-4 text-base text-black/50">{active.statLabel}</p> */}
           <div className="lg:col-start-1">
-            <p className="font-display text-6xl leading-none font-medium tracking-tighter lg:text-7xl">
-              {active.stat}
-              <span className="text-black/30">{active.statSuffix}</span>
+            <ArcBloom className="h-20 w-28" />
+            <p className="font-display mt-6 text-2xl font-semibold tracking-tight">
+              {active.theme}
             </p>
-            <p className="mt-4 text-base text-black/50">{active.statLabel}</p>
+            <ul className="mt-5 flex items-center gap-2">
+              {TESTIMONIALS.map((item, i) => (
+                <li
+                  key={item.name}
+                  aria-hidden="true"
+                  className={`h-1.5 rounded-full transition-all duration-300 motion-reduce:transition-none ${
+                    i === index ? "w-8 bg-ink" : "w-3 bg-black/15"
+                  }`}
+                />
+              ))}
+            </ul>
           </div>
           <figcaption className="flex flex-wrap items-center justify-between gap-5 lg:col-start-2">
             <div className="flex items-center gap-4">
